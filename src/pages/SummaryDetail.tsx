@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/dashboard/Navigation";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Button } from "@/components/ui/button";
-import { Copy, Download, FileText, FileDocument } from "lucide-react";
+import { Copy, Download, FileText } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -111,7 +111,7 @@ export default function SummaryDetail() {
             {/* Right Panel */}
             <div className="bg-white rounded-lg shadow p-6">
               <div className="flex items-center gap-2 mb-4">
-                <FileDocument className="h-5 w-5 text-primary" />
+                <FileText className="h-5 w-5 text-primary" />
                 <h2 className="text-xl font-semibold text-gray-900">
                   AI-Generated Summary
                 </h2>
