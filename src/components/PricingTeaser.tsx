@@ -27,7 +27,8 @@ export const PricingTeaser = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
             className="bg-white p-8 rounded-lg shadow-md"
           >
-            <h3 className="text-2xl font-bold text-[#1A1F2C] mb-4">Free Plan</h3>
+            <h3 className="text-2xl font-bold text-[#1A1F2C] mb-2">Free Plan</h3>
+            <p className="text-3xl font-bold text-primary mb-6">$0<span className="text-base font-normal text-[#8E9196]">/month</span></p>
             <ul className="space-y-4 mb-6 text-[#8E9196]">
               <li className="flex items-center">
                 <svg
@@ -78,6 +79,12 @@ export const PricingTeaser = () => {
                 Cloud storage
               </li>
             </ul>
+            <Button
+              size="lg"
+              className="w-full bg-cta hover:bg-cta-hover text-cta-foreground font-semibold"
+            >
+              Get Started
+            </Button>
           </motion.div>
 
           {/* Pro Plan */}
@@ -90,7 +97,8 @@ export const PricingTeaser = () => {
             <div className="absolute -top-3 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm">
               Popular
             </div>
-            <h3 className="text-2xl font-bold text-[#1A1F2C] mb-4">Pro Plan</h3>
+            <h3 className="text-2xl font-bold text-[#1A1F2C] mb-2">Pro Plan</h3>
+            <p className="text-3xl font-bold text-primary mb-6">$29<span className="text-base font-normal text-[#8E9196]">/month</span></p>
             <ul className="space-y-4 mb-6 text-[#8E9196]">
               <li className="flex items-center">
                 <svg
@@ -141,22 +149,14 @@ export const PricingTeaser = () => {
                 PDF export
               </li>
             </ul>
+            <Button
+              size="lg"
+              className="w-full bg-cta hover:bg-cta-hover text-cta-foreground font-semibold"
+            >
+              Upgrade to Pro
+            </Button>
           </motion.div>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.6 }}
-          className="text-center mt-12"
-        >
-          <Button
-            size="lg"
-            className="bg-cta hover:bg-cta-hover text-cta-foreground font-semibold"
-          >
-            See Full Pricing Details
-          </Button>
-        </motion.div>
       </div>
     </section>
   );
