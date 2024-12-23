@@ -85,7 +85,7 @@ export const PricingTeaser = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-white p-8 rounded-lg shadow-md border-2 border-primary"
+            className="bg-white p-8 rounded-lg shadow-md border-2 border-primary relative"
           >
             <div className="absolute -top-3 right-4 bg-primary text-white px-3 py-1 rounded-full text-sm">
               Popular
@@ -152,7 +152,7 @@ export const PricingTeaser = () => {
         >
           <Button
             size="lg"
-            className="bg-[#8B5CF6] hover:bg-[#7C3AED] text-white font-semibold"
+            className="bg-cta hover:bg-cta-hover text-cta-foreground font-semibold"
           >
             See Full Pricing Details
           </Button>
