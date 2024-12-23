@@ -42,27 +42,30 @@ const AuthPage = () => {
             variables: {
               default: {
                 colors: {
-                  brand: '#9b87f5',
-                  brandAccent: '#7E69AB',
+                  brand: '#4A90E2',
+                  brandAccent: '#357ABD',
                   brandButtonText: 'white',
-                  defaultButtonBackground: '#F5F5F5',
-                  defaultButtonBackgroundHover: '#E5DEFF',
+                  defaultButtonBackground: 'white',
+                  defaultButtonBackgroundHover: '#F8FAFC',
+                  defaultButtonBorder: '#E2E8F0',
+                  defaultButtonBorderHover: '#CBD5E1',
                   inputBackground: 'white',
                   inputBorder: '#E2E8F0',
                   inputBorderHover: '#CBD5E1',
-                  inputBorderFocus: '#9b87f5',
+                  inputBorderFocus: '#4A90E2',
                   dividerBackground: '#E2E8F0',
                 }
               }
             },
             className: {
               container: 'w-full',
-              button: 'w-full bg-primary text-primary-foreground hover:bg-primary/90 transition-colors',
-              input: 'w-full rounded-md border border-input bg-background px-3 py-2',
+              button: 'w-full bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 transition-colors',
+              socialButtonsContainer: 'space-y-3',
+              divider: 'bg-gray-200',
               label: 'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
+              input: 'w-full rounded-md border border-input bg-background px-3 py-2',
               loader: 'animate-spin',
               anchor: 'text-sm font-medium text-primary hover:text-primary/80',
-              divider: 'bg-muted/60',
               message: 'text-sm text-foreground/80',
             }
           }}
