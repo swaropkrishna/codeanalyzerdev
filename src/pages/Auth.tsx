@@ -13,7 +13,7 @@ const AuthPage = () => {
       (event, session) => {
         console.log("Auth state changed:", event, session);
         if (session) {
-          navigate("/");
+          navigate("/dashboard");
         }
       }
     );
