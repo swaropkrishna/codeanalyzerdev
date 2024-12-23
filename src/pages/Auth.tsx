@@ -1,9 +1,10 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Footer } from "@/components/Footer";
+import { Navigation } from "@/components/dashboard/Navigation";
 
 const AuthPage = () => {
   const navigate = useNavigate();
@@ -26,12 +27,10 @@ const AuthPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <Navigation showAuthButtons={true} />
       <div className="flex-grow flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
         <div className="w-full max-w-md space-y-8 bg-card p-8 rounded-lg shadow-sm animate-fade-in">
           <div className="text-center">
-            <Link to="/" className="inline-block mb-6 text-primary hover:text-primary/80 transition-colors">
-              ← Back to Home
-            </Link>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">
               Welcome to Summarizer
             </h2>
