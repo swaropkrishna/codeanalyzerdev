@@ -1,8 +1,9 @@
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const footerLinks = [
   { name: "About", href: "#" },
-  { name: "Privacy", href: "#" },
+  { name: "Privacy", href: "/privacy" },
   { name: "Terms", href: "#" },
   { name: "Contact Us", href: "#" },
 ];
@@ -28,13 +29,23 @@ export const Footer = () => {
             className="flex gap-8"
           >
             {footerLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.href}
-                className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
-              >
-                {link.name}
-              </a>
+              link.href.startsWith("#") ? (
+                <a
+                  key={link.name}
+                  href={link.href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+                >
+                  {link.name}
+                </a>
+              ) : (
+                <Link
+                  key={link.name}
+                  to={link.href}
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200"
+                >
+                  {link.name}
+                </Link>
+              )
             ))}
           </motion.nav>
         </div>
