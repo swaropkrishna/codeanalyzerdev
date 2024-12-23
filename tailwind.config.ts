@@ -25,8 +25,8 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#0EA5E9", // Ocean blue as primary color
-          foreground: "#FFFFFF",
+          DEFAULT: "#D3E4FD", // Soft blue as primary color
+          foreground: "#1F2937",
         },
         secondary: {
           DEFAULT: "#F8FAFC",
@@ -47,6 +47,10 @@ export default {
         card: {
           DEFAULT: "#FFFFFF",
           foreground: "#1F2937",
+        },
+        cta: {
+          DEFAULT: "#F97316", // Bright green for CTAs
+          hover: "#FB923C",
         },
       },
       borderRadius: {
