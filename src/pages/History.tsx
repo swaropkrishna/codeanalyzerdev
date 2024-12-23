@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Navigation } from "@/components/dashboard/Navigation";
 import { HistoryList } from "@/components/history/HistoryList";
 import { SearchBar } from "@/components/history/SearchBar";
+import { Footer } from "@/components/Footer";
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
@@ -50,12 +51,12 @@ export default function History() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+      <main className="flex-grow max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
         <div className="px-4 py-6 sm:px-0">
-          <div className="bg-white rounded-lg shadow p-6">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-6">
+          <div className="bg-card rounded-lg shadow p-6">
+            <h1 className="text-2xl font-semibold text-foreground mb-6">
               Meeting History
             </h1>
             <SearchBar onSearch={handleSearch} />
@@ -69,6 +70,7 @@ export default function History() {
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
