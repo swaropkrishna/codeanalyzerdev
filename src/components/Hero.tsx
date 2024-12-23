@@ -1,35 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
 
 export const Hero = () => {
   const navigate = useNavigate();
-  const [heroImage, setHeroImage] = useState("/placeholder.svg");
-
-  useEffect(() => {
-    const generateImage = async () => {
-      try {
-        console.log("Generating hero image...");
-        const { data, error } = await supabase.functions.invoke('generate-hero-image');
-        
-        if (error) {
-          console.error("Error generating image:", error);
-          return;
-        }
-
-        if (data && data.data && data.data[0].url) {
-          console.log("Image generated successfully:", data.data[0].url);
-          setHeroImage(data.data[0].url);
-        }
-      } catch (error) {
-        console.error("Error in generateImage:", error);
-      }
-    };
-
-    generateImage();
-  }, []);
 
   return (
     <section className="relative overflow-hidden pt-[4rem] sm:pt-[6.5rem] pb-[3rem] sm:pb-[4rem] bg-gradient-to-b from-primary/5 to-transparent">
@@ -70,24 +44,6 @@ export const Hero = () => {
             >
               Log In
             </Button>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4, duration: 0.5 }}
-            className="w-full max-w-[900px] mt-8 px-4"
-          >
-            <div className="relative rounded-lg overflow-hidden shadow-xl border border-gray-200">
-              <motion.img
-                src={heroImage}
-                alt="Meeting Notes Summarizer Interface"
-                className="w-full h-auto"
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              />
-            </div>
           </motion.div>
         </div>
       </div>
