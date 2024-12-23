@@ -2,8 +2,19 @@ import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const OPENAI_API_KEY = Deno.env.get('OPENAI_API_KEY')
 
+const corsHeaders = {
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+}
+
 serve(async (req) => {
+  // Handle CORS preflight requests
+  if (req.method === 'OPTIONS') {
+    return new Response(null, { headers: corsHeaders });
+  }
+
   try {
+    console.log("Starting image generation...");
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
       headers: {
@@ -19,14 +30,21 @@ serve(async (req) => {
     })
 
     const data = await response.json()
+    console.log("Image generation response:", data);
+    
+    if (data.error) {
+      console.error("OpenAI API error:", data.error);
+      throw new Error(data.error.message);
+    }
     
     return new Response(JSON.stringify(data), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 200,
     })
   } catch (error) {
+    console.error("Error in generate-hero-image function:", error);
     return new Response(JSON.stringify({ error: error.message }), {
-      headers: { 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
     })
   }
