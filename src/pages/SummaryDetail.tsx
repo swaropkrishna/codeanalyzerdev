@@ -18,10 +18,11 @@ export default function SummaryDetail() {
       console.log("Fetching note with ID:", id);
       if (!id) throw new Error("No note ID provided");
       
+      // Using the match method instead of eq for better UUID handling
       const { data, error } = await supabase
         .from("Notes")
-        .select("*")
-        .eq("id", id)
+        .select()
+        .match({ id })
         .maybeSingle();
 
       if (error) {
