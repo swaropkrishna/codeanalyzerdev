@@ -53,9 +53,9 @@ export default function History() {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
-      <main className="flex-grow max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-card rounded-lg shadow p-6">
+      <main className="flex-grow container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="py-8">
+          <div className="bg-card rounded-lg shadow-sm p-6 sm:p-8">
             <h1 className="text-2xl font-semibold text-foreground mb-6">
               Meeting History
             </h1>
