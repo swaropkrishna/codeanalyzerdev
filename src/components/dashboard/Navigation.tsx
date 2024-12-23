@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { UserCircle } from "lucide-react";
 
-export const Navigation = () => {
+export const Navigation = ({ showAuthButtons = false }) => {
   const navigate = useNavigate();
 
   const handleSignOut = async () => {
@@ -20,42 +20,64 @@ export const Navigation = () => {
   return (
     <nav className="border-b border-secondary bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
+        <div className="flex justify-between items-center h-16">
+          <div className="flex items-center">
+            <Link to="/" className="flex-shrink-0">
               <span className="text-xl font-bold text-primary">Summarizer</span>
-            </div>
-            <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Link to="/dashboard">
-                <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
-                  Dashboard
-                </Button>
-              </Link>
-              <Link to="/history">
-                <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
-                  History
-                </Button>
-              </Link>
-              <Link to="/account">
-                <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
-                  Account
-                </Button>
-              </Link>
+            </Link>
+            <div className="hidden sm:ml-6 sm:flex sm:space-x-4">
+              {!showAuthButtons && (
+                <>
+                  <Link to="/dashboard">
+                    <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
+                      Dashboard
+                    </Button>
+                  </Link>
+                  <Link to="/history">
+                    <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
+                      History
+                    </Button>
+                  </Link>
+                  <Link to="/account">
+                    <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
+                      Account
+                    </Button>
+                  </Link>
+                </>
+              )}
             </div>
           </div>
           <div className="flex items-center">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <UserCircle className="h-6 w-6 text-secondary-foreground" />
+            {showAuthButtons ? (
+              <div className="flex space-x-4">
+                <Button
+                  onClick={() => navigate("/auth")}
+                  variant="ghost"
+                  className="text-secondary-foreground hover:text-foreground"
+                >
+                  Log In
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-card">
-                <DropdownMenuItem onClick={handleSignOut} className="text-secondary-foreground hover:text-foreground">
-                  Sign out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                <Button
+                  onClick={() => navigate("/auth")}
+                  className="bg-cta hover:bg-cta-hover text-white"
+                >
+                  Sign Up
+                </Button>
+              </div>
+            ) : (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon">
+                    <UserCircle className="h-6 w-6 text-secondary-foreground" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="bg-card">
+                  <DropdownMenuItem onClick={handleSignOut} className="text-secondary-foreground hover:text-foreground">
+                    Sign out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
           </div>
         </div>
       </div>
