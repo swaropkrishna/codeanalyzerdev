@@ -42,16 +42,16 @@ const AuthPage = () => {
             variables: {
               default: {
                 colors: {
-                  brand: 'hsl(var(--primary))',
-                  brandAccent: 'hsl(var(--primary-foreground))',
+                  brand: '#9b87f5',
+                  brandAccent: '#7E69AB',
                   brandButtonText: 'white',
-                  defaultButtonBackground: 'hsl(var(--secondary))',
-                  defaultButtonBackgroundHover: 'hsl(var(--secondary-foreground))',
-                  inputBackground: 'hsl(var(--background))',
-                  inputBorder: 'hsl(var(--border))',
-                  inputBorderHover: 'hsl(var(--ring))',
-                  inputBorderFocus: 'hsl(var(--ring))',
-                  dividerBackground: 'hsl(var(--border))',
+                  defaultButtonBackground: '#F5F5F5',
+                  defaultButtonBackgroundHover: '#E5DEFF',
+                  inputBackground: 'white',
+                  inputBorder: '#E2E8F0',
+                  inputBorderHover: '#CBD5E1',
+                  inputBorderFocus: '#9b87f5',
+                  dividerBackground: '#E2E8F0',
                 }
               }
             },
@@ -61,6 +61,9 @@ const AuthPage = () => {
               input: 'w-full rounded-md border border-input bg-background px-3 py-2',
               label: 'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
               loader: 'animate-spin',
+              anchor: 'text-sm font-medium text-primary hover:text-primary/80',
+              divider: 'bg-muted/60',
+              message: 'text-sm text-foreground/80',
             }
           }}
           providers={["google", "github"]}
