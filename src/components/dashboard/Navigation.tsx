@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import {
   DropdownMenu,
@@ -26,15 +26,21 @@ export const Navigation = () => {
               <span className="text-xl font-bold text-primary">Summarizer</span>
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <Button variant="ghost" className="text-gray-900">
-                Dashboard
-              </Button>
-              <Button variant="ghost" className="text-gray-500">
-                History
-              </Button>
-              <Button variant="ghost" className="text-gray-500">
-                Account
-              </Button>
+              <Link to="/dashboard">
+                <Button variant="ghost" className="text-gray-500 hover:text-gray-900">
+                  Dashboard
+                </Button>
+              </Link>
+              <Link to="/history">
+                <Button variant="ghost" className="text-gray-500 hover:text-gray-900">
+                  History
+                </Button>
+              </Link>
+              <Link to="/account">
+                <Button variant="ghost" className="text-gray-500 hover:text-gray-900">
+                  Account
+                </Button>
+              </Link>
             </div>
           </div>
           <div className="flex items-center">
