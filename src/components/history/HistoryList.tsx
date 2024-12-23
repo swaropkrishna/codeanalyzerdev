@@ -38,16 +38,16 @@ export function HistoryList({
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-12">
-        <div className="animate-pulse text-gray-500">Loading summaries...</div>
+      <div className="flex justify-center items-center py-section">
+        <div className="animate-pulse text-lg text-gray-500">Loading summaries...</div>
       </div>
     );
   }
 
   if (notes.length === 0) {
     return (
-      <div className="text-center py-12">
-        <p className="text-gray-500">No summaries found.</p>
+      <div className="text-center py-section">
+        <p className="text-lg text-gray-500">No summaries found.</p>
       </div>
     );
   }
@@ -55,24 +55,26 @@ export function HistoryList({
   const totalPages = Math.ceil(notes.length / itemsPerPage);
 
   return (
-    <div className="space-y-6">
-      <div className="space-y-4">
+    <div className="space-y-section">
+      <div className="space-y-element">
         {notes.map((note) => (
-          <Card key={note.id} className="p-4">
+          <Card key={note.id} className="p-6 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium">
+              <div className="space-y-2">
+                <h3 className="text-xl font-semibold text-foreground">
                   Meeting on {format(new Date(note.created_at), "MMM d, yyyy")}
                 </h3>
-                <p className="text-sm text-gray-500">
+                <p className="text-base text-muted-foreground">
                   {format(new Date(note.created_at), "h:mm a")}
                 </p>
               </div>
               <Button
                 variant="outline"
+                size="lg"
                 onClick={() => navigate(`/summary/${note.id}`)}
+                className="min-w-[140px]"
               >
-                <Eye className="mr-2 h-4 w-4" />
+                <Eye className="mr-2 h-5 w-5" />
                 View Summary
               </Button>
             </div>
@@ -81,7 +83,7 @@ export function HistoryList({
       </div>
 
       {totalPages > 1 && (
-        <Pagination className="mt-8">
+        <Pagination className="mt-section">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
