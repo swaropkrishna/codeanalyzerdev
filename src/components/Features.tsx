@@ -21,16 +21,16 @@ const features = [
 
 export const Features = () => {
   return (
-    <section className="py-24 px-4 bg-background">
+    <section className="py-12 sm:py-24 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.2 }}
-              className="relative p-8 bg-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
+              className="relative p-6 sm:p-8 bg-card rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 group"
             >
               <div className="absolute -top-6 left-8">
                 <div className="p-4 bg-primary/10 rounded-lg group-hover:bg-primary/20 transition-colors duration-300">
