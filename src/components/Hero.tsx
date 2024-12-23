@@ -16,7 +16,7 @@ export const Hero = () => {
             className="space-y-4 max-w-[800px]"
           >
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tighter bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80 px-4">
-              AI-Powered Meeting Notes in Seconds
+              Summarize Your Meeting Notes in Seconds.
             </h1>
             <p className="mx-auto max-w-[700px] text-secondary-foreground text-lg md:text-xl px-4">
               From lengthy discussions to clear action items, instantly
