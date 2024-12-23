@@ -8,7 +8,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
 export default function SummaryDetail() {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
 
@@ -16,11 +16,13 @@ export default function SummaryDetail() {
     queryKey: ["note", id],
     queryFn: async () => {
       console.log("Fetching note with ID:", id);
+      if (!id) throw new Error("No note ID provided");
+      
       const { data, error } = await supabase
         .from("Notes")
         .select("*")
         .eq("id", id)
-        .single();
+        .maybeSingle();
 
       if (error) {
         console.error("Error fetching note:", error);
@@ -30,6 +32,7 @@ export default function SummaryDetail() {
       console.log("Fetched note:", data);
       return data;
     },
+    enabled: !!id,
   });
 
   const handleCopy = async () => {
