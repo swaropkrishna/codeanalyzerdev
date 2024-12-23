@@ -23,7 +23,7 @@ export const Features = () => {
   return (
     <section className="py-12 sm:py-24 px-4 bg-background">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8 px-4">
           {features.map((feature, index) => (
             <motion.div
               key={feature.title}
