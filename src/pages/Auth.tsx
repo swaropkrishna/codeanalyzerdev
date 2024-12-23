@@ -48,7 +48,7 @@ const AuthPage = () => {
                   defaultButtonBackground: 'white',
                   defaultButtonBackgroundHover: '#F8FAFC',
                   defaultButtonBorder: '#E2E8F0',
-                  defaultButtonBorderHover: '#CBD5E1',
+                  defaultButtonText: '#1E293B',
                   inputBackground: 'white',
                   inputBorder: '#E2E8F0',
                   inputBorderHover: '#CBD5E1',
@@ -60,7 +60,6 @@ const AuthPage = () => {
             className: {
               container: 'w-full',
               button: 'w-full bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 transition-colors',
-              socialButtonsContainer: 'space-y-3',
               divider: 'bg-gray-200',
               label: 'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
               input: 'w-full rounded-md border border-input bg-background px-3 py-2',
