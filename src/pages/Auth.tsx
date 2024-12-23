@@ -63,9 +63,11 @@ const AuthPage = () => {
               loader: 'animate-spin',
             }
           }}
-          providers={["google"]}
+          providers={["google", "github"]}
+          view="sign_in"
+          showLinks={true}
           redirectTo={`${window.location.origin}/auth`}
-          onlyThirdPartyProviders={true}
+          magicLink={true}
           queryParams={{
             access_type: 'offline',
             prompt: 'consent',
