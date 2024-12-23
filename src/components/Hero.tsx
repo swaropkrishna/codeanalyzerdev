@@ -19,7 +19,7 @@ export const Hero = () => {
               Summarize Your Meeting Notes in Seconds.
             </h1>
             <p className="mx-auto max-w-[700px] text-secondary-foreground text-lg md:text-xl px-4">
-              From lengthy discussions to clear action items, instantly
+              Effortlessly turn lengthy notes into clear summaries with AI.
             </p>
           </motion.div>
           <motion.div
