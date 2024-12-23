@@ -22,36 +22,43 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        background: "#FAFAFA", // Light off-white background
+        foreground: "#212121", // Dark charcoal for headings
         primary: {
-          DEFAULT: "#D3E4FD", // Soft blue as primary color
-          foreground: "#1F2937",
+          DEFAULT: "#4A90E2", // Soft blue for primary elements
+          hover: "#4FC3F7",
+          foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#F8FAFC",
-          foreground: "#1F2937",
+          DEFAULT: "#F5F5F5", // Light gray for backgrounds
+          foreground: "#757575", // Medium gray for body text
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "#B0BEC5", // Neutral gray for secondary text
+          foreground: "#757575",
         },
         accent: {
-          DEFAULT: "#F3F4F6",
-          foreground: "#1F2937",
+          DEFAULT: "#26A69A", // Teal for accents
+          foreground: "#FFFFFF",
         },
         card: {
           DEFAULT: "#FFFFFF",
-          foreground: "#1F2937",
+          foreground: "#212121",
         },
         cta: {
-          DEFAULT: "#F97316", // Bright green for CTAs
-          hover: "#FB923C",
+          DEFAULT: "#4CAF50", // Bright green for CTAs
+          hover: "#81C784",
+          foreground: "#FFFFFF",
         },
+        warning: {
+          DEFAULT: "#FF9800", // Orange for warnings/limits
+          hover: "#FFA726",
+          foreground: "#FFFFFF",
+        }
       },
       borderRadius: {
         lg: "var(--radius)",
