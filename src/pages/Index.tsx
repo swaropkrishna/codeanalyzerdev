@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Navigation } from "@/components/dashboard/Navigation";
 import { HowItWorks } from "@/components/HowItWorks";
 import { UseCases } from "@/components/UseCases";
+import { Testimonials } from "@/components/Testimonials";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -43,6 +44,7 @@ const Index = () => {
       <Features />
       <HowItWorks />
       <UseCases />
+      <Testimonials />
       <Footer />
     </div>
   );
