@@ -25,11 +25,11 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "#10B981",
+          DEFAULT: "#0EA5E9", // Ocean blue as primary color
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#E8ECE8",
+          DEFAULT: "#F8FAFC",
           foreground: "#1F2937",
         },
         destructive: {
