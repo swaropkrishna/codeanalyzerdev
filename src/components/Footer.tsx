@@ -10,9 +10,9 @@ const footerLinks = [
 
 export const Footer = () => {
   return (
-    <footer className="py-8 sm:py-12 px-4 border-t border-secondary bg-card">
+    <footer className="py-section px-element border-t border-secondary bg-card">
       <div className="max-w-6xl mx-auto">
-        <div className="flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
+        <div className="flex flex-col items-center gap-element sm:flex-row sm:justify-between">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -26,14 +26,14 @@ export const Footer = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="flex flex-wrap justify-center gap-4 sm:gap-8"
+            className="flex flex-wrap justify-center gap-element sm:gap-8"
           >
             {footerLinks.map((link) => (
               link.href.startsWith("#") ? (
                 <a
                   key={link.name}
                   href={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 min-h-[44px] flex items-center px-2"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 min-h-[44px] flex items-center px-element"
                 >
                   {link.name}
                 </a>
@@ -41,7 +41,7 @@ export const Footer = () => {
                 <Link
                   key={link.name}
                   to={link.href}
-                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 min-h-[44px] flex items-center px-2"
+                  className="text-sm text-muted-foreground hover:text-primary transition-colors duration-200 min-h-[44px] flex items-center px-element"
                 >
                   {link.name}
                 </Link>

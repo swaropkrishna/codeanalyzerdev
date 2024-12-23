@@ -18,6 +18,16 @@ export default {
       },
     },
     extend: {
+      spacing: {
+        'section': '32px',  // For major section spacing
+        'element': '16px',  // For internal element spacing
+      },
+      gridTemplateColumns: {
+        'desktop': 'repeat(12, minmax(0, 1fr))',
+      },
+      gap: {
+        'grid': '16px',
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

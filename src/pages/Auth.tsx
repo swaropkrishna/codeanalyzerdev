@@ -10,7 +10,6 @@ const AuthPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Check if user is already logged in
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
         console.log("Auth state changed:", event, session);
@@ -28,9 +27,9 @@ const AuthPage = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navigation showAuthButtons={true} />
-      <div className="flex-grow flex items-center justify-center px-4 py-8 sm:px-6 lg:px-8">
-        <div className="w-full max-w-md space-y-8 bg-card p-8 rounded-lg shadow-sm animate-fade-in">
-          <div className="text-center">
+      <div className="flex-grow flex items-center justify-center px-4 py-section sm:px-6 lg:px-8">
+        <div className="w-full max-w-md space-y-section bg-card p-element rounded-lg shadow-sm animate-fade-in">
+          <div className="text-center space-y-4">
             <h2 className="text-2xl font-bold tracking-tight text-foreground">
               Welcome to Summarizer
             </h2>
@@ -62,14 +61,14 @@ const AuthPage = () => {
                 }
               },
               className: {
-                container: 'w-full',
-                button: 'w-full bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 transition-colors',
-                divider: 'bg-gray-200',
-                label: 'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
-                input: 'w-full rounded-md border border-input bg-background px-3 py-2',
+                container: 'w-full space-y-element',
+                button: 'w-full bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 transition-colors p-element',
+                divider: 'bg-gray-200 my-element',
+                label: 'text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 block text-left mb-2',
+                input: 'w-full rounded-md border border-input bg-background px-element py-3',
                 loader: 'animate-spin',
                 anchor: 'text-sm font-medium text-primary hover:text-primary/80',
-                message: 'text-sm text-foreground/80',
+                message: 'text-sm text-foreground/80 mt-2',
               }
             }}
             providers={["google", "github"]}
