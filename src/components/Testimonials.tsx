@@ -5,7 +5,7 @@ const testimonials = [
   {
     name: "Sarah Chen",
     role: "Team Manager",
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
     quote: "This tool has transformed our team meetings. We save hours every week by getting instant, accurate summaries of our discussions.",
   },
   {
