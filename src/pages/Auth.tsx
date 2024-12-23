@@ -11,6 +11,7 @@ const AuthPage = () => {
     // Check if user is already logged in
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (event, session) => {
+        console.log("Auth state changed:", event, session);
         if (session) {
           navigate("/");
         }
@@ -63,8 +64,12 @@ const AuthPage = () => {
             }
           }}
           providers={["google"]}
-          redirectTo={window.location.origin}
-          onlyThirdPartyProviders={false}
+          redirectTo={`${window.location.origin}/auth`}
+          onlyThirdPartyProviders={true}
+          queryParams={{
+            access_type: 'offline',
+            prompt: 'consent',
+          }}
         />
       </div>
     </div>
