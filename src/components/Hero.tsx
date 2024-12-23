@@ -22,6 +22,7 @@ export const Hero = () => {
               Effortlessly turn lengthy notes into clear summaries with AI.
             </p>
           </motion.div>
+          
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -43,6 +44,21 @@ export const Hero = () => {
             >
               Log In
             </Button>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            className="w-full max-w-[900px] mt-8 px-4"
+          >
+            <div className="relative rounded-lg overflow-hidden shadow-xl border border-gray-200">
+              <img
+                src="/placeholder.svg"
+                alt="Meeting Notes Summarizer Interface"
+                className="w-full h-auto"
+              />
+            </div>
           </motion.div>
         </div>
       </div>
