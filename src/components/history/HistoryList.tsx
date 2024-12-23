@@ -38,16 +38,17 @@ export function HistoryList({
 
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center py-section">
-        <div className="animate-pulse text-lg text-gray-500">Loading summaries...</div>
+      <div className="flex justify-center items-center min-h-[200px] py-section">
+        <div className="animate-pulse text-xl text-gray-500">Loading summaries...</div>
       </div>
     );
   }
 
   if (notes.length === 0) {
     return (
-      <div className="text-center py-section">
-        <p className="text-lg text-gray-500">No summaries found.</p>
+      <div className="flex flex-col items-center justify-center min-h-[300px] py-section">
+        <p className="text-xl text-gray-500 mb-4">No summaries found.</p>
+        <p className="text-base text-muted-foreground">Start by creating a new summary in the dashboard.</p>
       </div>
     );
   }
@@ -55,16 +56,19 @@ export function HistoryList({
   const totalPages = Math.ceil(notes.length / itemsPerPage);
 
   return (
-    <div className="space-y-section">
-      <div className="space-y-element">
+    <div className="space-y-8">
+      <div className="grid gap-6">
         {notes.map((note) => (
-          <Card key={note.id} className="p-6 hover:shadow-md transition-shadow">
-            <div className="flex items-center justify-between">
-              <div className="space-y-2">
-                <h3 className="text-xl font-semibold text-foreground">
+          <Card 
+            key={note.id} 
+            className="p-8 hover:shadow-lg transition-shadow duration-300 border-2"
+          >
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+              <div className="space-y-3">
+                <h3 className="text-2xl font-bold text-foreground">
                   Meeting on {format(new Date(note.created_at), "MMM d, yyyy")}
                 </h3>
-                <p className="text-base text-muted-foreground">
+                <p className="text-lg text-muted-foreground">
                   {format(new Date(note.created_at), "h:mm a")}
                 </p>
               </div>
@@ -72,9 +76,9 @@ export function HistoryList({
                 variant="outline"
                 size="lg"
                 onClick={() => navigate(`/summary/${note.id}`)}
-                className="min-w-[140px]"
+                className="min-w-[160px] h-14 text-lg shadow-sm hover:shadow-md transition-all duration-300"
               >
-                <Eye className="mr-2 h-5 w-5" />
+                <Eye className="mr-3 h-6 w-6" />
                 View Summary
               </Button>
             </div>
@@ -83,12 +87,12 @@ export function HistoryList({
       </div>
 
       {totalPages > 1 && (
-        <Pagination className="mt-section">
+        <Pagination className="mt-12">
           <PaginationContent>
             <PaginationItem>
               <PaginationPrevious
                 onClick={() => onPageChange(Math.max(1, currentPage - 1))}
-                className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                className={`text-lg ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
               />
             </PaginationItem>
             
@@ -97,6 +101,7 @@ export function HistoryList({
                 <PaginationLink
                   onClick={() => onPageChange(page)}
                   isActive={currentPage === page}
+                  className="text-lg h-12 w-12"
                 >
                   {page}
                 </PaginationLink>
@@ -106,7 +111,7 @@ export function HistoryList({
             <PaginationItem>
               <PaginationNext
                 onClick={() => onPageChange(Math.min(totalPages, currentPage + 1))}
-                className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                className={`text-lg ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
               />
             </PaginationItem>
           </PaginationContent>
