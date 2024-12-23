@@ -3,6 +3,7 @@ import Index from "./pages/Index";
 import AuthPage from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import History from "./pages/History";
+import SummaryDetail from "./pages/SummaryDetail";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/auth" element={<AuthPage />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/history" element={<History />} />
+        <Route path="/summary/:id" element={<SummaryDetail />} />
       </Routes>
     </Router>
   );

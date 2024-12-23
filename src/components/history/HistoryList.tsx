@@ -10,8 +10,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { format } from "date-fns";
-import { useState } from "react";
-import { SummaryCard } from "@/components/dashboard/SummaryCard";
+import { useNavigate } from "react-router-dom";
 
 interface Note {
   id: string;
@@ -35,7 +34,7 @@ export function HistoryList({
   itemsPerPage,
   onPageChange,
 }: HistoryListProps) {
-  const [selectedSummary, setSelectedSummary] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   if (isLoading) {
     return (
@@ -57,19 +56,6 @@ export function HistoryList({
 
   return (
     <div className="space-y-6">
-      {selectedSummary && (
-        <div className="mb-6">
-          <SummaryCard summary={selectedSummary} />
-          <Button
-            variant="outline"
-            onClick={() => setSelectedSummary(null)}
-            className="mt-4"
-          >
-            Close Summary
-          </Button>
-        </div>
-      )}
-      
       <div className="space-y-4">
         {notes.map((note) => (
           <Card key={note.id} className="p-4">
@@ -84,7 +70,7 @@ export function HistoryList({
               </div>
               <Button
                 variant="outline"
-                onClick={() => setSelectedSummary(note.summary_text)}
+                onClick={() => navigate(`/summary/${note.id}`)}
               >
                 <Eye className="mr-2 h-4 w-4" />
                 View Summary
