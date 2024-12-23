@@ -49,15 +49,15 @@ export const NoteInput = () => {
     <div className="space-y-4">
       <Textarea
         placeholder="Paste your meeting notes here..."
-        className="min-h-[200px] p-4 bg-card border-secondary text-foreground placeholder:text-muted-foreground"
+        className="min-h-[200px] p-4 bg-card border-secondary text-foreground placeholder:text-muted-foreground resize-none"
         value={text}
         onChange={(e) => setText(e.target.value)}
       />
-      <div className="flex justify-end">
+      <div className="flex justify-center">
         <Button
           onClick={handleSummarize}
           disabled={isLoading}
-          className="bg-cta hover:bg-cta-hover text-white"
+          className="bg-cta hover:bg-cta-hover text-white px-8 py-2 rounded-md transition-colors duration-200"
         >
           {isLoading ? "Processing..." : "Summarize"}
         </Button>

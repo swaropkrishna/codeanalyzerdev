@@ -2,23 +2,27 @@ import { Navigation } from "@/components/dashboard/Navigation";
 import { NoteInput } from "@/components/dashboard/NoteInput";
 import { SummaryCard } from "@/components/dashboard/SummaryCard";
 import { UsageLimit } from "@/components/dashboard/UsageLimit";
+import { Footer } from "@/components/Footer";
 import { useState } from "react";
+import { FileUpload } from "@/components/dashboard/FileUpload";
 
 export default function Dashboard() {
   const [summary, setSummary] = useState<string | null>(null);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen flex flex-col bg-background">
       <Navigation />
-      <main className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 py-6 sm:px-0">
-          <div className="bg-card rounded-lg shadow-lg p-6">
+      <main className="flex-grow container mx-auto max-w-4xl py-6 px-4 sm:px-6 lg:px-8">
+        <div className="space-y-6">
+          <div className="bg-card rounded-lg shadow-lg p-6 animate-fade-in">
             <NoteInput />
-            {summary && <div className="mt-8"><SummaryCard summary={summary} /></div>}
+            <FileUpload />
+            {summary && <SummaryCard summary={summary} />}
             <UsageLimit />
           </div>
         </div>
       </main>
+      <Footer />
     </div>
   );
 }
