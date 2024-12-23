@@ -5,13 +5,13 @@ const testimonials = [
   {
     name: "Sarah Chen",
     role: "Team Manager",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
     quote: "This tool has transformed our team meetings. We save hours every week by getting instant, accurate summaries of our discussions.",
   },
   {
     name: "Michael Rodriguez",
     role: "Project Lead",
-    image: "https://images.unsplash.com/photo-1581090464777-f3220bbe1b8b?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1581092795360-fd1ca04f0952?w=400&h=400&fit=crop",
     quote: "The accuracy and speed of the summaries are incredible. It helps us keep everyone aligned and focused on what matters most.",
   },
   {
