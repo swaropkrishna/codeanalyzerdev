@@ -6,6 +6,7 @@ import { HowItWorks } from "@/components/HowItWorks";
 import { UseCases } from "@/components/UseCases";
 import { Testimonials } from "@/components/Testimonials";
 import { PricingTeaser } from "@/components/PricingTeaser";
+import { CallToAction } from "@/components/CallToAction";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
@@ -47,6 +48,7 @@ const Index = () => {
       <UseCases />
       <Testimonials />
       <PricingTeaser />
+      <CallToAction />
       <Footer />
     </div>
   );
