@@ -17,7 +17,7 @@ const testimonials = [
   {
     name: "Emily Taylor",
     role: "Product Manager",
-    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=400&fit=crop",
+    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&h=400&fit=crop",
     quote: "Perfect for capturing key points from client meetings. The summaries are professional and ready to share in seconds.",
   },
 ];
