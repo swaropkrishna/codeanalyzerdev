@@ -1,61 +1,49 @@
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 export const Hero = () => {
+  const navigate = useNavigate();
+
   return (
-    <motion.section 
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-      className="flex flex-col items-center justify-center min-h-[80vh] px-4 text-center"
-    >
-      <motion.span
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2 }}
-        className="inline-block px-4 py-1.5 mb-6 text-sm font-medium bg-accent rounded-full text-primary animate-fade-in"
-      >
-        Powered by AI
-      </motion.span>
-      
-      <motion.h1
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.4 }}
-        className="text-4xl md:text-6xl font-bold tracking-tight mb-6 max-w-3xl animate-fade-in"
-      >
-        Turn Long Meeting Notes into Concise Summaries Instantly
-      </motion.h1>
-      
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.6 }}
-        className="text-lg md:text-xl text-gray-600 mb-12 max-w-2xl animate-fade-in"
-      >
-        Save time, stay productive. Transform lengthy meeting notes into clear, actionable summaries with just one click.
-      </motion.p>
-      
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8 }}
-        className="flex flex-col sm:flex-row gap-4 animate-fade-in"
-      >
-        <Button
-          size="lg"
-          className="bg-primary hover:bg-primary/90 text-white px-8 py-6 rounded-lg text-lg transition-all duration-200 transform hover:scale-105"
-        >
-          Get Started for Free
-        </Button>
-        <Button
-          variant="outline"
-          size="lg"
-          className="border-2 px-8 py-6 rounded-lg text-lg hover:bg-accent/50 transition-all duration-200"
-        >
-          Log In
-        </Button>
-      </motion.div>
-    </motion.section>
+    <section className="relative overflow-hidden pt-[6.5rem]">
+      <div className="container px-4 md:px-6">
+        <div className="flex flex-col items-center space-y-4 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-2"
+          >
+            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+              Turn Long Meeting Notes into Concise Summaries Instantly
+            </h1>
+            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
+              Save time, stay productive. Powered by AI.
+            </p>
+          </motion.div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="space-x-4"
+          >
+            <Button
+              onClick={() => navigate("/auth")}
+              className="bg-primary text-primary-foreground hover:bg-primary/90"
+            >
+              Get Started for Free
+            </Button>
+            <Button
+              onClick={() => navigate("/auth")}
+              variant="secondary"
+              className="bg-secondary text-secondary-foreground hover:bg-secondary/80"
+            >
+              Log In
+            </Button>
+          </motion.div>
+        </div>
+      </div>
+    </section>
   );
 };
