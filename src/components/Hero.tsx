@@ -18,7 +18,7 @@ export const Hero = () => {
             <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/80">
               Turn Long Meeting Notes into Concise Summaries Instantly
             </h1>
-            <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl dark:text-gray-400">
+            <p className="mx-auto max-w-[700px] text-secondary-foreground md:text-xl">
               Save time, stay productive. Powered by AI.
             </p>
           </motion.div>
@@ -31,7 +31,7 @@ export const Hero = () => {
             <Button
               onClick={() => navigate("/auth")}
               size="lg"
-              className="bg-[#10B981] hover:bg-[#059669] text-white font-semibold"
+              className="bg-cta hover:bg-cta-hover text-white font-semibold"
             >
               Get Started for Free
             </Button>
@@ -39,7 +39,7 @@ export const Hero = () => {
               onClick={() => navigate("/auth")}
               variant="secondary"
               size="lg"
-              className="bg-white hover:bg-gray-50 text-gray-900 font-semibold border border-gray-200"
+              className="bg-white hover:bg-secondary text-foreground font-semibold border border-gray-200"
             >
               Log In
             </Button>

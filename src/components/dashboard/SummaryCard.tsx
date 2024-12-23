@@ -29,18 +29,18 @@ export const SummaryCard = ({ summary }: SummaryCardProps) => {
   };
 
   return (
-    <Card>
+    <Card className="bg-card">
       <CardHeader>
-        <CardTitle>AI-Generated Summary</CardTitle>
+        <CardTitle className="text-foreground">AI-Generated Summary</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="text-gray-600 mb-4">{summary}</p>
+        <p className="text-secondary-foreground mb-4">{summary}</p>
         <div className="flex space-x-2">
-          <Button variant="outline" onClick={handleCopy}>
+          <Button variant="outline" onClick={handleCopy} className="border-secondary hover:bg-secondary">
             <Copy className="mr-2 h-4 w-4" />
             Copy
           </Button>
-          <Button variant="outline" onClick={handleDownload}>
+          <Button variant="outline" onClick={handleDownload} className="border-secondary hover:bg-secondary">
             <Download className="mr-2 h-4 w-4" />
             Download
           </Button>

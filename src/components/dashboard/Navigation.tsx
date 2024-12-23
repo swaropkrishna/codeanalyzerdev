@@ -18,7 +18,7 @@ export const Navigation = () => {
   };
 
   return (
-    <nav className="border-b border-gray-200">
+    <nav className="border-b border-secondary bg-card">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex">
@@ -27,17 +27,17 @@ export const Navigation = () => {
             </div>
             <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
               <Link to="/dashboard">
-                <Button variant="ghost" className="text-gray-500 hover:text-gray-900">
+                <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
                   Dashboard
                 </Button>
               </Link>
               <Link to="/history">
-                <Button variant="ghost" className="text-gray-500 hover:text-gray-900">
+                <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
                   History
                 </Button>
               </Link>
               <Link to="/account">
-                <Button variant="ghost" className="text-gray-500 hover:text-gray-900">
+                <Button variant="ghost" className="text-secondary-foreground hover:text-foreground">
                   Account
                 </Button>
               </Link>
@@ -47,11 +47,11 @@ export const Navigation = () => {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" size="icon">
-                  <UserCircle className="h-6 w-6" />
+                  <UserCircle className="h-6 w-6 text-secondary-foreground" />
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={handleSignOut}>
+              <DropdownMenuContent align="end" className="bg-card">
+                <DropdownMenuItem onClick={handleSignOut} className="text-secondary-foreground hover:text-foreground">
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>
