@@ -23,34 +23,26 @@ export const NoteInput = () => {
 
     setIsLoading(true);
     try {
-      // Call the Edge Function to get the summary
-      const response = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/summarize`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({ text }),
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to generate summary");
-      }
-
-      const { summary: generatedSummary } = await response.json();
-
-      // Save to Supabase
-      const { error } = await supabase.from("Notes").insert({
-        original_text: text,
-        summary_text: generatedSummary,
+      console.log("Calling summarize function...");
+      const { data, error } = await supabase.functions.invoke("summarize", {
+        body: { text },
       });
 
-      if (error) throw error;
+      if (error) {
+        throw error;
+      }
 
-      setSummary(generatedSummary);
+      console.log("Response from summarize function:", data);
+
+      // Save to Supabase
+      const { error: dbError } = await supabase.from("Notes").insert({
+        original_text: text,
+        summary_text: data.summary,
+      });
+
+      if (dbError) throw dbError;
+
+      setSummary(data.summary);
       toast({
         title: "Success",
         description: "Note summarized and saved successfully",
