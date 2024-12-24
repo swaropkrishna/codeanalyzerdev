@@ -1,6 +1,6 @@
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Footer } from "@/components/Footer";
@@ -8,6 +8,9 @@ import { Navigation } from "@/components/dashboard/Navigation";
 
 const AuthPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const view = searchParams.get('view') || 'sign_in';
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
@@ -67,10 +70,12 @@ const AuthPage = () => {
         <div className="w-full max-w-md space-y-section bg-card p-element rounded-lg shadow-sm animate-fade-in">
           <div className="text-center space-y-4">
             <h2 className="text-2xl font-bold tracking-tight text-foreground">
-              Welcome to Summarizer
+              {view === 'sign_up' ? 'Create your account' : 'Welcome back'}
             </h2>
             <p className="text-sm text-muted-foreground mt-2">
-              Sign in to start summarizing your meeting notes
+              {view === 'sign_up' 
+                ? 'Sign up to start summarizing your meeting notes'
+                : 'Sign in to continue with your summaries'}
             </p>
           </div>
           
@@ -108,7 +113,7 @@ const AuthPage = () => {
               }
             }}
             providers={["google", "github"]}
-            view="sign_in"
+            view={view === 'sign_up' ? 'sign_up' : 'sign_in'}
             showLinks={true}
             redirectTo={`${window.location.origin}/auth`}
             magicLink={true}

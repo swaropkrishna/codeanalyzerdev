@@ -70,7 +70,7 @@ export const Navigation = ({ showAuthButtons = false }) => {
                   Log In
                 </Button>
                 <Button
-                  onClick={() => navigate("/auth")}
+                  onClick={() => navigate("/auth?view=sign_up")}
                   className="bg-cta hover:bg-cta-hover text-white min-h-[44px] px-element"
                 >
                   Sign Up
