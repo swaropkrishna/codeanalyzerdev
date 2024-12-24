@@ -29,18 +29,32 @@ export const SummaryCard = ({ summary }: SummaryCardProps) => {
   };
 
   return (
-    <Card className="mt-6 bg-card animate-fade-in-up">
-      <CardHeader>
-        <CardTitle className="text-foreground">AI-Generated Summary</CardTitle>
+    <Card className="mt-6 bg-card border border-border shadow-sm">
+      <CardHeader className="pb-3">
+        <CardTitle className="text-xl font-semibold text-primary">AI-Generated Summary</CardTitle>
       </CardHeader>
-      <CardContent>
-        <p className="text-secondary-foreground mb-4 leading-relaxed">{summary}</p>
-        <div className="flex space-x-4">
-          <Button variant="outline" onClick={handleCopy} className="border-secondary hover:bg-secondary">
+      <CardContent className="space-y-4">
+        <div className="bg-muted/50 rounded-lg p-4">
+          <p className="text-secondary-foreground leading-relaxed whitespace-pre-wrap">
+            {summary}
+          </p>
+        </div>
+        <div className="flex space-x-4 justify-end">
+          <Button 
+            variant="outline" 
+            onClick={handleCopy} 
+            className="hover:bg-primary/10"
+            size="sm"
+          >
             <Copy className="mr-2 h-4 w-4" />
             Copy
           </Button>
-          <Button variant="outline" onClick={handleDownload} className="border-secondary hover:bg-secondary">
+          <Button 
+            variant="outline" 
+            onClick={handleDownload} 
+            className="hover:bg-primary/10"
+            size="sm"
+          >
             <Download className="mr-2 h-4 w-4" />
             Download
           </Button>
