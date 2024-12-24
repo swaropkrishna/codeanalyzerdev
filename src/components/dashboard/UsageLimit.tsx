@@ -17,7 +17,7 @@ export const UsageLimit = () => {
           .from('users')
           .select('is_pro')
           .eq('id', user.id)
-          .single();
+          .maybeSingle();
 
         if (error) {
           console.error('Error fetching user pro status:', error);

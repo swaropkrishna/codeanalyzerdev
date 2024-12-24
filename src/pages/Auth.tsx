@@ -15,32 +15,42 @@ const AuthPage = () => {
         console.log("Auth state changed:", event, session);
         
         if (event === 'SIGNED_IN' && session) {
-          // Check if user exists in users table
-          const { data: existingUser } = await supabase
-            .from('users')
-            .select('*')
-            .eq('id', session.user.id)
-            .single();
-
-          // If user doesn't exist in users table, create them
-          if (!existingUser) {
-            console.log("Creating new user in users table");
-            const { error } = await supabase
+          try {
+            // Check if user exists in users table
+            const { data: existingUser, error: fetchError } = await supabase
               .from('users')
-              .insert([
-                {
-                  id: session.user.id,
-                  email: session.user.email,
-                  is_pro: false
-                }
-              ]);
+              .select('*')
+              .eq('id', session.user.id)
+              .maybeSingle();
 
-            if (error) {
-              console.error("Error creating user:", error);
+            if (fetchError) {
+              console.error("Error fetching user:", fetchError);
+              return;
             }
-          }
 
-          navigate("/dashboard");
+            // If user doesn't exist in users table, create them
+            if (!existingUser) {
+              console.log("Creating new user in users table");
+              const { error: insertError } = await supabase
+                .from('users')
+                .insert([
+                  {
+                    id: session.user.id,
+                    email: session.user.email,
+                    is_pro: false
+                  }
+                ]);
+
+              if (insertError) {
+                console.error("Error creating user:", insertError);
+                return;
+              }
+            }
+
+            navigate("/dashboard");
+          } catch (error) {
+            console.error("Error in auth flow:", error);
+          }
         }
       }
     );
