@@ -28,16 +28,23 @@ export const SummaryCard = ({ summary }: SummaryCardProps) => {
     document.body.removeChild(element);
   };
 
+  // Format the summary text by splitting it into paragraphs
+  const formattedSummary = summary.split('\n').map((paragraph, index) => (
+    <p key={index} className="mb-3 last:mb-0">
+      {paragraph.trim()}
+    </p>
+  ));
+
   return (
     <Card className="mt-6 bg-card border border-border shadow-sm">
       <CardHeader className="pb-3">
         <CardTitle className="text-xl font-semibold text-primary">AI-Generated Summary</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="bg-muted/50 rounded-lg p-4">
-          <p className="text-secondary-foreground leading-relaxed whitespace-pre-wrap">
-            {summary}
-          </p>
+        <div className="bg-muted/50 rounded-lg p-6">
+          <div className="prose prose-sm max-w-none text-secondary-foreground leading-relaxed">
+            {formattedSummary}
+          </div>
         </div>
         <div className="flex space-x-4 justify-end">
           <Button 
