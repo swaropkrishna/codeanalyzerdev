@@ -23,6 +23,13 @@ export const NoteInput = () => {
 
     setIsLoading(true);
     try {
+      // Get the current user
+      const { data: { user } } = await supabase.auth.getUser();
+      
+      if (!user) {
+        throw new Error("You must be logged in to save notes");
+      }
+
       console.log("Calling summarize function...");
       const { data, error } = await supabase.functions.invoke("summarize", {
         body: { text },
@@ -34,10 +41,11 @@ export const NoteInput = () => {
 
       console.log("Response from summarize function:", data);
 
-      // Save to Supabase
+      // Save to Supabase with user_id
       const { error: dbError } = await supabase.from("Notes").insert({
         original_text: text,
         summary_text: data.summary,
+        user_id: user.id // Include the user_id in the insert
       });
 
       if (dbError) throw dbError;
