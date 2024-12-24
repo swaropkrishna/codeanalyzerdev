@@ -6,6 +6,9 @@ import Dashboard from "@/pages/Dashboard";
 import Account from "@/pages/Account";
 import History from "@/pages/History";
 import SummaryDetail from "@/pages/SummaryDetail";
+import About from "@/pages/About";
+import Terms from "@/pages/Terms";
+import Contact from "@/pages/Contact";
 
 const router = createBrowserRouter([
   {
@@ -35,6 +38,18 @@ const router = createBrowserRouter([
   {
     path: "/summary/:id",
     element: <SummaryDetail />,
+  },
+  {
+    path: "/about",
+    element: <About />,
+  },
+  {
+    path: "/terms",
+    element: <Terms />,
+  },
+  {
+    path: "/contact",
+    element: <Contact />,
   },
 ]);
 
