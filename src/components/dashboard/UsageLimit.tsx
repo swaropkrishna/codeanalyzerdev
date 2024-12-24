@@ -12,10 +12,20 @@ export const UsageLimit = () => {
         const { data: { user } } = await supabase.auth.getUser();
         if (!user) return;
 
-        // Check if user has pro subscription in metadata
-        const isPro = user.user_metadata?.is_pro === true;
-        console.log('User subscription status:', isPro ? 'Pro' : 'Free');
-        setIsProMember(isPro);
+        // Fetch pro status from users table
+        const { data: userData, error } = await supabase
+          .from('users')
+          .select('is_pro')
+          .eq('id', user.id)
+          .single();
+
+        if (error) {
+          console.error('Error fetching user pro status:', error);
+          return;
+        }
+
+        console.log('User subscription status:', userData?.is_pro ? 'Pro' : 'Free');
+        setIsProMember(userData?.is_pro || false);
       } catch (error) {
         console.error('Error checking subscription status:', error);
       }
