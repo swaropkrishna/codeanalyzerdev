@@ -11,9 +11,35 @@ const AuthPage = () => {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
+      async (event, session) => {
         console.log("Auth state changed:", event, session);
-        if (session) {
+        
+        if (event === 'SIGNED_IN' && session) {
+          // Check if user exists in users table
+          const { data: existingUser } = await supabase
+            .from('users')
+            .select('*')
+            .eq('id', session.user.id)
+            .single();
+
+          // If user doesn't exist in users table, create them
+          if (!existingUser) {
+            console.log("Creating new user in users table");
+            const { error } = await supabase
+              .from('users')
+              .insert([
+                {
+                  id: session.user.id,
+                  email: session.user.email,
+                  is_pro: false
+                }
+              ]);
+
+            if (error) {
+              console.error("Error creating user:", error);
+            }
+          }
+
           navigate("/dashboard");
         }
       }
