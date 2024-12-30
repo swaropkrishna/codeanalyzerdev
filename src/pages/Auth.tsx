@@ -48,16 +48,12 @@ export default function AuthPage() {
                   fontSize: '1rem',
                   fontWeight: '500',
                   transition: 'all 0.2s',
-                  '&:hover': {
-                    opacity: '0.9',
-                  },
+                  opacity: '1',
                 },
                 anchor: {
                   color: 'hsl(var(--primary))',
                   fontWeight: '500',
-                  '&:hover': {
-                    opacity: '0.8',
-                  },
+                  opacity: '1',
                 },
                 container: {
                   width: '100%',
@@ -70,10 +66,7 @@ export default function AuthPage() {
                   backgroundColor: 'hsl(var(--background))',
                   color: 'hsl(var(--foreground))',
                   transition: 'all 0.2s',
-                  '&:focus': {
-                    borderColor: 'hsl(var(--primary))',
-                    boxShadow: '0 0 0 2px hsl(var(--primary) / 0.2)',
-                  },
+                  outline: 'none',
                 },
                 label: {
                   color: 'hsl(var(--foreground))',
@@ -88,9 +81,10 @@ export default function AuthPage() {
                 },
               },
               className: {
-                container: 'w-full space-y-6',
                 button: 'w-full hover:opacity-90 transition-opacity',
-                input: 'w-full',
+                anchor: 'hover:opacity-80',
+                input: 'focus:border-primary focus:ring-2 focus:ring-primary/20',
+                container: 'w-full space-y-6',
                 label: 'text-sm font-medium',
                 message: 'text-sm text-muted-foreground',
               }
