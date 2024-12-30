@@ -34,11 +34,22 @@ serve(async (req) => {
         messages: [
           {
             role: 'system',
-            content: 'You are a code analysis expert. Analyze the provided code for potential issues, bugs, and improvements. Provide a detailed explanation of any problems found and suggest corrections. Format your response in a clear, structured way.'
+            content: 'You are an expert programmer proficient in multiple languages. Your task is to analyze code for syntax and logical errors, providing detailed explanations and corrections. Format your response using markdown with syntax highlighting. Use bold text for important points and organize your response in clear sections.'
           },
           {
             role: 'user',
-            content: code
+            content: `Analyze the following code and provide detailed explanations with corrections where necessary:
+
+\`\`\`
+${code}
+\`\`\`
+
+Please structure your response with:
+1. A brief overview of the code
+2. Identified issues (if any)
+3. Suggested improvements
+4. Corrected code snippets (if needed)
+5. Best practices recommendations`
           }
         ],
       }),

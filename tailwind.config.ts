@@ -19,8 +19,8 @@ export default {
     },
     extend: {
       spacing: {
-        'section': '32px',  // For major section spacing
-        'element': '16px',  // For internal element spacing
+        'section': '32px',
+        'element': '16px',
       },
       gridTemplateColumns: {
         'desktop': 'repeat(12, minmax(0, 1fr))',
@@ -32,27 +32,27 @@ export default {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
-        background: "#FAFAFA", // Light off-white background
-        foreground: "#212121", // Dark charcoal for headings
+        background: "#FAFAFA",
+        foreground: "#212121",
         primary: {
-          DEFAULT: "#4A90E2", // Soft blue for primary elements
+          DEFAULT: "#4A90E2",
           hover: "#4FC3F7",
           foreground: "#FFFFFF",
         },
         secondary: {
-          DEFAULT: "#F5F5F5", // Light gray for backgrounds
-          foreground: "#757575", // Medium gray for body text
+          DEFAULT: "#F5F5F5",
+          foreground: "#757575",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
         },
         muted: {
-          DEFAULT: "#B0BEC5", // Neutral gray for secondary text
+          DEFAULT: "#B0BEC5",
           foreground: "#757575",
         },
         accent: {
-          DEFAULT: "#26A69A", // Teal for accents
+          DEFAULT: "#26A69A",
           foreground: "#FFFFFF",
         },
         card: {
@@ -60,12 +60,12 @@ export default {
           foreground: "#212121",
         },
         cta: {
-          DEFAULT: "#4CAF50", // Bright green for CTAs
+          DEFAULT: "#4CAF50",
           hover: "#81C784",
           foreground: "#FFFFFF",
         },
         warning: {
-          DEFAULT: "#FF9800", // Orange for warnings/limits
+          DEFAULT: "#FF9800",
           hover: "#FFA726",
           foreground: "#FFFFFF",
         }
@@ -99,7 +99,21 @@ export default {
         "fade-in": "fade-in 0.5s ease-out",
         "fade-in-up": "fade-in-up 0.7s ease-out",
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: '#333',
+            a: {
+              color: '#3182ce',
+              '&:hover': {
+                color: '#2c5282',
+              },
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
 } satisfies Config;
