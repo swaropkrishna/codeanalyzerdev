@@ -20,45 +20,77 @@ export default function AuthPage() {
   }, [navigate]);
 
   return (
-    <div className="flex-1 flex items-center justify-center p-4">
-      <div className="w-full max-w-md space-y-6">
-        <div className="text-center space-y-2">
-          <h1 className="text-2xl font-bold tracking-tight">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-[#9b87f5]/10 to-[#7E69AB]/10">
+      <div className="w-full max-w-md space-y-8">
+        <div className="text-center space-y-3">
+          <h1 className="text-3xl font-bold tracking-tight text-[#1A1F2C]">
             {view === "sign_up" ? "Create an account" : "Welcome back"}
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-[#8E9196] text-lg">
             {view === "sign_up" 
               ? "Enter your details to create your account" 
               : "Enter your credentials to access your account"}
           </p>
         </div>
         
-        <div className="bg-card rounded-lg border p-6 shadow-sm">
+        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-[#D6BCFA]/20 p-8 shadow-xl shadow-[#9b87f5]/5">
           <Auth
             supabaseClient={supabase}
             appearance={{
               theme: ThemeSupa,
               style: {
                 button: {
-                  background: '#4A90E2',
+                  background: '#9b87f5',
                   color: 'white',
-                  borderRadius: '6px',
+                  borderRadius: '0.75rem',
+                  padding: '0.75rem 1rem',
+                  height: '2.75rem',
+                  fontSize: '1rem',
+                  fontWeight: '500',
+                  transition: 'all 0.2s',
+                  '&:hover': {
+                    background: '#7E69AB',
+                  },
                 },
                 anchor: {
-                  color: '#4A90E2',
+                  color: '#6E59A5',
+                  fontWeight: '500',
+                  '&:hover': {
+                    color: '#9b87f5',
+                  },
                 },
                 container: {
                   width: '100%',
                 },
                 input: {
-                  borderRadius: '6px',
+                  borderRadius: '0.75rem',
+                  border: '1px solid #D6BCFA',
+                  padding: '0.75rem 1rem',
+                  fontSize: '1rem',
+                  transition: 'all 0.2s',
+                  '&:focus': {
+                    borderColor: '#9b87f5',
+                    boxShadow: '0 0 0 2px rgba(155, 135, 245, 0.2)',
+                  },
+                },
+                label: {
+                  color: '#1A1F2C',
+                  fontSize: '0.875rem',
+                  fontWeight: '500',
+                  marginBottom: '0.5rem',
+                },
+                message: {
+                  color: '#6E59A5',
+                  fontSize: '0.875rem',
+                  marginTop: '0.5rem',
                 },
               },
               className: {
-                container: 'w-full',
-                button: 'w-full py-2 hover:opacity-90 transition-opacity',
-                input: 'w-full rounded border-input bg-background px-3 py-2',
-                label: 'text-sm font-medium text-foreground',
+                container: 'w-full space-y-6',
+                button: 'w-full hover:opacity-90 transition-opacity',
+                input: 'w-full',
+                label: 'text-sm font-medium',
+                message: 'text-sm text-[#6E59A5]',
               }
             }}
             providers={["github"]}
@@ -67,11 +99,18 @@ export default function AuthPage() {
             localization={{
               variables: {
                 sign_up: {
-                  password_label: "Password",
-                  password_input_placeholder: "Create a secure password",
-                  email_label: "Email",
-                  email_input_placeholder: "Your email address",
+                  password_label: "Create Password",
+                  password_input_placeholder: "••••••••",
+                  email_label: "Email address",
+                  email_input_placeholder: "name@example.com",
                   button_label: "Create Account",
+                },
+                sign_in: {
+                  password_label: "Password",
+                  password_input_placeholder: "••••••••",
+                  email_label: "Email address",
+                  email_input_placeholder: "name@example.com",
+                  button_label: "Sign In",
                 }
               }
             }}
