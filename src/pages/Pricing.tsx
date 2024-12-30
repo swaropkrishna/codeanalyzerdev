@@ -16,7 +16,7 @@ export default function Pricing() {
 
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {/* Free Plan */}
-        <div className="rounded-lg border bg-card p-8 space-y-6">
+        <div className="rounded-lg border bg-card p-8 space-y-6 h-full">
           <div>
             <h3 className="text-2xl font-bold">Free</h3>
             <p className="text-muted-foreground mt-1">Perfect for getting started</p>
@@ -41,9 +41,9 @@ export default function Pricing() {
               <Check className="h-5 w-5 text-primary" />
               <span>Community support</span>
             </li>
-            <li className="flex items-center gap-2 text-muted-foreground">
-              <Check className="h-5 w-5" />
-              <span>Includes ads</span>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-primary" />
+              <span className="text-primary">Includes ads</span>
             </li>
           </ul>
           
@@ -56,7 +56,7 @@ export default function Pricing() {
         </div>
 
         {/* Pro Plan */}
-        <div className="rounded-lg border bg-card p-8 space-y-6 relative overflow-hidden">
+        <div className="rounded-lg border bg-card p-8 space-y-6 relative overflow-hidden h-full">
           <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 text-sm">
             Popular
           </div>
@@ -85,9 +85,9 @@ export default function Pricing() {
               <Check className="h-5 w-5 text-primary" />
               <span>Community support</span>
             </li>
-            <li className="flex items-center gap-2 text-accent font-medium">
-              <Check className="h-5 w-5" />
-              <span>Ad-free experience</span>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-accent" />
+              <span className="text-accent font-medium">Ad-free experience</span>
             </li>
           </ul>
           
