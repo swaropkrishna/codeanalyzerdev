@@ -1,4 +1,4 @@
-import { Facebook, FileText, Globe, Info, Linkedin, Shield, Users } from "lucide-react";
+import { Facebook, FileText, Globe, Info, Linkedin, Mail, Shield, Users } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Footer() {
@@ -74,6 +74,15 @@ export default function Footer() {
                   <Shield className="h-4 w-4" />
                   Privacy Policy
                 </RouterLink>
+              </li>
+              <li>
+                <a 
+                  href="mailto:contact@codeanalyzer.com"
+                  className="hover:text-foreground transition-colors inline-flex items-center gap-2"
+                >
+                  <Mail className="h-4 w-4" />
+                  Contact Us
+                </a>
               </li>
             </ul>
           </div>
