@@ -16,39 +16,41 @@ export default function Pricing() {
 
       <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
         {/* Free Plan */}
-        <div className="rounded-lg border bg-card p-8 space-y-6 h-full">
-          <div>
-            <h3 className="text-2xl font-bold">Free</h3>
-            <p className="text-muted-foreground mt-1">Perfect for getting started</p>
+        <div className="rounded-lg border bg-card p-8 h-full flex flex-col">
+          <div className="space-y-6 flex-grow">
+            <div>
+              <h3 className="text-2xl font-bold">Free</h3>
+              <p className="text-muted-foreground mt-1">Perfect for getting started</p>
+            </div>
+            
+            <div className="text-4xl font-bold">$0</div>
+            
+            <ul className="space-y-4">
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>5 code analyses per day</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Advanced error detection</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Code optimization suggestions</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Community support</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span className="text-primary">Includes ads</span>
+              </li>
+            </ul>
           </div>
           
-          <div className="text-4xl font-bold">$0</div>
-          
-          <ul className="space-y-4">
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>5 code analyses per day</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Advanced error detection</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Code optimization suggestions</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Community support</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span className="text-primary">Includes ads</span>
-            </li>
-          </ul>
-          
           <Button 
-            className="w-full"
+            className="w-full mt-6"
             onClick={() => navigate("/auth?view=sign_up")}
           >
             Get Started
@@ -56,44 +58,46 @@ export default function Pricing() {
         </div>
 
         {/* Pro Plan */}
-        <div className="rounded-lg border bg-card p-8 space-y-6 relative overflow-hidden h-full">
+        <div className="rounded-lg border bg-card p-8 h-full flex flex-col relative overflow-hidden">
           <div className="absolute top-0 right-0 bg-primary text-primary-foreground px-3 py-1 text-sm">
             Popular
           </div>
           
-          <div>
-            <h3 className="text-2xl font-bold">Pro</h3>
-            <p className="text-muted-foreground mt-1">For power users</p>
+          <div className="space-y-6 flex-grow">
+            <div>
+              <h3 className="text-2xl font-bold">Pro</h3>
+              <p className="text-muted-foreground mt-1">For power users</p>
+            </div>
+            
+            <div className="text-4xl font-bold">$19<span className="text-xl font-normal text-muted-foreground">/mo</span></div>
+            
+            <ul className="space-y-4">
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Unlimited code analyses</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Advanced error detection</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Code optimization suggestions</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-primary" />
+                <span>Community support</span>
+              </li>
+              <li className="flex items-center gap-2">
+                <Check className="h-5 w-5 text-accent" />
+                <span className="text-accent font-medium">Ad-free experience</span>
+              </li>
+            </ul>
           </div>
-          
-          <div className="text-4xl font-bold">$19<span className="text-xl font-normal text-muted-foreground">/mo</span></div>
-          
-          <ul className="space-y-4">
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Unlimited code analyses</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Advanced error detection</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Code optimization suggestions</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Community support</span>
-            </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-accent" />
-              <span className="text-accent font-medium">Ad-free experience</span>
-            </li>
-          </ul>
           
           <Button 
             variant="default"
-            className="w-full bg-gradient-to-r from-primary to-accent hover:opacity-90"
+            className="w-full mt-6 bg-gradient-to-r from-primary to-accent hover:opacity-90"
             onClick={() => navigate("/auth?view=sign_up")}
           >
             Upgrade to Pro
