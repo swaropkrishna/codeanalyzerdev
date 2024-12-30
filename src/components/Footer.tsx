@@ -1,4 +1,5 @@
 import { Github, Twitter } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   return (
@@ -16,30 +17,30 @@ export default function Footer() {
             <h4 className="font-medium">Product</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="/pricing" className="hover:text-foreground transition-colors">
+                <Link to="/pricing" className="hover:text-foreground transition-colors">
                   Pricing
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/docs" className="hover:text-foreground transition-colors">
-                  Documentation
-                </a>
+                <Link to="/" className="hover:text-foreground transition-colors">
+                  Try it now
+                </Link>
               </li>
             </ul>
           </div>
           
           <div className="space-y-3">
-            <h4 className="font-medium">Company</h4>
+            <h4 className="font-medium">Account</h4>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>
-                <a href="/about" className="hover:text-foreground transition-colors">
-                  About
-                </a>
+                <Link to="/auth?view=sign_in" className="hover:text-foreground transition-colors">
+                  Sign In
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-foreground transition-colors">
-                  Contact
-                </a>
+                <Link to="/auth?view=sign_up" className="hover:text-foreground transition-colors">
+                  Sign Up
+                </Link>
               </li>
             </ul>
           </div>
