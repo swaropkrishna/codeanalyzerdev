@@ -20,43 +20,43 @@ export default function AuthPage() {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-[#9b87f5]/10 to-[#7E69AB]/10">
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-primary/10 to-accent/10">
       <div className="w-full max-w-md space-y-8">
         <div className="text-center space-y-3">
-          <h1 className="text-3xl font-bold tracking-tight text-[#1A1F2C]">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
             {view === "sign_up" ? "Create an account" : "Welcome back"}
           </h1>
-          <p className="text-[#8E9196] text-lg">
+          <p className="text-muted-foreground text-lg">
             {view === "sign_up" 
               ? "Enter your details to create your account" 
               : "Enter your credentials to access your account"}
           </p>
         </div>
         
-        <div className="bg-white/80 backdrop-blur-sm rounded-xl border border-[#D6BCFA]/20 p-8 shadow-xl shadow-[#9b87f5]/5">
+        <div className="bg-card/80 backdrop-blur-sm rounded-xl border border-border/20 p-8 shadow-xl shadow-primary/5">
           <Auth
             supabaseClient={supabase}
             appearance={{
               theme: ThemeSupa,
               style: {
                 button: {
-                  background: '#9b87f5',
-                  color: 'white',
+                  background: 'hsl(var(--primary))',
+                  color: 'hsl(var(--primary-foreground))',
                   borderRadius: '0.75rem',
                   padding: '0.75rem 1rem',
                   height: '2.75rem',
                   fontSize: '1rem',
                   fontWeight: '500',
                   transition: 'all 0.2s',
-                  ["&:hover"]: {
-                    background: '#7E69AB',
+                  '&:hover': {
+                    opacity: '0.9',
                   },
                 },
                 anchor: {
-                  color: '#6E59A5',
+                  color: 'hsl(var(--primary))',
                   fontWeight: '500',
-                  ["&:hover"]: {
-                    color: '#9b87f5',
+                  '&:hover': {
+                    opacity: '0.8',
                   },
                 },
                 container: {
@@ -64,23 +64,25 @@ export default function AuthPage() {
                 },
                 input: {
                   borderRadius: '0.75rem',
-                  border: '1px solid #D6BCFA',
+                  border: '1px solid hsl(var(--border))',
                   padding: '0.75rem 1rem',
                   fontSize: '1rem',
+                  backgroundColor: 'hsl(var(--background))',
+                  color: 'hsl(var(--foreground))',
                   transition: 'all 0.2s',
-                  ["&:focus"]: {
-                    borderColor: '#9b87f5',
-                    boxShadow: '0 0 0 2px rgba(155, 135, 245, 0.2)',
+                  '&:focus': {
+                    borderColor: 'hsl(var(--primary))',
+                    boxShadow: '0 0 0 2px hsl(var(--primary) / 0.2)',
                   },
                 },
                 label: {
-                  color: '#1A1F2C',
+                  color: 'hsl(var(--foreground))',
                   fontSize: '0.875rem',
                   fontWeight: '500',
                   marginBottom: '0.5rem',
                 },
                 message: {
-                  color: '#6E59A5',
+                  color: 'hsl(var(--muted-foreground))',
                   fontSize: '0.875rem',
                   marginTop: '0.5rem',
                 },
@@ -90,7 +92,7 @@ export default function AuthPage() {
                 button: 'w-full hover:opacity-90 transition-opacity',
                 input: 'w-full',
                 label: 'text-sm font-medium',
-                message: 'text-sm text-[#6E59A5]',
+                message: 'text-sm text-muted-foreground',
               }
             }}
             providers={["github"]}
