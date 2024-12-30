@@ -95,8 +95,14 @@ export default function AuthPage() {
             localization={{
               variables: {
                 sign_up: {
+                  first_name_label: "First Name",
+                  first_name_input_placeholder: "John",
+                  last_name_label: "Last Name",
+                  last_name_input_placeholder: "Doe",
                   password_label: "Create Password",
                   password_input_placeholder: "••••••••",
+                  confirm_password_label: "Confirm Password",
+                  confirm_password_input_placeholder: "••••••••",
                   email_label: "Email address",
                   email_input_placeholder: "name@example.com",
                   button_label: "Create Account",
