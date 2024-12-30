@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Auth } from "@supabase/auth-ui-react";
-import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
+import { CustomAuthForm } from "@/components/CustomAuthForm";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -34,83 +33,7 @@ export default function AuthPage() {
         </div>
         
         <div className="bg-card/80 backdrop-blur-sm rounded-xl border border-border/20 p-8 shadow-xl shadow-primary/5">
-          <Auth
-            supabaseClient={supabase}
-            appearance={{
-              theme: ThemeSupa,
-              style: {
-                button: {
-                  background: 'hsl(var(--primary))',
-                  color: 'hsl(var(--primary-foreground))',
-                  borderRadius: '0.75rem',
-                  padding: '0.75rem 1rem',
-                  height: '2.75rem',
-                  fontSize: '1rem',
-                  fontWeight: '500',
-                  transition: 'all 0.2s',
-                  opacity: '1',
-                },
-                anchor: {
-                  color: 'hsl(var(--primary))',
-                  fontWeight: '500',
-                  opacity: '1',
-                },
-                container: {
-                  width: '100%',
-                },
-                input: {
-                  borderRadius: '0.75rem',
-                  border: '1px solid hsl(var(--border))',
-                  padding: '0.75rem 1rem',
-                  fontSize: '1rem',
-                  backgroundColor: 'hsl(var(--background))',
-                  color: 'hsl(var(--foreground))',
-                  transition: 'all 0.2s',
-                  outline: 'none',
-                },
-                label: {
-                  color: 'hsl(var(--foreground))',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
-                  marginBottom: '0.5rem',
-                },
-                message: {
-                  color: 'hsl(var(--muted-foreground))',
-                  fontSize: '0.875rem',
-                  marginTop: '0.5rem',
-                },
-              },
-              className: {
-                button: 'w-full hover:opacity-90 transition-opacity',
-                anchor: 'hover:opacity-80',
-                input: 'focus:ring-2 focus:ring-primary/20',
-                container: 'w-full space-y-6',
-                label: 'text-sm font-medium',
-                message: 'text-sm text-muted-foreground',
-              }
-            }}
-            providers={["github"]}
-            redirectTo={window.location.origin}
-            view={view === "sign_up" ? "sign_up" : "sign_in"}
-            localization={{
-              variables: {
-                sign_up: {
-                  email_label: "Email address",
-                  email_input_placeholder: "name@example.com",
-                  password_label: "Create Password",
-                  password_input_placeholder: "••••••••",
-                  button_label: "Create Account",
-                },
-                sign_in: {
-                  password_label: "Password",
-                  password_input_placeholder: "••••••••",
-                  email_label: "Email address",
-                  email_input_placeholder: "name@example.com",
-                  button_label: "Sign In",
-                }
-              }
-            }}
-          />
+          <CustomAuthForm view={view === "sign_up" ? "sign_up" : "sign_in"} />
         </div>
       </div>
     </div>
