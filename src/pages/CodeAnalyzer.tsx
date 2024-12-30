@@ -26,7 +26,12 @@ export default function CodeAnalyzer() {
 
   const handleAnalyze = async () => {
     if (!isAuthenticated) {
-      navigate("/auth");
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to analyze code",
+        variant: "destructive",
+      });
+      navigate("/auth?view=sign_in");
       return;
     }
 
