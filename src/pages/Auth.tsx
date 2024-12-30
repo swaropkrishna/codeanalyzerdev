@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { CustomAuthForm } from "@/components/CustomAuthForm";
 
@@ -34,6 +34,38 @@ export default function AuthPage() {
         
         <div className="bg-card/80 backdrop-blur-sm rounded-xl border border-border/20 p-8 shadow-xl shadow-primary/5">
           <CustomAuthForm view={view === "sign_up" ? "sign_up" : "sign_in"} />
+          
+          <div className="mt-6 text-center space-y-4">
+            {view === "sign_up" ? (
+              <p className="text-sm text-muted-foreground">
+                Already have an account?{" "}
+                <Link
+                  to="/auth?view=sign_in"
+                  className="font-medium text-primary hover:underline"
+                >
+                  Sign in
+                </Link>
+              </p>
+            ) : (
+              <>
+                <p className="text-sm text-muted-foreground">
+                  Don't have an account?{" "}
+                  <Link
+                    to="/auth?view=sign_up"
+                    className="font-medium text-primary hover:underline"
+                  >
+                    Sign up
+                  </Link>
+                </p>
+                <Link
+                  to="/auth/reset-password"
+                  className="text-sm font-medium text-primary hover:underline block"
+                >
+                  Forgot your password?
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </div>
