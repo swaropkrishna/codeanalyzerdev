@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import Benefits from "@/components/Benefits";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -23,7 +22,7 @@ export default function CodeAnalyzer() {
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <main className="flex-1">
-        {!isAuthenticated && <Benefits />}
+        {/* Content will be added here in future updates */}
       </main>
       <Footer />
     </div>
