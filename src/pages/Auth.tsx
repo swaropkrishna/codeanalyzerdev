@@ -67,6 +67,19 @@ export default function AuthPage() {
               providers={["github"]}
               redirectTo={window.location.origin}
               view={view === "sign_up" ? "sign_up" : "sign_in"}
+              localization={{
+                variables: {
+                  sign_up: {
+                    password_label: "Password",
+                    password_input_placeholder: "Create a secure password",
+                    confirm_password_label: "Confirm Password",
+                    confirm_password_input_placeholder: "Confirm your password",
+                    email_label: "Email",
+                    email_input_placeholder: "Your email address",
+                    button_label: "Create Account",
+                  }
+                }
+              }}
             />
           </div>
         </div>
