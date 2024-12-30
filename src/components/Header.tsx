@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import {
   Sheet,
   SheetContent,
+  SheetHeader,
+  SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
@@ -53,39 +55,51 @@ export default function Header() {
         <>
           <Button
             variant="ghost"
-            className="flex items-center gap-2"
-            onClick={() => navigate("/auth?view=sign_up")}
+            className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
+            onClick={() => {
+              navigate("/auth?view=sign_up");
+              setIsMobileMenuOpen(false);
+            }}
           >
-            <UserPlus className="h-4 w-4" />
-            Sign Up
+            <UserPlus className="h-5 w-5 text-primary" />
+            <span className="font-medium">Sign Up</span>
           </Button>
           
           <Button
             variant="ghost"
-            className="flex items-center gap-2"
-            onClick={() => navigate("/auth?view=sign_in")}
+            className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
+            onClick={() => {
+              navigate("/auth?view=sign_in");
+              setIsMobileMenuOpen(false);
+            }}
           >
-            <LogIn className="h-4 w-4" />
-            Sign In
+            <LogIn className="h-5 w-5 text-primary" />
+            <span className="font-medium">Sign In</span>
           </Button>
 
           <Button
             variant="default"
-            className="flex items-center gap-2"
-            onClick={() => navigate("/pricing")}
+            className="flex w-full items-center justify-start gap-2 bg-gradient-to-r from-primary to-accent hover:opacity-90"
+            onClick={() => {
+              navigate("/pricing");
+              setIsMobileMenuOpen(false);
+            }}
           >
-            <DollarSign className="h-4 w-4" />
-            Pricing
+            <DollarSign className="h-5 w-5" />
+            <span className="font-medium">Pricing</span>
           </Button>
         </>
       ) : (
         <Button
           variant="ghost"
-          className="flex items-center gap-2"
-          onClick={handleSignOut}
+          className="flex w-full items-center justify-start gap-2 px-2 hover:bg-destructive/10"
+          onClick={() => {
+            handleSignOut();
+            setIsMobileMenuOpen(false);
+          }}
         >
-          <LogOut className="h-4 w-4" />
-          Sign Out
+          <LogOut className="h-5 w-5 text-destructive" />
+          <span className="font-medium">Sign Out</span>
         </Button>
       )}
     </>
@@ -111,13 +125,25 @@ export default function Header() {
         {/* Mobile Navigation */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
           <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon">
+            <Button 
+              variant="ghost" 
+              size="icon"
+              className="hover:bg-accent/10"
+            >
               <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="right" className="w-[240px] sm:w-[300px]">
-            <nav className="flex flex-col gap-4 mt-6">
+          <SheetContent 
+            side="right" 
+            className="w-[280px] p-0 bg-white/95 backdrop-blur-lg"
+          >
+            <SheetHeader className="p-6 border-b">
+              <SheetTitle className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+                Menu
+              </SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col gap-2 p-4">
               <NavItems />
             </nav>
           </SheetContent>
