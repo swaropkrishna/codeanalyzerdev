@@ -1,4 +1,4 @@
-import { FileText, Globe, Info, Link, Shield, Users } from "lucide-react";
+import { Facebook, FileText, Globe, Info, Linkedin, Shield, Users } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Footer() {
@@ -14,22 +14,22 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4 pt-2">
               <a
-                href="https://github.com"
+                href="https://facebook.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="GitHub"
+                aria-label="Facebook"
               >
-                <Globe className="h-5 w-5" />
+                <Facebook className="h-5 w-5" />
               </a>
               <a
-                href="https://twitter.com"
+                href="https://linkedin.com"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Twitter"
+                aria-label="LinkedIn"
               >
-                <Link className="h-5 w-5" />
+                <Linkedin className="h-5 w-5" />
               </a>
             </div>
           </div>
