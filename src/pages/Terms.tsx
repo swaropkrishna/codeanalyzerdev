@@ -1,23 +1,32 @@
 export default function Terms() {
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
-      <div className="prose max-w-none">
+      <h1 className="text-4xl font-bold mb-8 text-center">Terms of Service</h1>
+      <div className="prose prose-slate max-w-none">
         <h2 className="text-2xl font-semibold mt-8 mb-4">1. Introduction</h2>
         <p className="mb-6">
-          Welcome to Code Analyzer! These Terms and Conditions ("Terms") govern your use of our website ("Service") operated by Code Analyzer ("we," "us," or "our").
+          Welcome to <span className="font-semibold">Code Analyzer</span>!
+        </p>
+        <p className="mb-6">
+          These <em>Terms and Conditions</em> (&quot;Terms&quot;) govern your use of our website located at{" "}
+          <a href="https://codeanalyzer.dev" className="text-primary hover:text-primary-hover">
+            codeanalyzer.dev
+          </a>{" "}
+          (&quot;Service&quot;) operated by <strong>Code Analyzer</strong> (&quot;we,&quot; &quot;us,&quot; or &quot;our&quot;).
+        </p>
+        <p className="mb-6 font-medium">
           By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">2. Definitions</h2>
         <p className="mb-6">
-          "User," "You," and "Your" refers to you, the person accessing this website and accepting the Company's terms.
-          "Content" refers to the code, text, analysis results, and other materials uploaded or submitted by users.
+          <strong>&quot;User,&quot; &quot;You,&quot;</strong> and <strong>&quot;Your&quot;</strong> refers to you, the person accessing this website and accepting the Company&apos;s terms.<br />
+          <strong>&quot;Content&quot;</strong> refers to the code, text, analysis results, and other materials uploaded or submitted by users.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">3. Eligibility</h2>
         <p className="mb-6">
-          You must be at least 18 years old to use our Service. By agreeing to these Terms, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into a binding agreement.
+          You must be at least <strong>18 years old</strong> to use our Service. By agreeing to these Terms, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into a binding agreement.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">4. User Accounts</h2>
@@ -27,40 +36,40 @@ export default function Terms() {
         </p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">B. Account Security</h3>
-        <p className="mb-6">
+        <p className="mb-6 italic">
           You are responsible for safeguarding your password and for any activities or actions under your account. You agree to notify us immediately of any unauthorized use of your account.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">5. Use of the Service</h2>
         <h3 className="text-xl font-semibold mt-6 mb-3">A. Permitted Use</h3>
         <p className="mb-4">
-          You are granted a non-exclusive, non-transferable, revocable license to access and use the Service strictly in accordance with these Terms.
+          You are granted a <em>non-exclusive</em>, <em>non-transferable</em>, <em>revocable</em> license to access and use the Service strictly in accordance with these Terms.
         </p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">B. Prohibited Activities</h3>
-        <p className="mb-2">You agree not to:</p>
-        <ul className="list-disc pl-6 mb-6">
-          <li className="mb-2">Use the Service for any unlawful purpose or in violation of any local, state, national, or international law.</li>
-          <li className="mb-2">Attempt to gain unauthorized access to the Service, user accounts, or computer systems.</li>
-          <li className="mb-2">Upload, post, or otherwise transmit any Content that is infringing, defamatory, obscene, or otherwise objectionable.</li>
-          <li className="mb-2">Interfere with or disrupt the Service or servers or networks connected to the Service.</li>
+        <p className="mb-2">You agree <strong>not</strong> to:</p>
+        <ul className="list-disc pl-6 mb-6 space-y-2">
+          <li>Use the Service for any unlawful purpose or in violation of any local, state, national, or international law.</li>
+          <li>Attempt to gain unauthorized access to the Service, user accounts, or computer systems.</li>
+          <li>Upload, post, or otherwise transmit any Content that is infringing, defamatory, obscene, or otherwise objectionable.</li>
+          <li>Interfere with or disrupt the Service or servers or networks connected to the Service.</li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">6. User Content</h2>
         <h3 className="text-xl font-semibold mt-6 mb-3">A. Ownership</h3>
         <p className="mb-4">
-          You retain ownership of all Content you submit through the Service. By submitting Content, you grant us a royalty-free, non-exclusive, worldwide, transferable, and sub-licensable license to use, reproduce, distribute, prepare derivative works of, display, and perform the Content in connection with the Service and our business operations.
+          You retain ownership of all Content you submit through the Service. By submitting Content, you grant us a <em>royalty-free</em>, <em>non-exclusive</em>, <em>worldwide</em>, <em>transferable</em>, and <em>sub-licensable</em> license to use, reproduce, distribute, prepare derivative works of, display, and perform the Content in connection with the Service and our business operations.
         </p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">B. Responsibility for Content</h3>
         <p className="mb-6">
-          You are solely responsible for the Content you submit. We do not endorse, support, represent, or guarantee the completeness, truthfulness, accuracy, or reliability of any Content.
+          You are <strong>solely responsible</strong> for the Content you submit. We do not endorse, support, represent, or guarantee the completeness, truthfulness, accuracy, or reliability of any Content.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">7. Payment and Refunds</h2>
         <h3 className="text-xl font-semibold mt-6 mb-3">A. Pricing</h3>
         <p className="mb-4">
-          All fees are as described on our Pricing Page. We reserve the right to modify our pricing at any time, but changes will not affect your current subscription until you choose to upgrade or renew.
+          All fees are as described on our <a href="/pricing" className="text-primary hover:text-primary-hover">Pricing Page</a>. We reserve the right to modify our pricing at any time, but changes will not affect your current subscription until you choose to upgrade or renew.
         </p>
 
         <h3 className="text-xl font-semibold mt-6 mb-3">B. Payment Terms</h3>
@@ -70,7 +79,7 @@ export default function Terms() {
 
         <h3 className="text-xl font-semibold mt-6 mb-3">C. Refund Policy</h3>
         <p className="mb-6">
-          Refunds are provided at our sole discretion. To request a refund, please contact our support team within 7 days of your purchase.
+          Refunds are provided at our sole discretion. To request a refund, please contact our support team within <strong>7 days</strong> of your purchase.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">8. Intellectual Property</h2>
@@ -79,13 +88,13 @@ export default function Terms() {
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">9. Disclaimers</h2>
-        <p className="mb-6">
-          Our Service is provided "as is" and "as available" without any warranties of any kind, either express or implied. We disclaim all warranties, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.
+        <p className="mb-6 italic">
+          Our Service is provided &quot;as is&quot; and &quot;as available&quot; without any warranties of any kind, either express or implied. We disclaim all warranties, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">10. Limitation of Liability</h2>
         <p className="mb-6">
-          In no event shall Code Analyzer, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
+          In no event shall <strong>Code Analyzer</strong>, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">11. Indemnification</h2>
@@ -105,7 +114,7 @@ export default function Terms() {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">14. Changes to Terms</h2>
         <p className="mb-6">
-          We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect.
+          We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least <strong>30 days&apos;</strong> notice prior to any new terms taking effect.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">15. Severability</h2>
@@ -115,9 +124,9 @@ export default function Terms() {
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">16. Contact Us</h2>
         <p className="mb-6">If you have any questions about these Terms, please contact us:</p>
-        <ul className="list-none mb-6">
-          <li className="mb-2">By Email: support@codeanalyzer.dev</li>
-          <li className="mb-2">By using our Contact form</li>
+        <ul className="list-none mb-6 space-y-2">
+          <li>By Email: <a href="mailto:support@codeanalyzer.dev" className="text-primary hover:text-primary-hover">support@codeanalyzer.dev</a></li>
+          <li>By using our <a href="/contact" className="text-primary hover:text-primary-hover">Contact form</a></li>
         </ul>
       </div>
     </div>
