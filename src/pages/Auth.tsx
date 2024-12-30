@@ -83,7 +83,7 @@ export default function AuthPage() {
               className: {
                 button: 'w-full hover:opacity-90 transition-opacity',
                 anchor: 'hover:opacity-80',
-                input: 'focus:border-primary focus:ring-2 focus:ring-primary/20',
+                input: 'focus:ring-2 focus:ring-primary/20',
                 container: 'w-full space-y-6',
                 label: 'text-sm font-medium',
                 message: 'text-sm text-muted-foreground',
@@ -95,16 +95,10 @@ export default function AuthPage() {
             localization={{
               variables: {
                 sign_up: {
-                  first_name_label: "First Name",
-                  first_name_input_placeholder: "John",
-                  last_name_label: "Last Name",
-                  last_name_input_placeholder: "Doe",
-                  password_label: "Create Password",
-                  password_input_placeholder: "••••••••",
-                  confirm_password_label: "Confirm Password",
-                  confirm_password_input_placeholder: "••••••••",
                   email_label: "Email address",
                   email_input_placeholder: "name@example.com",
+                  password_label: "Create Password",
+                  password_input_placeholder: "••••••••",
                   button_label: "Create Account",
                 },
                 sign_in: {
