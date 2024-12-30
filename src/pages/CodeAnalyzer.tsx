@@ -87,9 +87,9 @@ export default function CodeAnalyzer() {
               <div className="prose prose-sm max-w-none">
                 <ReactMarkdown
                   components={{
-                    code({node, inline, className, children, ...props}) {
+                    code({className, children, ...props}) {
                       const match = /language-(\w+)/.exec(className || '');
-                      return !inline && match ? (
+                      return match ? (
                         <SyntaxHighlighter
                           style={vscDarkPlus}
                           language={match[1]}
