@@ -3,51 +3,122 @@ export default function Terms() {
     <div className="container mx-auto px-4 py-12">
       <h1 className="text-4xl font-bold mb-8">Terms of Service</h1>
       <div className="prose max-w-none">
-        <p className="text-lg mb-6">
-          Welcome to Code Analyzer. By using our service, you agree to these terms. Please read them carefully.
-        </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">1. Acceptance of Terms</h2>
+        <h2 className="text-2xl font-semibold mt-8 mb-4">1. Introduction</h2>
         <p className="mb-6">
-          By accessing and using Code Analyzer, you accept and agree to be bound by the terms and provisions of this agreement.
+          Welcome to Code Analyzer! These Terms and Conditions ("Terms") govern your use of our website ("Service") operated by Code Analyzer ("we," "us," or "our").
+          By accessing or using our Service, you agree to be bound by these Terms. If you disagree with any part of the terms, then you may not access the Service.
         </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">2. Description of Service</h2>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">2. Definitions</h2>
         <p className="mb-6">
-          Code Analyzer provides an AI-powered code analysis service that helps users identify potential issues and improvements in their code. The service includes code error detection, optimization suggestions, and best practice recommendations.
+          "User," "You," and "Your" refers to you, the person accessing this website and accepting the Company's terms.
+          "Content" refers to the code, text, analysis results, and other materials uploaded or submitted by users.
         </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">3. User Accounts</h2>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">3. Eligibility</h2>
         <p className="mb-6">
-          To access certain features of the service, you must register for an account. You agree to provide accurate and complete information when creating your account and to update such information to keep it accurate and current.
+          You must be at least 18 years old to use our Service. By agreeing to these Terms, you represent and warrant that you are at least 18 years old and have the legal capacity to enter into a binding agreement.
         </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">4. Usage Guidelines</h2>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">4. User Accounts</h2>
+        <h3 className="text-xl font-semibold mt-6 mb-3">A. Registration</h3>
+        <p className="mb-4">
+          To access certain features of the Service, you may be required to register for an account. When you register, you agree to provide accurate, current, and complete information about yourself and to update such information to keep it accurate.
+        </p>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">B. Account Security</h3>
+        <p className="mb-6">
+          You are responsible for safeguarding your password and for any activities or actions under your account. You agree to notify us immediately of any unauthorized use of your account.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">5. Use of the Service</h2>
+        <h3 className="text-xl font-semibold mt-6 mb-3">A. Permitted Use</h3>
+        <p className="mb-4">
+          You are granted a non-exclusive, non-transferable, revocable license to access and use the Service strictly in accordance with these Terms.
+        </p>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">B. Prohibited Activities</h3>
+        <p className="mb-2">You agree not to:</p>
         <ul className="list-disc pl-6 mb-6">
-          <li className="mb-2">You must not use the service for any illegal or unauthorized purpose</li>
-          <li className="mb-2">You are responsible for all activity that occurs under your account</li>
-          <li className="mb-2">You must not transmit any malicious code or attempt to harm the service</li>
+          <li className="mb-2">Use the Service for any unlawful purpose or in violation of any local, state, national, or international law.</li>
+          <li className="mb-2">Attempt to gain unauthorized access to the Service, user accounts, or computer systems.</li>
+          <li className="mb-2">Upload, post, or otherwise transmit any Content that is infringing, defamatory, obscene, or otherwise objectionable.</li>
+          <li className="mb-2">Interfere with or disrupt the Service or servers or networks connected to the Service.</li>
         </ul>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">5. Intellectual Property</h2>
-        <p className="mb-6">
-          The service and its original content, features, and functionality are owned by Code Analyzer and are protected by international copyright, trademark, patent, trade secret, and other intellectual property laws.
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">6. User Content</h2>
+        <h3 className="text-xl font-semibold mt-6 mb-3">A. Ownership</h3>
+        <p className="mb-4">
+          You retain ownership of all Content you submit through the Service. By submitting Content, you grant us a royalty-free, non-exclusive, worldwide, transferable, and sub-licensable license to use, reproduce, distribute, prepare derivative works of, display, and perform the Content in connection with the Service and our business operations.
         </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">6. Limitation of Liability</h2>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">B. Responsibility for Content</h3>
         <p className="mb-6">
-          Code Analyzer shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of or inability to use the service.
+          You are solely responsible for the Content you submit. We do not endorse, support, represent, or guarantee the completeness, truthfulness, accuracy, or reliability of any Content.
         </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">7. Changes to Terms</h2>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">7. Payment and Refunds</h2>
+        <h3 className="text-xl font-semibold mt-6 mb-3">A. Pricing</h3>
+        <p className="mb-4">
+          All fees are as described on our Pricing Page. We reserve the right to modify our pricing at any time, but changes will not affect your current subscription until you choose to upgrade or renew.
+        </p>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">B. Payment Terms</h3>
+        <p className="mb-4">
+          Payments are processed through our third-party payment processors. By providing your payment information, you authorize us to charge your chosen payment method for all fees due under your subscription.
+        </p>
+
+        <h3 className="text-xl font-semibold mt-6 mb-3">C. Refund Policy</h3>
         <p className="mb-6">
-          We reserve the right to modify or replace these terms at any time. We will provide notice of any changes by posting the new terms on this page.
+          Refunds are provided at our sole discretion. To request a refund, please contact our support team within 7 days of your purchase.
         </p>
-        
-        <h2 className="text-2xl font-semibold mt-8 mb-4">8. Contact Us</h2>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">8. Intellectual Property</h2>
         <p className="mb-6">
-          If you have any questions about these Terms, please contact us.
+          All content, trademarks, service marks, trade names, logos, and icons are proprietary to Code Analyzer or its licensors. Nothing in these Terms grants you any rights to use our trademarks or service marks without our prior written permission.
         </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">9. Disclaimers</h2>
+        <p className="mb-6">
+          Our Service is provided "as is" and "as available" without any warranties of any kind, either express or implied. We disclaim all warranties, including but not limited to merchantability, fitness for a particular purpose, and non-infringement.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">10. Limitation of Liability</h2>
+        <p className="mb-6">
+          In no event shall Code Analyzer, nor its directors, employees, partners, agents, suppliers, or affiliates, be liable for any indirect, incidental, special, consequential, or punitive damages, including without limitation, loss of profits, data, use, goodwill, or other intangible losses.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">11. Indemnification</h2>
+        <p className="mb-6">
+          You agree to defend, indemnify, and hold harmless Code Analyzer and its licensee and licensors, and their employees, contractors, agents, officers, and directors, from and against any and all claims, damages, obligations, losses, liabilities, costs, or debt, and expenses.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">12. Termination</h2>
+        <p className="mb-6">
+          We may terminate or suspend your account and bar access to the Service immediately, without prior notice or liability, under our sole discretion, for any reason whatsoever, including without limitation if you breach the Terms.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">13. Governing Law</h2>
+        <p className="mb-6">
+          These Terms shall be governed and construed in accordance with the laws of the United States, without regard to its conflict of law provisions.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">14. Changes to Terms</h2>
+        <p className="mb-6">
+          We reserve the right, at our sole discretion, to modify or replace these Terms at any time. If a revision is material, we will provide at least 30 days' notice prior to any new terms taking effect.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">15. Severability</h2>
+        <p className="mb-6">
+          If any provision of these Terms is held to be invalid or unenforceable by a court, the remaining provisions of these Terms will remain in effect.
+        </p>
+
+        <h2 className="text-2xl font-semibold mt-8 mb-4">16. Contact Us</h2>
+        <p className="mb-6">If you have any questions about these Terms, please contact us:</p>
+        <ul className="list-none mb-6">
+          <li className="mb-2">By Email: support@codeanalyzer.dev</li>
+          <li className="mb-2">By using our Contact form</li>
+        </ul>
       </div>
     </div>
   );
