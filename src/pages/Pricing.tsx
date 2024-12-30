@@ -31,11 +31,19 @@ export default function Pricing() {
             </li>
             <li className="flex items-center gap-2">
               <Check className="h-5 w-5 text-primary" />
-              <span>Basic error detection</span>
+              <span>Advanced error detection</span>
+            </li>
+            <li className="flex items-center gap-2">
+              <Check className="h-5 w-5 text-primary" />
+              <span>Code optimization suggestions</span>
             </li>
             <li className="flex items-center gap-2">
               <Check className="h-5 w-5 text-primary" />
               <span>Community support</span>
+            </li>
+            <li className="flex items-center gap-2 text-muted-foreground">
+              <Check className="h-5 w-5" />
+              <span>Includes ads</span>
             </li>
           </ul>
           
@@ -75,11 +83,11 @@ export default function Pricing() {
             </li>
             <li className="flex items-center gap-2">
               <Check className="h-5 w-5 text-primary" />
-              <span>Priority support</span>
+              <span>Community support</span>
             </li>
-            <li className="flex items-center gap-2">
-              <Check className="h-5 w-5 text-primary" />
-              <span>Custom analysis rules</span>
+            <li className="flex items-center gap-2 text-accent font-medium">
+              <Check className="h-5 w-5" />
+              <span>Ad-free experience</span>
             </li>
           </ul>
           
