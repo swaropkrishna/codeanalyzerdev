@@ -72,8 +72,6 @@ export default function AuthPage() {
                   sign_up: {
                     password_label: "Password",
                     password_input_placeholder: "Create a secure password",
-                    confirm_password_label: "Confirm Password",
-                    confirm_password_input_placeholder: "Confirm your password",
                     email_label: "Email",
                     email_input_placeholder: "Your email address",
                     button_label: "Create Account",
