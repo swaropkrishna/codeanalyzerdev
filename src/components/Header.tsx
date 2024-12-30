@@ -1,14 +1,20 @@
 import { useNavigate } from "react-router-dom";
-import { UserPlus, LogIn, LogOut, DollarSign } from "lucide-react";
+import { UserPlus, LogIn, LogOut, DollarSign, Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useEffect, useState } from "react";
+import {
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 export default function Header() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -41,6 +47,50 @@ export default function Header() {
     }
   };
 
+  const NavItems = () => (
+    <>
+      {!isAuthenticated ? (
+        <>
+          <Button
+            variant="ghost"
+            className="flex items-center gap-2"
+            onClick={() => navigate("/auth?view=sign_up")}
+          >
+            <UserPlus className="h-4 w-4" />
+            Sign Up
+          </Button>
+          
+          <Button
+            variant="ghost"
+            className="flex items-center gap-2"
+            onClick={() => navigate("/auth?view=sign_in")}
+          >
+            <LogIn className="h-4 w-4" />
+            Sign In
+          </Button>
+
+          <Button
+            variant="default"
+            className="flex items-center gap-2"
+            onClick={() => navigate("/pricing")}
+          >
+            <DollarSign className="h-4 w-4" />
+            Pricing
+          </Button>
+        </>
+      ) : (
+        <Button
+          variant="ghost"
+          className="flex items-center gap-2"
+          onClick={handleSignOut}
+        >
+          <LogOut className="h-4 w-4" />
+          Sign Out
+        </Button>
+      )}
+    </>
+  );
+
   return (
     <header className="w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -53,47 +103,25 @@ export default function Header() {
           </h1>
         </div>
         
-        <nav className="flex items-center gap-2">
-          {!isAuthenticated ? (
-            <>
-              <Button
-                variant="ghost"
-                className="flex items-center gap-2"
-                onClick={() => navigate("/auth?view=sign_up")}
-              >
-                <UserPlus className="h-4 w-4" />
-                Sign Up
-              </Button>
-              
-              <Button
-                variant="ghost"
-                className="flex items-center gap-2"
-                onClick={() => navigate("/auth?view=sign_in")}
-              >
-                <LogIn className="h-4 w-4" />
-                Sign In
-              </Button>
-
-              <Button
-                variant="default"
-                className="flex items-center gap-2"
-                onClick={() => navigate("/pricing")}
-              >
-                <DollarSign className="h-4 w-4" />
-                Pricing
-              </Button>
-            </>
-          ) : (
-            <Button
-              variant="ghost"
-              className="flex items-center gap-2"
-              onClick={handleSignOut}
-            >
-              <LogOut className="h-4 w-4" />
-              Sign Out
-            </Button>
-          )}
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex items-center gap-2">
+          <NavItems />
         </nav>
+
+        {/* Mobile Navigation */}
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger asChild className="md:hidden">
+            <Button variant="ghost" size="icon">
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[240px] sm:w-[300px]">
+            <nav className="flex flex-col gap-4 mt-6">
+              <NavItems />
+            </nav>
+          </SheetContent>
+        </Sheet>
       </div>
     </header>
   );
