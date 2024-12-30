@@ -59,7 +59,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 className="flex items-center gap-2"
-                onClick={() => navigate("/auth")}
+                onClick={() => navigate("/auth?view=sign_up")}
               >
                 <UserPlus className="h-4 w-4" />
                 Sign Up
@@ -68,7 +68,7 @@ export default function Header() {
               <Button
                 variant="ghost"
                 className="flex items-center gap-2"
-                onClick={() => navigate("/auth")}
+                onClick={() => navigate("/auth?view=sign_in")}
               >
                 <LogIn className="h-4 w-4" />
                 Sign In

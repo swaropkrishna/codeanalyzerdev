@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
@@ -7,6 +7,8 @@ import Header from "@/components/Header";
 
 export default function AuthPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const view = searchParams.get("view");
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
@@ -28,6 +30,7 @@ export default function AuthPage() {
             appearance={{ theme: ThemeSupa }}
             providers={["github"]}
             redirectTo={window.location.origin}
+            view={view === "sign_up" ? "sign_up" : "sign_in"}
           />
         </div>
       </div>
