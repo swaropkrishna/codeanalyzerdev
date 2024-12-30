@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import { supabase } from "@/integrations/supabase/client";
+import Header from "@/components/Header";
 
 export default function AuthPage() {
   const navigate = useNavigate();
@@ -18,13 +19,18 @@ export default function AuthPage() {
   }, [navigate]);
 
   return (
-    <div className="container mx-auto max-w-sm px-4 py-8">
-      <Auth
-        supabaseClient={supabase}
-        appearance={{ theme: ThemeSupa }}
-        providers={["github"]}
-        redirectTo={window.location.origin}
-      />
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <div className="flex-1 flex items-center justify-center">
+        <div className="container mx-auto max-w-sm px-4">
+          <Auth
+            supabaseClient={supabase}
+            appearance={{ theme: ThemeSupa }}
+            providers={["github"]}
+            redirectTo={window.location.origin}
+          />
+        </div>
+      </div>
     </div>
   );
 }
