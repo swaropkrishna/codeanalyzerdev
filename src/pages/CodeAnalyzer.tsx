@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
+import ReactMarkdown from 'react-markdown';
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -13,6 +12,7 @@ export default function CodeAnalyzer() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [code, setCode] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analysis, setAnalysis] = useState("");
 
   // Check initial auth state
   supabase.auth.getSession().then(({ data: { session } }) => {
@@ -20,7 +20,7 @@ export default function CodeAnalyzer() {
   });
 
   // Subscribe to auth state changes
-  const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+  supabase.auth.onAuthStateChange((event, session) => {
     setIsAuthenticated(!!session);
   });
 
@@ -41,23 +41,19 @@ export default function CodeAnalyzer() {
 
     setIsAnalyzing(true);
     try {
-      const response = await fetch("/api/analyze-code", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code }),
+      const { data, error } = await supabase.functions.invoke('analyze-code', {
+        body: { code }
       });
 
-      if (!response.ok) {
-        throw new Error("Failed to analyze code");
-      }
+      if (error) throw error;
 
-      const data = await response.json();
+      setAnalysis(data.analysis);
       toast({
         title: "Analysis Complete",
         description: "Your code has been analyzed successfully",
       });
-      // Handle the analysis results here
     } catch (error) {
+      console.error('Error analyzing code:', error);
       toast({
         title: "Error",
         description: "Failed to analyze code. Please try again.",
@@ -126,6 +122,15 @@ export default function CodeAnalyzer() {
                 )}
               </Button>
             </div>
+
+            {analysis && (
+              <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
+                <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
+                <div className="prose prose-sm max-w-none">
+                  <ReactMarkdown>{analysis}</ReactMarkdown>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </section>
