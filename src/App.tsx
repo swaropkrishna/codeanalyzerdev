@@ -1,9 +1,15 @@
 import { createBrowserRouter } from "react-router-dom";
+import CodeAnalyzer from "@/pages/CodeAnalyzer";
+import Auth from "@/pages/Auth";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello World</div>,
+    element: <CodeAnalyzer />,
+  },
+  {
+    path: "/auth",
+    element: <Auth />,
   },
 ]);
 
