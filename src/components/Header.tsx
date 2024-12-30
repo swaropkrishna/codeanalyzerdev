@@ -73,6 +73,15 @@ export default function Header() {
                 <LogIn className="h-4 w-4" />
                 Sign In
               </Button>
+
+              <Button
+                variant="default"
+                className="flex items-center gap-2"
+                onClick={() => navigate("/pricing")}
+              >
+                <DollarSign className="h-4 w-4" />
+                Pricing
+              </Button>
             </>
           ) : (
             <Button
@@ -84,15 +93,6 @@ export default function Header() {
               Sign Out
             </Button>
           )}
-          
-          <Button
-            variant="default"
-            className="flex items-center gap-2"
-            onClick={() => navigate("/pricing")}
-          >
-            <DollarSign className="h-4 w-4" />
-            Pricing
-          </Button>
         </nav>
       </div>
     </header>
