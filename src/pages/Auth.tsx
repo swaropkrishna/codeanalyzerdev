@@ -48,14 +48,14 @@ export default function AuthPage() {
                   fontSize: '1rem',
                   fontWeight: '500',
                   transition: 'all 0.2s',
-                  ':hover': {
+                  '&:hover': {
                     opacity: '0.9',
                   },
                 },
                 anchor: {
                   color: 'hsl(var(--primary))',
                   fontWeight: '500',
-                  ':hover': {
+                  '&:hover': {
                     opacity: '0.8',
                   },
                 },
@@ -70,7 +70,7 @@ export default function AuthPage() {
                   backgroundColor: 'hsl(var(--background))',
                   color: 'hsl(var(--foreground))',
                   transition: 'all 0.2s',
-                  ':focus': {
+                  '&:focus': {
                     borderColor: 'hsl(var(--primary))',
                     boxShadow: '0 0 0 2px hsl(var(--primary) / 0.2)',
                   },
