@@ -76,13 +76,10 @@ export default function Footer() {
                 </RouterLink>
               </li>
               <li>
-                <a 
-                  href="mailto:contact@codeanalyzer.com"
-                  className="hover:text-foreground transition-colors inline-flex items-center gap-2"
-                >
+                <RouterLink to="/contact" className="hover:text-foreground transition-colors inline-flex items-center gap-2">
                   <Mail className="h-4 w-4" />
                   Contact Us
-                </a>
+                </RouterLink>
               </li>
             </ul>
           </div>

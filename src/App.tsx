@@ -6,6 +6,7 @@ import Pricing from "@/pages/Pricing";
 import About from "@/pages/About";
 import Terms from "@/pages/Terms";
 import Privacy from "@/pages/Privacy";
+import Contact from "@/pages/Contact";
 import RootLayout from "@/components/RootLayout";
 
 const router = createBrowserRouter([
@@ -39,6 +40,10 @@ const router = createBrowserRouter([
       {
         path: "/privacy",
         element: <Privacy />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
       },
     ],
   },
