@@ -4,8 +4,8 @@ import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import Editor from "@monaco-editor/react";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -81,12 +81,24 @@ export default function CodeAnalyzer() {
               Get instant insights and suggestions to improve your code quality using advanced AI analysis.
             </p>
             <div className="space-y-4">
-              <Textarea
-                placeholder="Paste your code here..."
-                className="min-h-[200px] font-mono"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
+              <div className="h-[400px] w-full border rounded-md overflow-hidden">
+                <Editor
+                  height="100%"
+                  defaultLanguage="javascript"
+                  theme="vs-dark"
+                  value={code}
+                  onChange={(value) => setCode(value || "")}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    lineNumbers: "on",
+                    roundedSelection: false,
+                    scrollBeyondLastLine: false,
+                    readOnly: isAnalyzing,
+                    automaticLayout: true,
+                  }}
+                />
+              </div>
               <Button
                 className="w-full md:w-auto"
                 size="lg"
