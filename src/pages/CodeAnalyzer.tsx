@@ -108,21 +108,10 @@ export default function CodeAnalyzer() {
               <SubscriptionButton
                 tier="pro"
                 priceId="price_1Qc96EF80ze3XcIjv1wATjPg"
-                features={[
-                  "100 analyses per day",
-                  "Priority support",
-                  "Detailed code insights",
-                ]}
               />
               <SubscriptionButton
                 tier="plus"
                 priceId="price_1Qc96dF80ze3XcIjGggGJdaD"
-                features={[
-                  "Unlimited analyses",
-                  "Premium support",
-                  "Advanced code insights",
-                  "Team collaboration",
-                ]}
               />
             </div>
           ) : (
