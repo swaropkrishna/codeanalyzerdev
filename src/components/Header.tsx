@@ -32,30 +32,41 @@ export default function Header() {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed in Header:", event, session);
       if (event === 'SIGNED_OUT') {
+        console.log("User signed out, updating state and redirecting");
         setIsAuthenticated(false);
         navigate("/auth?view=sign_in");
-      } else {
-        setIsAuthenticated(!!session?.user);
+      } else if (event === 'SIGNED_IN') {
+        console.log("User signed in, updating state");
+        setIsAuthenticated(true);
       }
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      console.log("Cleaning up auth subscription");
+      subscription.unsubscribe();
+    };
   }, [navigate]);
 
   const handleSignOut = async () => {
     try {
-      console.log("Attempting to sign out...");
-      const { error } = await supabase.auth.signOut();
-      if (error) throw error;
+      console.log("Starting sign out process...");
+      setIsMobileMenuOpen(false); // Close mobile menu first
       
-      console.log("Sign out successful");
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        console.error("Error during sign out:", error);
+        throw error;
+      }
+      
+      console.log("Sign out API call successful");
       setIsAuthenticated(false);
-      setIsMobileMenuOpen(false);
       
       toast({
         title: "Signed out successfully",
         description: "You have been signed out of your account",
       });
+      
+      navigate("/auth?view=sign_in");
     } catch (error) {
       console.error("Error signing out:", error);
       toast({
