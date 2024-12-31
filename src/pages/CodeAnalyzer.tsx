@@ -5,7 +5,6 @@ import { useToast } from "@/hooks/use-toast";
 import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
-import { CopyButton } from "@/components/CopyButton";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -70,29 +69,6 @@ export default function CodeAnalyzer() {
     }
   };
 
-  // Custom renderer for code blocks
-  const renderers = {
-    code: ({ node, inline, className, children, ...props }) => {
-      const match = /language-(\w+)/.exec(className || '');
-      const codeString = String(children).replace(/\n$/, '');
-      
-      if (inline) {
-        return <code className={className} {...props}>{children}</code>;
-      }
-
-      return (
-        <div className="relative">
-          <pre className={`${className} rounded-lg p-4`} {...props}>
-            <code className={className} {...props}>
-              {children}
-            </code>
-          </pre>
-          <CopyButton text={codeString} />
-        </div>
-      );
-    }
-  };
-
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -153,12 +129,11 @@ export default function CodeAnalyzer() {
             </div>
 
             {analysis && (
-              <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50 relative">
+              <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
                 <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
                 <div className="prose prose-sm max-w-none">
-                  <ReactMarkdown components={renderers}>{analysis}</ReactMarkdown>
+                  <ReactMarkdown>{analysis}</ReactMarkdown>
                 </div>
-                <CopyButton text={analysis} />
               </div>
             )}
           </div>

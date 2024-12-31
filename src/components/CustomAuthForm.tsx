@@ -27,19 +27,16 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth state changed:", event, session);
-      if (session?.user) {
-        if (session.user.email_confirmed_at) {
-          navigate("/");
-        } else if (view === "sign_in") {
+      if (event === 'SIGNED_IN') {
+        if (!session?.user.email_confirmed_at) {
           setShowVerificationDialog(true);
-          navigate("/");
         }
+        navigate("/");
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate, view]);
+  }, [navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -50,7 +47,6 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", view, formData);
     
     if (retryAfter !== null) {
       toast({
@@ -71,12 +67,10 @@ export function CustomAuthForm({ view }: AuthFormProps) {
             title: "Passwords do not match",
             description: "Please ensure both passwords are identical",
           });
-          setIsLoading(false);
           return;
         }
 
-        console.log("Attempting signup with:", formData.email);
-        const { data, error: signUpError } = await supabase.auth.signUp({
+        const { error: signUpError } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
@@ -86,8 +80,6 @@ export function CustomAuthForm({ view }: AuthFormProps) {
             },
           },
         });
-
-        console.log("Signup response:", data, signUpError);
 
         if (signUpError) {
           if (signUpError.message.includes("over_email_send_rate_limit")) {
@@ -108,13 +100,9 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
         toast({
           title: "Account created successfully",
-          description: "Please check your email to verify your account.",
+          description: "You can now start using the application. Please verify your email when convenient.",
         });
-
-        // Navigate to verify email page after successful signup
-        navigate("/auth/verify");
       } else {
-        console.log("Attempting signin with:", formData.email);
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: formData.email,
           password: formData.password,

@@ -19,19 +19,13 @@ export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    // Check initial auth state immediately
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      console.log("Initial session check in Header:", session);
-      setIsAuthenticated(!!session?.user);
-    };
-    
-    checkSession();
-
-    // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth state changed in Header:", event, session);
-      setIsAuthenticated(!!session?.user);
+      setIsAuthenticated(!!session);
+    });
+
+    // Check initial auth state
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setIsAuthenticated(!!session);
     });
 
     return () => subscription.unsubscribe();
