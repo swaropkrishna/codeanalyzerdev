@@ -70,6 +70,17 @@ export default function CodeAnalyzer() {
     }
   };
 
+  const CodeBlock = ({ children }: { children: string }) => {
+    return (
+      <div className="relative">
+        <CopyButton text={children} />
+        <pre className="mt-2">
+          <code>{children}</code>
+        </pre>
+      </div>
+    );
+  };
+
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -132,9 +143,14 @@ export default function CodeAnalyzer() {
             {analysis && (
               <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
                 <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
-                <div className="prose prose-sm max-w-none relative">
-                  <CopyButton text={analysis} />
-                  <ReactMarkdown>{analysis}</ReactMarkdown>
+                <div className="prose prose-sm max-w-none">
+                  <ReactMarkdown
+                    components={{
+                      code: ({ children }) => <CodeBlock>{children as string}</CodeBlock>
+                    }}
+                  >
+                    {analysis}
+                  </ReactMarkdown>
                 </div>
               </div>
             )}
