@@ -64,9 +64,11 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
 
   return (
     <Button
-      className="w-full"
+      className="w-full touch-manipulation"
       onClick={handleSubscribe}
       disabled={isLoading}
+      role="button"
+      aria-label={`Upgrade to ${tier} subscription`}
     >
       {isLoading ? (
         <>
