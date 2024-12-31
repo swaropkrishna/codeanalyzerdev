@@ -16,7 +16,7 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
   const { toast } = useToast();
 
   const handleSubscribe = async () => {
-    console.log('Starting subscription process for tier:', tier);
+    console.log('Starting subscription process for tier:', tier, 'with price ID:', priceId);
     setIsLoading(true);
     try {
       // First check if user is authenticated
