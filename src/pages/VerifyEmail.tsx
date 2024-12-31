@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Mail } from "lucide-react";
 
@@ -28,6 +27,7 @@ export default function VerifyEmail() {
         <Alert>
           <AlertDescription className="text-center">
             We've sent you a verification link. Please check your email and click the link to verify your account.
+            You need to verify your email to continue using the application.
           </AlertDescription>
         </Alert>
 
@@ -35,13 +35,6 @@ export default function VerifyEmail() {
           <p className="text-sm text-muted-foreground">
             Once verified, you'll be automatically redirected to the application.
           </p>
-          <Button
-            variant="outline"
-            onClick={() => navigate("/")}
-            className="w-full"
-          >
-            Continue without verifying
-          </Button>
         </div>
       </div>
     </div>
