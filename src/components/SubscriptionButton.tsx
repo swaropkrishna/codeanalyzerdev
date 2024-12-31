@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Loader2 } from "lucide-react";
 
 interface SubscriptionButtonProps {
   tier: "pro" | "plus";
@@ -53,7 +54,7 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
       console.error('Error in subscription process:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to start checkout process",
+        description: error.message || "Failed to start checkout process. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -67,7 +68,14 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
       onClick={handleSubscribe}
       disabled={isLoading}
     >
-      {isLoading ? "Processing..." : `Upgrade to ${tier.charAt(0).toUpperCase() + tier.slice(1)}`}
+      {isLoading ? (
+        <>
+          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          Processing...
+        </>
+      ) : (
+        `Upgrade to ${tier.charAt(0).toUpperCase() + tier.slice(1)}`
+      )}
     </Button>
   );
 }
