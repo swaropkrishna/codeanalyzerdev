@@ -26,7 +26,7 @@ function App() {
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/update-password" element={<UpdatePassword />} />
           <Route path="/pricing" element={<Pricing />} />
-          {/* Add redirect for subscription cancel page */}
+          <Route path="/subscription/success" element={<Navigate to="/" replace />} />
           <Route path="/subscription/cancel" element={<Navigate to="/pricing" replace />} />
         </Route>
       </Routes>

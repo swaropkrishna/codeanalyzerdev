@@ -41,6 +41,36 @@ export type Database = {
           },
         ]
       }
+      stripe_prices: {
+        Row: {
+          active: boolean | null
+          amount: number
+          created_at: string | null
+          id: string
+          mode: string
+          price_id: string
+          tier: string
+        }
+        Insert: {
+          active?: boolean | null
+          amount: number
+          created_at?: string | null
+          id?: string
+          mode?: string
+          price_id: string
+          tier: string
+        }
+        Update: {
+          active?: boolean | null
+          amount?: number
+          created_at?: string | null
+          id?: string
+          mode?: string
+          price_id?: string
+          tier?: string
+        }
+        Relationships: []
+      }
       Transactions: {
         Row: {
           amount: number | null
@@ -107,36 +137,6 @@ export type Database = {
           id?: string
           last_analysis_date?: string | null
           subscription_tier?: string
-        }
-        Relationships: []
-      }
-      stripe_prices: {
-        Row: {
-          id: string
-          tier: string
-          price_id: string
-          amount: number
-          mode: string
-          created_at: string | null
-          active: boolean | null
-        }
-        Insert: {
-          id?: string
-          tier: string
-          price_id: string
-          amount: number
-          mode?: string
-          created_at?: string | null
-          active?: boolean | null
-        }
-        Update: {
-          id?: string
-          tier?: string
-          price_id?: string
-          amount?: number
-          mode?: string
-          created_at?: string | null
-          active?: boolean | null
         }
         Relationships: []
       }
