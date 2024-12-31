@@ -20,11 +20,13 @@ export default function Header() {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      console.log("Auth state changed:", event, !!session);
       setIsAuthenticated(!!session);
     });
 
     // Check initial auth state
     supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("Initial session check:", !!session);
       setIsAuthenticated(!!session);
     });
 
@@ -33,8 +35,20 @@ export default function Header() {
 
   const handleSignOut = async () => {
     try {
-      await supabase.auth.signOut();
+      console.log("Attempting to sign out...");
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        console.error("Sign out error:", error);
+        throw error;
+      }
+
+      console.log("Sign out successful");
+      setIsAuthenticated(false);
+      
+      // Only navigate after successful sign out
       navigate("/auth");
+      
       toast({
         title: "Signed out successfully",
         description: "You have been signed out of your account",
