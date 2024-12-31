@@ -7,8 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 interface SubscriptionButtonProps {
   tier: "pro" | "plus";
   priceId: string;
-  price: string;
-  features: string[];
 }
 
 export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
@@ -17,6 +15,7 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
   const { toast } = useToast();
 
   const handleSubscribe = async () => {
+    console.log('Starting subscription process for tier:', tier);
     setIsLoading(true);
     try {
       // First check if user is authenticated

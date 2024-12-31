@@ -19,19 +19,26 @@ export default function Pricing() {
   const { data: prices, isLoading } = useQuery({
     queryKey: ['stripe-prices'],
     queryFn: async () => {
+      console.log('Fetching stripe prices');
       const { data, error } = await supabase
         .from('stripe_prices')
         .select('*')
         .eq('mode', 'test')
         .eq('active', true);
       
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching prices:', error);
+        throw error;
+      }
+      console.log('Fetched prices:', data);
       return data;
     }
   });
 
   const getPrice = (tier: string) => {
-    return prices?.find(price => price.tier === tier);
+    const price = prices?.find(price => price.tier === tier);
+    console.log(`Getting price for tier ${tier}:`, price);
+    return price;
   };
 
   if (isLoading) {
@@ -176,8 +183,6 @@ export default function Pricing() {
                 <SubscriptionButton
                   tier="pro"
                   priceId={proPrice?.price_id ?? ''}
-                  price={proPrice?.amount.toString() ?? '9.99'}
-                  features={proFeatures}
                 />
               </div>
             </div>
@@ -220,8 +225,6 @@ export default function Pricing() {
                 <SubscriptionButton
                   tier="plus"
                   priceId={plusPrice?.price_id ?? ''}
-                  price={plusPrice?.amount.toString() ?? '29.99'}
-                  features={plusFeatures}
                 />
               </div>
             </div>
