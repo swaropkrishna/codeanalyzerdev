@@ -1,4 +1,4 @@
-import { Facebook, FileText, Linkedin, Mail, Shield, Users } from "lucide-react";
+import { FileText, Mail, Shield, Users } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Footer() {
@@ -12,26 +12,6 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground">
               Analyze your code with AI-powered insights and suggestions.
             </p>
-            <div className="flex space-x-4 pt-2">
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Facebook"
-              >
-                <Facebook className="h-5 w-5" />
-              </a>
-              <a
-                href="https://linkedin.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="h-5 w-5" />
-              </a>
-            </div>
           </div>
           
           {/* Company Links */}
