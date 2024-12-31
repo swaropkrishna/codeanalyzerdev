@@ -46,23 +46,23 @@ serve(async (req) => {
 
     console.log('User authenticated:', email)
 
-    // Check for Stripe secret key
-    const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY')
-    if (!stripeSecretKey) {
-      console.error('Stripe secret key not found in environment variables')
-      throw new Error('Stripe configuration error: Missing secret key')
+    // Check for Stripe API key
+    const stripeApiKey = Deno.env.get('STRIPE_API_KEY')
+    if (!stripeApiKey) {
+      console.error('Stripe API key not found in environment variables')
+      throw new Error('Stripe configuration error: Missing API key')
     }
 
-    // Validate Stripe secret key format
-    if (!stripeSecretKey.startsWith('sk_')) {
-      console.error('Invalid Stripe secret key format')
+    // Validate Stripe API key format
+    if (!stripeApiKey.startsWith('sk_')) {
+      console.error('Invalid Stripe API key format')
       throw new Error('Stripe configuration error: Invalid key format')
     }
 
     console.log('Initializing Stripe client...')
     let stripe: Stripe;
     try {
-      stripe = new Stripe(stripeSecretKey, {
+      stripe = new Stripe(stripeApiKey, {
         apiVersion: '2023-10-16',
       });
       // Test the Stripe connection
