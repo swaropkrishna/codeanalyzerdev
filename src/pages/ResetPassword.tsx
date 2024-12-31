@@ -20,7 +20,7 @@ export default function ResetPassword() {
 
     try {
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/update-password`,
+        redirectTo: `${window.location.origin}/auth?view=sign_in`,
       });
 
       if (error) {
@@ -39,7 +39,7 @@ export default function ResetPassword() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error instanceof Error ? error.message : "Failed to send reset email",
+        description: error instanceof Error ? error.message : "An error occurred",
       });
     } finally {
       setIsLoading(false);
