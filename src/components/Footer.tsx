@@ -44,12 +44,6 @@ export default function Footer() {
                   Try it now
                 </RouterLink>
               </li>
-              <li>
-                <RouterLink to="/pricing" className="hover:text-foreground transition-colors inline-flex items-center gap-2">
-                  <Info className="h-4 w-4" />
-                  Pricing
-                </RouterLink>
-              </li>
             </ul>
           </div>
           
