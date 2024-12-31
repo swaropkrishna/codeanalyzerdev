@@ -1,9 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { UserPlus, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
-import { useToast } from "@/hooks/use-toast";
-import { useEffect, useState } from "react";
+import { useAuthState } from "@/hooks/use-auth-state";
 import {
   Sheet,
   SheetContent,
@@ -11,113 +9,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useState } from "react";
 
 export default function Header() {
   const navigate = useNavigate();
-  const { toast } = useToast();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const { isAuthenticated, isSigningOut, handleSignOut } = useAuthState();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isSigningOut, setIsSigningOut] = useState(false);
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      console.log("Auth state changed:", event, !!session);
-      setIsAuthenticated(!!session);
-    });
-
-    // Check initial auth state
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      console.log("Initial session check:", !!session);
-      setIsAuthenticated(!!session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  const handleSignOut = async () => {
-    if (isSigningOut) {
-      console.log("Sign out already in progress");
-      return;
-    }
-
-    setIsSigningOut(true);
-
-    try {
-      // First, check if we have a valid session
-      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-      
-      if (sessionError) {
-        console.error("Session error:", sessionError);
-        // If we can't get the session, assume it's expired and clear local state
-        setIsAuthenticated(false);
-        navigate("/auth");
-        toast({
-          title: "Session Expired",
-          description: "Your session has expired. Please sign in again.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (!session) {
-        console.log("No active session found");
-        setIsAuthenticated(false);
-        navigate("/auth");
-        toast({
-          title: "Already Signed Out",
-          description: "You were already signed out. Please sign in again if needed.",
-        });
-        return;
-      }
-
-      console.log("Active session found, proceeding with sign out");
-      
-      // Attempt to sign out
-      const { error: signOutError } = await supabase.auth.signOut({
-        scope: 'local' // Only clear local session to avoid 403 errors
-      });
-      
-      if (signOutError) {
-        // If sign out fails but it's just a session not found error, we can still proceed
-        if (signOutError.message.includes("session_not_found")) {
-          console.log("Session not found during sign out, proceeding anyway");
-          setIsAuthenticated(false);
-          navigate("/auth");
-          toast({
-            title: "Signed out successfully",
-            description: "You have been signed out of your account",
-          });
-          return;
-        }
-        
-        console.error("Sign out error:", signOutError);
-        throw new Error(`Failed to sign out: ${signOutError.message}`);
-      }
-
-      console.log("Sign out successful");
-      setIsAuthenticated(false);
-      navigate("/auth");
-      
-      toast({
-        title: "Signed out successfully",
-        description: "You have been signed out of your account",
-      });
-    } catch (error) {
-      console.error("Error during sign out:", error);
-      
-      // Double check our session state
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-      
-      toast({
-        title: "Error signing out",
-        description: error instanceof Error ? error.message : "There was a problem signing out. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSigningOut(false);
-    }
-  };
 
   const NavItems = () => (
     <>
