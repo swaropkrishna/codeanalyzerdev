@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
@@ -6,25 +6,56 @@ import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
 import { CopyButton } from "@/components/CopyButton";
-import { X } from "lucide-react"; // Import X icon for clear button
+import { X } from "lucide-react";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isPro, setIsPro] = useState(false);
   const [code, setCode] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState("");
+  const [analysisCount, setAnalysisCount] = useState(0);
 
-  // Check initial auth state
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    setIsAuthenticated(!!session);
-  });
+  // Check initial auth state and pro status
+  useEffect(() => {
+    const checkUserStatus = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+      
+      if (session?.user) {
+        const { data: userData } = await supabase
+          .from('users')
+          .select('is_pro')
+          .eq('id', session.user.id)
+          .single();
+        
+        setIsPro(userData?.is_pro || false);
+      }
+    };
+
+    checkUserStatus();
+  }, []);
 
   // Subscribe to auth state changes
-  supabase.auth.onAuthStateChange((event, session) => {
-    setIsAuthenticated(!!session);
-  });
+  useEffect(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      setIsAuthenticated(!!session);
+      
+      if (session?.user) {
+        const { data: userData } = await supabase
+          .from('users')
+          .select('is_pro')
+          .eq('id', session.user.id)
+          .single();
+        
+        setIsPro(userData?.is_pro || false);
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleAnalyze = async () => {
     if (!isAuthenticated) {
@@ -46,6 +77,17 @@ export default function CodeAnalyzer() {
       return;
     }
 
+    // Check if user has reached the free limit
+    if (!isPro && analysisCount >= 5) {
+      toast({
+        title: "Free Limit Reached",
+        description: "Please upgrade to Pro to continue analyzing code",
+        variant: "destructive",
+      });
+      navigate("/pricing");
+      return;
+    }
+
     setIsAnalyzing(true);
     try {
       const { data, error } = await supabase.functions.invoke('analyze-code', {
@@ -55,6 +97,7 @@ export default function CodeAnalyzer() {
       if (error) throw error;
 
       setAnalysis(data.analysis);
+      setAnalysisCount(prev => prev + 1);
       toast({
         title: "Analysis Complete",
         description: "Your code has been analyzed successfully",
@@ -90,6 +133,11 @@ export default function CodeAnalyzer() {
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Get instant insights and suggestions to improve your code quality using advanced AI analysis.
+              {!isPro && isAuthenticated && (
+                <span className="block mt-2 text-sm">
+                  {5 - analysisCount} analyses remaining in free tier
+                </span>
+              )}
             </p>
           </div>
           
