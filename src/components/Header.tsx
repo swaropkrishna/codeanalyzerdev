@@ -20,12 +20,15 @@ export default function Header() {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setIsAuthenticated(!!session);
+      console.log("Auth state changed in Header:", event, session);
+      // Consider user authenticated if there's a session, regardless of email verification
+      setIsAuthenticated(!!session?.user);
     });
 
     // Check initial auth state
     supabase.auth.getSession().then(({ data: { session } }) => {
-      setIsAuthenticated(!!session);
+      console.log("Initial session check in Header:", session);
+      setIsAuthenticated(!!session?.user);
     });
 
     return () => subscription.unsubscribe();
