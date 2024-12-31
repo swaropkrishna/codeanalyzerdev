@@ -61,7 +61,7 @@ export default function Pricing() {
         <div className="max-w-6xl mx-auto space-y-12">
           <PricingHeader />
 
-          <div className="grid md:grid-cols-3 gap-8 animate-fade-in-up">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch animate-fade-in-up">
             <PricingTier
               title="Free"
               description="Perfect for occasional use"

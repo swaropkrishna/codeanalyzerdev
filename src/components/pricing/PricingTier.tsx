@@ -23,7 +23,7 @@ export function PricingTier({
   isFreeTier
 }: PricingTierProps) {
   return (
-    <div className="rounded-lg border p-8 bg-card relative flex flex-col">
+    <div className="rounded-lg border p-8 bg-card relative flex flex-col h-full">
       {isPopular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-sm rounded-full">
           Popular
