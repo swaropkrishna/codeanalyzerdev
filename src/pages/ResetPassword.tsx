@@ -15,6 +15,13 @@ export default function ResetPassword() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Prevent multiple submissions
+    if (isLoading) {
+      console.log("Request already in progress");
+      return;
+    }
+    
     setIsLoading(true);
     console.log("Attempting to send reset password email to:", email);
 
@@ -25,6 +32,17 @@ export default function ResetPassword() {
 
       if (error) {
         console.error("Reset password error:", error);
+        
+        // Handle rate limit error specifically
+        if (error.status === 429) {
+          toast({
+            variant: "destructive",
+            title: "Too Many Attempts",
+            description: "Please wait a few minutes before trying again.",
+          });
+          return;
+        }
+        
         throw error;
       }
 
@@ -39,7 +57,7 @@ export default function ResetPassword() {
       toast({
         variant: "destructive",
         title: "Error",
-        description: error instanceof Error ? error.message : "An error occurred",
+        description: error instanceof Error ? error.message : "An error occurred while sending the reset link",
       });
     } finally {
       setIsLoading(false);
@@ -93,9 +111,14 @@ export default function ResetPassword() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
+                disabled={isLoading}
               />
             </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
+            <Button 
+              type="submit" 
+              className="w-full" 
+              disabled={isLoading}
+            >
               {isLoading ? "Sending..." : "Send Reset Link"}
             </Button>
           </form>
