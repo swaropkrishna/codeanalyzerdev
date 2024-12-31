@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
+import { SubscriptionButton } from "@/components/SubscriptionButton";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ export default function CodeAnalyzer() {
   const [code, setCode] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState("");
+  const [showUpgrade, setShowUpgrade] = useState(false);
 
   // Check initial auth state
   supabase.auth.getSession().then(({ data: { session } }) => {
@@ -49,6 +51,16 @@ export default function CodeAnalyzer() {
       const { data, error } = await supabase.functions.invoke('analyze-code', {
         body: { code }
       });
+
+      if (error?.message?.includes('Daily limit reached')) {
+        setShowUpgrade(true);
+        toast({
+          title: "Daily Limit Reached",
+          description: "Please upgrade your plan to continue analyzing code",
+          variant: "destructive",
+        });
+        return;
+      }
 
       if (error) throw error;
 
@@ -91,73 +103,99 @@ export default function CodeAnalyzer() {
             </p>
           </div>
           
-          <div className="space-y-6 animate-fade-in-up">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
-              <div className="relative rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
-                <div className="flex justify-end p-2 border-b border-border/50">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={handleClear}
-                    className="text-muted-foreground hover:text-foreground"
-                  >
-                    Clear
-                  </Button>
-                </div>
-                <div className="h-[500px] w-full">
-                  <Editor
-                    height="100%"
-                    defaultLanguage="javascript"
-                    theme="vs-light"
-                    value={code}
-                    onChange={(value) => setCode(value || "")}
-                    options={{
-                      minimap: { enabled: false },
-                      fontSize: 14,
-                      lineNumbers: "on",
-                      roundedSelection: false,
-                      scrollBeyondLastLine: false,
-                      readOnly: isAnalyzing,
-                      automaticLayout: true,
-                      padding: { top: 16, bottom: 16 },
-                    }}
-                    className="rounded-lg"
-                  />
+          {showUpgrade ? (
+            <div className="grid md:grid-cols-2 gap-6 animate-fade-in">
+              <SubscriptionButton
+                tier="pro"
+                priceId="price_1Qc96EF80ze3XcIjv1wATjPg"
+                price="9.99"
+                features={[
+                  "100 analyses per day",
+                  "Priority support",
+                  "Detailed code insights",
+                ]}
+              />
+              <SubscriptionButton
+                tier="plus"
+                priceId="price_1Qc96dF80ze3XcIjGggGJdaD"
+                price="29.99"
+                features={[
+                  "Unlimited analyses",
+                  "Premium support",
+                  "Advanced code insights",
+                  "Team collaboration",
+                ]}
+              />
+            </div>
+          ) : (
+            <div className="space-y-6 animate-fade-in-up">
+              <div className="relative">
+                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
+                <div className="relative rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
+                  <div className="flex justify-end p-2 border-b border-border/50">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={handleClear}
+                      className="text-muted-foreground hover:text-foreground"
+                    >
+                      Clear
+                    </Button>
+                  </div>
+                  <div className="h-[500px] w-full">
+                    <Editor
+                      height="100%"
+                      defaultLanguage="javascript"
+                      theme="vs-light"
+                      value={code}
+                      onChange={(value) => setCode(value || "")}
+                      options={{
+                        minimap: { enabled: false },
+                        fontSize: 14,
+                        lineNumbers: "on",
+                        roundedSelection: false,
+                        scrollBeyondLastLine: false,
+                        readOnly: isAnalyzing,
+                        automaticLayout: true,
+                        padding: { top: 16, bottom: 16 },
+                      }}
+                      className="rounded-lg"
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            <div className="flex justify-center">
-              <Button
-                size="lg"
-                onClick={handleAnalyze}
-                disabled={isAnalyzing}
-                className="relative px-8 py-6 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary"
-              >
-                {isAnalyzing ? (
-                  <span className="flex items-center gap-2">
-                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
-                    </svg>
-                    Analyzing...
-                  </span>
-                ) : (
-                  "Analyze Code"
-                )}
-              </Button>
-            </div>
+              
+              <div className="flex justify-center">
+                <Button
+                  size="lg"
+                  onClick={handleAnalyze}
+                  disabled={isAnalyzing}
+                  className="relative px-8 py-6 text-lg transition-all duration-300 hover:scale-105 hover:shadow-lg bg-gradient-to-r from-primary to-accent hover:from-accent hover:to-primary"
+                >
+                  {isAnalyzing ? (
+                    <span className="flex items-center gap-2">
+                      <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                      </svg>
+                      Analyzing...
+                    </span>
+                  ) : (
+                    "Analyze Code"
+                  )}
+                </Button>
+              </div>
 
-            {analysis && (
-              <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
-                <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
-                <div className="prose prose-sm max-w-none">
-                  <ReactMarkdown>{analysis}</ReactMarkdown>
+              {analysis && (
+                <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
+                  <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
+                  <div className="prose prose-sm max-w-none">
+                    <ReactMarkdown>{analysis}</ReactMarkdown>
+                  </div>
                 </div>
-              </div>
-            )}
-          </div>
+              )}
+            </div>
+          )}
         </div>
       </section>
     </main>
