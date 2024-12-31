@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,11 +8,56 @@ import { supabase } from "@/integrations/supabase/client";
 import { Lock } from "lucide-react";
 
 export default function UpdatePassword() {
+  const [searchParams] = useSearchParams();
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+
+  // Check for the presence of the reset token on component mount
+  useEffect(() => {
+    const checkResetToken = async () => {
+      // Get the token from the URL
+      const token = searchParams.get("token");
+      
+      if (!token) {
+        console.log("No reset token found in URL");
+        toast({
+          variant: "destructive",
+          title: "Invalid Reset Link",
+          description: "Please request a new password reset link.",
+        });
+        navigate("/auth/reset-password");
+        return;
+      }
+
+      try {
+        // Verify the token is valid by attempting to get the session
+        const { data, error } = await supabase.auth.getSession();
+        
+        if (error || !data.session) {
+          console.log("Invalid or expired reset token:", error);
+          toast({
+            variant: "destructive",
+            title: "Invalid or Expired Link",
+            description: "Please request a new password reset link.",
+          });
+          navigate("/auth/reset-password");
+        }
+      } catch (error) {
+        console.error("Error verifying reset token:", error);
+        toast({
+          variant: "destructive",
+          title: "Error",
+          description: "An error occurred. Please try again.",
+        });
+        navigate("/auth/reset-password");
+      }
+    };
+
+    checkResetToken();
+  }, [navigate, searchParams, toast]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,8 +96,11 @@ export default function UpdatePassword() {
       console.log("Password updated successfully");
       toast({
         title: "Password Updated",
-        description: "Your password has been successfully updated",
+        description: "Your password has been successfully updated. Please sign in with your new password.",
       });
+      
+      // Sign out the user after password update
+      await supabase.auth.signOut();
       
       // Redirect to sign in page after successful password update
       navigate("/auth?view=sign_in");
