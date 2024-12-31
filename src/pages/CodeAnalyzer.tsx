@@ -5,7 +5,6 @@ import { useToast } from "@/hooks/use-toast";
 import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
-import { X } from "lucide-react"; // Import the X icon for the clear button
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -103,7 +102,6 @@ export default function CodeAnalyzer() {
                     onClick={handleClear}
                     className="text-muted-foreground hover:text-foreground"
                   >
-                    <X className="h-4 w-4 mr-2" />
                     Clear
                   </Button>
                 </div>
