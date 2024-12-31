@@ -17,6 +17,7 @@ export default function Header() {
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isSigningOut, setIsSigningOut] = useState(false);
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
@@ -34,7 +35,24 @@ export default function Header() {
   }, []);
 
   const handleSignOut = async () => {
+    if (isSigningOut) {
+      console.log("Sign out already in progress");
+      return;
+    }
+
+    setIsSigningOut(true);
+
     try {
+      console.log("Checking current session...");
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      if (!session) {
+        console.log("No active session found, redirecting to auth page");
+        setIsAuthenticated(false);
+        navigate("/auth");
+        return;
+      }
+
       console.log("Attempting to sign out...");
       const { error } = await supabase.auth.signOut();
       
@@ -45,8 +63,6 @@ export default function Header() {
 
       console.log("Sign out successful");
       setIsAuthenticated(false);
-      
-      // Only navigate after successful sign out
       navigate("/auth");
       
       toast({
@@ -60,6 +76,8 @@ export default function Header() {
         description: "There was a problem signing out. Please try again.",
         variant: "destructive",
       });
+    } finally {
+      setIsSigningOut(false);
     }
   };
 
@@ -99,9 +117,12 @@ export default function Header() {
             handleSignOut();
             setIsMobileMenuOpen(false);
           }}
+          disabled={isSigningOut}
         >
           <LogOut className="h-5 w-5 text-destructive" />
-          <span className="font-medium">Sign Out</span>
+          <span className="font-medium">
+            {isSigningOut ? "Signing out..." : "Sign Out"}
+          </span>
         </Button>
       )}
     </>
