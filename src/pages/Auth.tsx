@@ -58,7 +58,7 @@ export default function AuthPage() {
                   </Link>
                 </p>
                 <Link
-                  to="/auth/reset-password"
+                  to="/reset-password"
                   className="text-sm font-medium text-primary hover:underline block"
                 >
                   Forgot your password?
