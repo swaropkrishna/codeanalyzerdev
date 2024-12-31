@@ -27,11 +27,15 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event === 'SIGNED_IN') {
-        if (!session?.user.email_confirmed_at) {
+      console.log("Auth state changed:", event, session);
+      if (event === 'SIGNED_IN' || event === 'SIGNED_UP') {
+        if (session?.user.email_confirmed_at) {
+          navigate("/");
+        } else {
           setShowVerificationDialog(true);
+          // Still navigate to home but show verification dialog
+          navigate("/");
         }
-        navigate("/");
       }
     });
 
@@ -47,6 +51,7 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log("Form submitted:", view, formData);
     
     if (retryAfter !== null) {
       toast({
@@ -67,10 +72,12 @@ export function CustomAuthForm({ view }: AuthFormProps) {
             title: "Passwords do not match",
             description: "Please ensure both passwords are identical",
           });
+          setIsLoading(false);
           return;
         }
 
-        const { error: signUpError } = await supabase.auth.signUp({
+        console.log("Attempting signup with:", formData.email);
+        const { data, error: signUpError } = await supabase.auth.signUp({
           email: formData.email,
           password: formData.password,
           options: {
@@ -80,6 +87,8 @@ export function CustomAuthForm({ view }: AuthFormProps) {
             },
           },
         });
+
+        console.log("Signup response:", data, signUpError);
 
         if (signUpError) {
           if (signUpError.message.includes("over_email_send_rate_limit")) {
@@ -102,7 +111,11 @@ export function CustomAuthForm({ view }: AuthFormProps) {
           title: "Account created successfully",
           description: "You can now start using the application. Please verify your email when convenient.",
         });
+
+        // Explicitly navigate to home after successful signup
+        navigate("/");
       } else {
+        console.log("Attempting signin with:", formData.email);
         const { error: signInError } = await supabase.auth.signInWithPassword({
           email: formData.email,
           password: formData.password,
