@@ -50,13 +50,28 @@ serve(async (req) => {
     const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY')
     if (!stripeSecretKey) {
       console.error('Stripe secret key not found in environment variables')
-      throw new Error('Stripe configuration error')
+      throw new Error('Stripe configuration error: Missing secret key')
+    }
+
+    // Validate Stripe secret key format
+    if (!stripeSecretKey.startsWith('sk_')) {
+      console.error('Invalid Stripe secret key format')
+      throw new Error('Stripe configuration error: Invalid key format')
     }
 
     console.log('Initializing Stripe client...')
-    const stripe = new Stripe(stripeSecretKey, {
-      apiVersion: '2023-10-16',
-    })
+    let stripe: Stripe;
+    try {
+      stripe = new Stripe(stripeSecretKey, {
+        apiVersion: '2023-10-16',
+      });
+      // Test the Stripe connection
+      await stripe.paymentMethods.list({ limit: 1 });
+      console.log('Stripe client initialized successfully');
+    } catch (stripeError) {
+      console.error('Error initializing Stripe client:', stripeError);
+      throw new Error('Stripe configuration error: Invalid credentials');
+    }
 
     // Get the price_id from the request body
     const { price_id } = await req.json()
