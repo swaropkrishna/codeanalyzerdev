@@ -6,6 +6,7 @@ import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
 import { CopyButton } from "@/components/CopyButton";
+import { X } from "lucide-react"; // Import X icon for clear button
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -70,6 +71,15 @@ export default function CodeAnalyzer() {
     }
   };
 
+  const handleClear = () => {
+    setCode("");
+    setAnalysis("");
+    toast({
+      title: "Cleared",
+      description: "Input and analysis have been cleared",
+    });
+  };
+
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -87,6 +97,17 @@ export default function CodeAnalyzer() {
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
               <div className="relative h-[500px] w-full rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
+                {code && (
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="absolute top-2 right-2 z-10"
+                    onClick={handleClear}
+                    title="Clear input and analysis"
+                  >
+                    <X className="h-4 w-4" />
+                  </Button>
+                )}
                 <Editor
                   height="100%"
                   defaultLanguage="javascript"
