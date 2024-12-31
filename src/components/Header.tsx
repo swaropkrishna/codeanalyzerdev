@@ -107,7 +107,7 @@ export default function Header() {
           </SheetTrigger>
           <SheetContent 
             side="right" 
-            className="w-[280px] p-0 bg-white/95 backdrop-blur-lg"
+            className="w-[280px] p-0"
           >
             <SheetHeader className="p-6 border-b">
               <SheetTitle className="text-xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
