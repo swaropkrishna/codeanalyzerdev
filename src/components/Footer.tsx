@@ -1,11 +1,11 @@
-import { Facebook, FileText, Globe, Info, Linkedin, Mail, Shield, Users } from "lucide-react";
+import { Facebook, FileText, Linkedin, Mail, Shield, Users } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Footer() {
   return (
     <footer className="w-full border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-3">
             <h3 className="text-lg font-semibold">Code Analyzer</h3>
@@ -32,19 +32,6 @@ export default function Footer() {
                 <Linkedin className="h-5 w-5" />
               </a>
             </div>
-          </div>
-          
-          {/* Product Links */}
-          <div className="space-y-4">
-            <h4 className="font-medium">Product</h4>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <RouterLink to="/" className="hover:text-foreground transition-colors inline-flex items-center gap-2">
-                  <Globe className="h-4 w-4" />
-                  Try it now
-                </RouterLink>
-              </li>
-            </ul>
           </div>
           
           {/* Company Links */}
