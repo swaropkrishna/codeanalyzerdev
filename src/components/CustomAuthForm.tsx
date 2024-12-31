@@ -31,16 +31,15 @@ export function CustomAuthForm({ view }: AuthFormProps) {
       if (session?.user) {
         if (session.user.email_confirmed_at) {
           navigate("/");
-        } else {
+        } else if (view === "sign_in") {
           setShowVerificationDialog(true);
-          // Still navigate to home but show verification dialog
           navigate("/");
         }
       }
     });
 
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, view]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData((prev) => ({
@@ -109,11 +108,11 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
         toast({
           title: "Account created successfully",
-          description: "You can now start using the application. Please verify your email when convenient.",
+          description: "Please check your email to verify your account.",
         });
 
-        // Explicitly navigate to home after successful signup
-        navigate("/");
+        // Navigate to verify email page after successful signup
+        navigate("/auth/verify");
       } else {
         console.log("Attempting signin with:", formData.email);
         const { error: signInError } = await supabase.auth.signInWithPassword({
