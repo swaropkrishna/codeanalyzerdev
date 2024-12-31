@@ -87,9 +87,8 @@ export type Database = {
           daily_analysis_count: number | null
           email: string | null
           id: string
-          is_pro: boolean | null
           last_analysis_date: string | null
-          subscription_tier: string | null
+          subscription_tier: string
         }
         Insert: {
           analysis_count?: number | null
@@ -97,9 +96,8 @@ export type Database = {
           daily_analysis_count?: number | null
           email?: string | null
           id?: string
-          is_pro?: boolean | null
           last_analysis_date?: string | null
-          subscription_tier?: string | null
+          subscription_tier?: string
         }
         Update: {
           analysis_count?: number | null
@@ -107,9 +105,8 @@ export type Database = {
           daily_analysis_count?: number | null
           email?: string | null
           id?: string
-          is_pro?: boolean | null
           last_analysis_date?: string | null
-          subscription_tier?: string | null
+          subscription_tier?: string
         }
         Relationships: []
       }
