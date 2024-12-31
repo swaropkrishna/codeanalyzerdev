@@ -18,10 +18,6 @@ serve(async (req) => {
     const { code } = await req.json();
     console.log('Analyzing code:', code.substring(0, 100) + '...');
 
-    if (!openAIApiKey) {
-      throw new Error('OpenAI API key not configured');
-    }
-
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {

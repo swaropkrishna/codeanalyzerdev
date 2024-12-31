@@ -31,42 +31,20 @@ export default function Header() {
     // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed in Header:", event, session);
-      if (event === 'SIGNED_OUT') {
-        console.log("User signed out, updating state and redirecting");
-        setIsAuthenticated(false);
-        navigate("/auth?view=sign_in");
-      } else if (event === 'SIGNED_IN') {
-        console.log("User signed in, updating state");
-        setIsAuthenticated(true);
-      }
+      setIsAuthenticated(!!session?.user);
     });
 
-    return () => {
-      console.log("Cleaning up auth subscription");
-      subscription.unsubscribe();
-    };
-  }, [navigate]);
+    return () => subscription.unsubscribe();
+  }, []);
 
   const handleSignOut = async () => {
     try {
-      console.log("Starting sign out process...");
-      setIsMobileMenuOpen(false); // Close mobile menu first
-      
-      const { error } = await supabase.auth.signOut();
-      if (error) {
-        console.error("Error during sign out:", error);
-        throw error;
-      }
-      
-      console.log("Sign out API call successful");
-      setIsAuthenticated(false);
-      
+      await supabase.auth.signOut();
+      navigate("/auth");
       toast({
         title: "Signed out successfully",
         description: "You have been signed out of your account",
       });
-      
-      navigate("/auth?view=sign_in");
     } catch (error) {
       console.error("Error signing out:", error);
       toast({
@@ -121,7 +99,10 @@ export default function Header() {
         <Button
           variant="ghost"
           className="flex w-full items-center justify-start gap-2 px-2 hover:bg-destructive/10"
-          onClick={handleSignOut}
+          onClick={() => {
+            handleSignOut();
+            setIsMobileMenuOpen(false);
+          }}
         >
           <LogOut className="h-5 w-5 text-destructive" />
           <span className="font-medium">Sign Out</span>

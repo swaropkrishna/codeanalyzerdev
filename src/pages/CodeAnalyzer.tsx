@@ -1,72 +1,32 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
-import { CodeEditor } from "@/components/code-analyzer/CodeEditor";
-import { AnalysisResults } from "@/components/code-analyzer/AnalysisResults";
-import { useAnalysisCount } from "@/hooks/useAnalysisCount";
+import ReactMarkdown from 'react-markdown';
+import { CopyButton } from "@/components/CopyButton";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isPro, setIsPro] = useState(false);
   const [code, setCode] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState("");
-  const { analysisCount, incrementAnalysisCount, isLoading: isLoadingCount } = useAnalysisCount();
 
-  useEffect(() => {
-    // Check initial auth state immediately
-    const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      console.log("Initial session check in CodeAnalyzer:", session);
-      
-      if (session?.user) {
-        setIsAuthenticated(true);
-        const { data: userData } = await supabase
-          .from('users')
-          .select('is_pro')
-          .eq('id', session.user.id)
-          .single();
-        
-        setIsPro(userData?.is_pro || false);
-      } else {
-        setIsAuthenticated(false);
-        navigate("/auth?view=sign_in");
-      }
-    };
-    
-    checkSession();
+  // Check initial auth state
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    setIsAuthenticated(!!session);
+  });
 
-    // Set up auth state change listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth state changed in CodeAnalyzer:", event, session);
-      
-      if (session?.user) {
-        setIsAuthenticated(true);
-        const { data: userData } = await supabase
-          .from('users')
-          .select('is_pro')
-          .eq('id', session.user.id)
-          .single();
-        
-        setIsPro(userData?.is_pro || false);
-      } else {
-        setIsAuthenticated(false);
-        navigate("/auth?view=sign_in");
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, [navigate]);
+  // Subscribe to auth state changes
+  supabase.auth.onAuthStateChange((event, session) => {
+    setIsAuthenticated(!!session);
+  });
 
   const handleAnalyze = async () => {
-    console.log('Starting code analysis...', { isAuthenticated });
-    
     if (!isAuthenticated) {
-      console.log('User not authenticated, redirecting to sign in...');
       toast({
         title: "Authentication Required",
         description: "Please sign in to analyze code",
@@ -77,7 +37,6 @@ export default function CodeAnalyzer() {
     }
 
     if (!code.trim()) {
-      console.log('No code provided');
       toast({
         title: "Error",
         description: "Please enter some code to analyze",
@@ -86,34 +45,13 @@ export default function CodeAnalyzer() {
       return;
     }
 
-    if (!isPro && analysisCount >= 5) {
-      console.log('Free limit reached');
-      toast({
-        title: "Free Limit Reached",
-        description: "Please upgrade to Pro to continue analyzing code",
-        variant: "destructive",
-      });
-      navigate("/pricing");
-      return;
-    }
-
     setIsAnalyzing(true);
     try {
-      console.log('Calling analyze-code function...');
       const { data, error } = await supabase.functions.invoke('analyze-code', {
         body: { code }
       });
 
-      if (error) {
-        console.error('Error from analyze-code function:', error);
-        throw error;
-      }
-
-      console.log('Analysis completed, updating count...');
-      const success = await incrementAnalysisCount();
-      if (!success) {
-        throw new Error("Failed to update analysis count");
-      }
+      if (error) throw error;
 
       setAnalysis(data.analysis);
       toast({
@@ -132,13 +70,27 @@ export default function CodeAnalyzer() {
     }
   };
 
-  const handleClear = () => {
-    setCode("");
-    setAnalysis("");
-    toast({
-      title: "Cleared",
-      description: "Input and analysis have been cleared",
-    });
+  // Custom renderer for code blocks
+  const renderers = {
+    code: ({ node, inline, className, children, ...props }) => {
+      const match = /language-(\w+)/.exec(className || '');
+      const codeString = String(children).replace(/\n$/, '');
+      
+      if (inline) {
+        return <code className={className} {...props}>{children}</code>;
+      }
+
+      return (
+        <div className="relative">
+          <pre className={`${className} rounded-lg p-4`} {...props}>
+            <code className={className} {...props}>
+              {children}
+            </code>
+          </pre>
+          <CopyButton text={codeString} />
+        </div>
+      );
+    }
   };
 
   return (
@@ -151,21 +103,33 @@ export default function CodeAnalyzer() {
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Get instant insights and suggestions to improve your code quality using advanced AI analysis.
-              {!isPro && isAuthenticated && !isLoadingCount && (
-                <span className="block mt-2 text-sm">
-                  {5 - analysisCount} analyses remaining in free tier
-                </span>
-              )}
             </p>
           </div>
           
           <div className="space-y-6 animate-fade-in-up">
-            <CodeEditor
-              code={code}
-              onChange={(value) => setCode(value || "")}
-              onClear={handleClear}
-              isAnalyzing={isAnalyzing}
-            />
+            <div className="relative">
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
+              <div className="relative h-[500px] w-full rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
+                <Editor
+                  height="100%"
+                  defaultLanguage="javascript"
+                  theme="vs-light"
+                  value={code}
+                  onChange={(value) => setCode(value || "")}
+                  options={{
+                    minimap: { enabled: false },
+                    fontSize: 14,
+                    lineNumbers: "on",
+                    roundedSelection: false,
+                    scrollBeyondLastLine: false,
+                    readOnly: isAnalyzing,
+                    automaticLayout: true,
+                    padding: { top: 16, bottom: 16 },
+                  }}
+                  className="rounded-lg"
+                />
+              </div>
+            </div>
             
             <div className="flex justify-center">
               <Button
@@ -188,7 +152,15 @@ export default function CodeAnalyzer() {
               </Button>
             </div>
 
-            <AnalysisResults analysis={analysis} />
+            {analysis && (
+              <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50 relative">
+                <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
+                <div className="prose prose-sm max-w-none">
+                  <ReactMarkdown components={renderers}>{analysis}</ReactMarkdown>
+                </div>
+                <CopyButton text={analysis} />
+              </div>
+            )}
           </div>
         </div>
       </section>
