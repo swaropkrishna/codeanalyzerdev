@@ -28,8 +28,8 @@ export function CustomAuthForm({ view }: AuthFormProps) {
   useEffect(() => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed:", event, session);
-      if (event === 'SIGNED_IN' || event === 'SIGNED_UP') {
-        if (session?.user.email_confirmed_at) {
+      if (session?.user) {
+        if (session.user.email_confirmed_at) {
           navigate("/");
         } else {
           setShowVerificationDialog(true);
