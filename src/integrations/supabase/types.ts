@@ -43,18 +43,21 @@ export type Database = {
       }
       users: {
         Row: {
+          analysis_count: number | null
           created_at: string | null
           email: string | null
           id: string
           is_pro: boolean | null
         }
         Insert: {
+          analysis_count?: number | null
           created_at?: string | null
           email?: string | null
           id?: string
           is_pro?: boolean | null
         }
         Update: {
+          analysis_count?: number | null
           created_at?: string | null
           email?: string | null
           id?: string

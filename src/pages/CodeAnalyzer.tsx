@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
+import { X } from "lucide-react"; // Import the X icon for the clear button
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -69,6 +70,15 @@ export default function CodeAnalyzer() {
     }
   };
 
+  const handleClear = () => {
+    setCode("");
+    setAnalysis("");
+    toast({
+      title: "Cleared",
+      description: "Input and analysis have been cleared",
+    });
+  };
+
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -85,25 +95,38 @@ export default function CodeAnalyzer() {
           <div className="space-y-6 animate-fade-in-up">
             <div className="relative">
               <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
-              <div className="relative h-[500px] w-full rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
-                <Editor
-                  height="100%"
-                  defaultLanguage="javascript"
-                  theme="vs-light"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    lineNumbers: "on",
-                    roundedSelection: false,
-                    scrollBeyondLastLine: false,
-                    readOnly: isAnalyzing,
-                    automaticLayout: true,
-                    padding: { top: 16, bottom: 16 },
-                  }}
-                  className="rounded-lg"
-                />
+              <div className="relative rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
+                <div className="flex justify-end p-2 border-b border-border/50">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={handleClear}
+                    className="text-muted-foreground hover:text-foreground"
+                  >
+                    <X className="h-4 w-4 mr-2" />
+                    Clear
+                  </Button>
+                </div>
+                <div className="h-[500px] w-full">
+                  <Editor
+                    height="100%"
+                    defaultLanguage="javascript"
+                    theme="vs-light"
+                    value={code}
+                    onChange={(value) => setCode(value || "")}
+                    options={{
+                      minimap: { enabled: false },
+                      fontSize: 14,
+                      lineNumbers: "on",
+                      roundedSelection: false,
+                      scrollBeyondLastLine: false,
+                      readOnly: isAnalyzing,
+                      automaticLayout: true,
+                      padding: { top: 16, bottom: 16 },
+                    }}
+                    className="rounded-lg"
+                  />
+                </div>
               </div>
             </div>
             
