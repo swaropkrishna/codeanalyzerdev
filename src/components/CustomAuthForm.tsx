@@ -2,19 +2,10 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+import { SignUpFields } from "./auth/SignUpFields";
+import { AuthFields } from "./auth/AuthFields";
+import { VerificationDialog } from "./auth/VerificationDialog";
 
 interface AuthFormProps {
   view: "sign_in" | "sign_up";
@@ -25,6 +16,7 @@ export function CustomAuthForm({ view }: AuthFormProps) {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [showVerificationDialog, setShowVerificationDialog] = useState(false);
+  const [retryAfter, setRetryAfter] = useState<number | null>(null);
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -55,6 +47,16 @@ export function CustomAuthForm({ view }: AuthFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (retryAfter !== null) {
+      toast({
+        variant: "destructive",
+        title: "Please wait",
+        description: `You can try again in ${retryAfter} seconds.`,
+      });
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -79,7 +81,22 @@ export function CustomAuthForm({ view }: AuthFormProps) {
           },
         });
 
-        if (signUpError) throw signUpError;
+        if (signUpError) {
+          if (signUpError.message.includes("over_email_send_rate_limit")) {
+            const waitTime = parseInt(signUpError.message.match(/\d+/)?.[0] || "60");
+            setRetryAfter(waitTime);
+            setTimeout(() => setRetryAfter(null), waitTime * 1000);
+            
+            toast({
+              variant: "destructive",
+              title: "Too many attempts",
+              description: `Please wait ${waitTime} seconds before trying again.`,
+            });
+          } else {
+            throw signUpError;
+          }
+          return;
+        }
 
         toast({
           title: "Account created successfully",
@@ -109,74 +126,18 @@ export function CustomAuthForm({ view }: AuthFormProps) {
     <>
       <form onSubmit={handleSubmit} className="space-y-4">
         {view === "sign_up" && (
-          <>
-            <div className="space-y-2">
-              <Label htmlFor="firstName">First Name</Label>
-              <Input
-                id="firstName"
-                name="firstName"
-                placeholder="John"
-                value={formData.firstName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="lastName">Last Name</Label>
-              <Input
-                id="lastName"
-                name="lastName"
-                placeholder="Doe"
-                value={formData.lastName}
-                onChange={handleChange}
-                required
-              />
-            </div>
-          </>
+          <SignUpFields formData={formData} handleChange={handleChange} />
         )}
-        <div className="space-y-2">
-          <Label htmlFor="email">Email address</Label>
-          <Input
-            id="email"
-            name="email"
-            type="email"
-            placeholder="name@example.com"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div className="space-y-2">
-          <Label htmlFor="password">
-            {view === "sign_up" ? "Create Password" : "Password"}
-          </Label>
-          <Input
-            id="password"
-            name="password"
-            type="password"
-            placeholder="••••••••"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        {view === "sign_up" && (
-          <div className="space-y-2">
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
-            <Input
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              placeholder="••••••••"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
-        <Button type="submit" className="w-full" disabled={isLoading}>
+        <AuthFields
+          view={view}
+          formData={formData}
+          handleChange={handleChange}
+        />
+        <Button type="submit" className="w-full" disabled={isLoading || retryAfter !== null}>
           {isLoading ? (
             "Loading..."
+          ) : retryAfter !== null ? (
+            `Wait ${retryAfter}s`
           ) : view === "sign_up" ? (
             "Create Account"
           ) : (
@@ -185,22 +146,10 @@ export function CustomAuthForm({ view }: AuthFormProps) {
         </Button>
       </form>
 
-      <AlertDialog open={showVerificationDialog} onOpenChange={setShowVerificationDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Verify Your Email</AlertDialogTitle>
-            <AlertDialogDescription>
-              Please check your email and click the verification link to fully activate your account.
-              You can continue using the application, but some features may be limited until verification is complete.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogAction onClick={() => setShowVerificationDialog(false)}>
-              I'll do it later
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+      <VerificationDialog
+        open={showVerificationDialog}
+        onOpenChange={setShowVerificationDialog}
+      />
     </>
   );
 }
