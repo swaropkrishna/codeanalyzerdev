@@ -11,11 +11,22 @@ export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isResetSent, setIsResetSent] = useState(false);
+  const [retryAfter, setRetryAfter] = useState<number | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    // Check if we're in a cooldown period
+    if (retryAfter !== null) {
+      toast({
+        variant: "destructive",
+        title: "Please wait",
+        description: `You can try again in ${retryAfter} seconds.`,
+      });
+      return;
+    }
+
     // Prevent multiple submissions
     if (isLoading) {
       console.log("Request already in progress");
@@ -33,12 +44,32 @@ export default function ResetPassword() {
       if (error) {
         console.error("Reset password error:", error);
         
-        // Handle rate limit error specifically
-        if (error.status === 429) {
+        // Parse the error response
+        const errorBody = error.message.includes("rate limit exceeded") || 
+                         (typeof error === 'object' && 
+                          error.message && 
+                          error.message.includes("429"));
+        
+        if (errorBody) {
+          // Extract wait time from error message or default to 60 seconds
+          const waitTime = parseInt(error.message.match(/\d+/)?.[0] || "60");
+          setRetryAfter(waitTime);
+          
+          // Start countdown
+          const countdown = setInterval(() => {
+            setRetryAfter((prev) => {
+              if (prev === null || prev <= 1) {
+                clearInterval(countdown);
+                return null;
+              }
+              return prev - 1;
+            });
+          }, 1000);
+          
           toast({
             variant: "destructive",
             title: "Too Many Attempts",
-            description: "Please wait a few minutes before trying again.",
+            description: `Please wait ${waitTime} seconds before trying again.`,
           });
           return;
         }
@@ -111,15 +142,15 @@ export default function ResetPassword() {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                disabled={isLoading}
+                disabled={isLoading || retryAfter !== null}
               />
             </div>
             <Button 
               type="submit" 
               className="w-full" 
-              disabled={isLoading}
+              disabled={isLoading || retryAfter !== null}
             >
-              {isLoading ? "Sending..." : "Send Reset Link"}
+              {isLoading ? "Sending..." : retryAfter !== null ? `Wait ${retryAfter}s` : "Send Reset Link"}
             </Button>
           </form>
 
