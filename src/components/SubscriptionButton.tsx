@@ -7,10 +7,9 @@ import { useToast } from "@/hooks/use-toast";
 interface SubscriptionButtonProps {
   tier: "pro" | "plus";
   priceId: string;
-  features?: string[];
 }
 
-export function SubscriptionButton({ tier, priceId, features }: SubscriptionButtonProps) {
+export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -63,36 +62,12 @@ export function SubscriptionButton({ tier, priceId, features }: SubscriptionButt
   };
 
   return (
-    <div className="space-y-4">
-      <Button
-        className="w-full"
-        onClick={handleSubscribe}
-        disabled={isLoading}
-      >
-        {isLoading ? "Processing..." : `Upgrade to ${tier.charAt(0).toUpperCase() + tier.slice(1)}`}
-      </Button>
-      {features && features.length > 0 && (
-        <ul className="space-y-2 text-sm text-muted-foreground">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-center">
-              <svg
-                className="mr-2 h-4 w-4 text-primary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              {feature}
-            </li>
-          ))}
-        </ul>
-      )}
-    </div>
+    <Button
+      className="w-full"
+      onClick={handleSubscribe}
+      disabled={isLoading}
+    >
+      {isLoading ? "Processing..." : `Upgrade to ${tier.charAt(0).toUpperCase() + tier.slice(1)}`}
+    </Button>
   );
 }

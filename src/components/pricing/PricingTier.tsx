@@ -74,7 +74,6 @@ export function PricingTier({
             <SubscriptionButton
               tier={tier}
               priceId={priceId}
-              features={features}
             />
           )
         )}
