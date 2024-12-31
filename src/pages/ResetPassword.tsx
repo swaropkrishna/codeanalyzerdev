@@ -3,12 +3,14 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { CheckCircle2 } from "lucide-react";
 
 export default function ResetPassword() {
   const [email, setEmail] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isResetSent, setIsResetSent] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -22,6 +24,7 @@ export default function ResetPassword() {
 
       if (error) throw error;
 
+      setIsResetSent(true);
       toast({
         title: "Reset email sent",
         description: "Check your email for the password reset link",
@@ -37,6 +40,34 @@ export default function ResetPassword() {
       setIsLoading(false);
     }
   };
+
+  if (isResetSent) {
+    return (
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-primary/10 to-accent/10">
+        <div className="w-full max-w-md space-y-8">
+          <div className="bg-card/80 backdrop-blur-sm rounded-xl border border-border/20 p-8 shadow-xl shadow-primary/5">
+            <div className="text-center space-y-4">
+              <div className="flex justify-center">
+                <CheckCircle2 className="h-12 w-12 text-green-500" />
+              </div>
+              <h2 className="text-2xl font-semibold tracking-tight">Check your email</h2>
+              <p className="text-muted-foreground">
+                We've sent a password reset link to <span className="font-medium">{email}</span>
+              </p>
+              <div className="pt-4">
+                <Link
+                  to="/auth?view=sign_in"
+                  className="text-sm font-medium text-primary hover:underline"
+                >
+                  Back to Sign In
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-gradient-to-br from-primary/10 to-accent/10">
