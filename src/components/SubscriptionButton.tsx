@@ -24,7 +24,6 @@ export function SubscriptionButton({ tier, priceId, price, features }: Subscript
       if (error) throw error;
       if (!data.url) throw new Error('No checkout URL received');
 
-      // Redirect to Stripe Checkout
       window.location.href = data.url;
     } catch (error) {
       console.error('Error creating checkout session:', error);
@@ -39,46 +38,46 @@ export function SubscriptionButton({ tier, priceId, price, features }: Subscript
   };
 
   return (
-    <div className="rounded-lg border bg-card text-card-foreground shadow-sm">
-      <div className="flex flex-col space-y-1.5 p-6">
-        <h3 className="text-2xl font-semibold leading-none tracking-tight">{tier.charAt(0).toUpperCase() + tier.slice(1)} Plan</h3>
+    <div className="space-y-6">
+      <div className="space-y-2">
+        <h3 className="text-2xl font-semibold">{tier.charAt(0).toUpperCase() + tier.slice(1)} Plan</h3>
         <p className="text-sm text-muted-foreground">
           {tier === "pro" ? "For power users" : "For teams and heavy users"}
         </p>
-      </div>
-      <div className="p-6 pt-0 space-y-4">
-        <div className="flex items-baseline text-2xl font-semibold">
+        <div className="flex items-baseline text-3xl font-bold">
           ${price}
-          <span className="ml-1 text-sm font-normal text-muted-foreground">/month</span>
+          <span className="ml-1 text-lg font-normal text-muted-foreground">/month</span>
         </div>
-        <ul className="space-y-2 text-sm">
-          {features.map((feature, index) => (
-            <li key={index} className="flex items-center">
-              <svg
-                className="mr-2 h-4 w-4 text-primary"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-              {feature}
-            </li>
-          ))}
-        </ul>
-        <Button
-          className="w-full"
-          onClick={handleSubscribe}
-          disabled={isLoading}
-        >
-          {isLoading ? "Processing..." : `Upgrade to ${tier.charAt(0).toUpperCase() + tier.slice(1)}`}
-        </Button>
       </div>
+      
+      <ul className="space-y-3">
+        {features.map((feature, index) => (
+          <li key={index} className="flex items-center text-muted-foreground">
+            <svg
+              className="mr-2 h-4 w-4 text-primary"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+            {feature}
+          </li>
+        ))}
+      </ul>
+
+      <Button
+        className="w-full"
+        onClick={handleSubscribe}
+        disabled={isLoading}
+      >
+        {isLoading ? "Processing..." : `Upgrade to ${tier.charAt(0).toUpperCase() + tier.slice(1)}`}
+      </Button>
     </div>
   );
 }
