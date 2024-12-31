@@ -1,7 +1,10 @@
 import { FileText, Mail, Shield, Users, CreditCard } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
+import { useAuthState } from "@/hooks/use-auth-state";
 
 export default function Footer() {
+  const { isAuthenticated } = useAuthState();
+  
   return (
     <footer className="w-full border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto px-4 py-12">
@@ -52,21 +55,23 @@ export default function Footer() {
           </div>
           
           {/* Account Links */}
-          <div className="space-y-4">
-            <h4 className="font-medium">Account</h4>
-            <ul className="space-y-3 text-sm text-muted-foreground">
-              <li>
-                <RouterLink to="/auth?view=sign_in" className="hover:text-foreground transition-colors">
-                  Sign In
-                </RouterLink>
-              </li>
-              <li>
-                <RouterLink to="/auth?view=sign_up" className="hover:text-foreground transition-colors">
-                  Sign Up
-                </RouterLink>
-              </li>
-            </ul>
-          </div>
+          {!isAuthenticated && (
+            <div className="space-y-4">
+              <h4 className="font-medium">Account</h4>
+              <ul className="space-y-3 text-sm text-muted-foreground">
+                <li>
+                  <RouterLink to="/auth?view=sign_in" className="hover:text-foreground transition-colors">
+                    Sign In
+                  </RouterLink>
+                </li>
+                <li>
+                  <RouterLink to="/auth?view=sign_up" className="hover:text-foreground transition-colors">
+                    Sign Up
+                  </RouterLink>
+                </li>
+              </ul>
+            </div>
+          )}
         </div>
         
         <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
