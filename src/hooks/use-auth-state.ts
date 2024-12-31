@@ -37,8 +37,19 @@ export function useAuthState() {
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
       // If there's a session error or no session, we consider the user already signed out
-      if (sessionError || !session) {
-        console.log("No valid session found, considering user as signed out");
+      if (sessionError) {
+        console.log("Session error, clearing local state:", sessionError);
+        setIsAuthenticated(false);
+        navigate("/auth");
+        toast({
+          title: "Session Expired",
+          description: "Your session has expired. Please sign in again.",
+        });
+        return;
+      }
+
+      if (!session) {
+        console.log("No active session found, clearing local state");
         setIsAuthenticated(false);
         navigate("/auth");
         toast({
@@ -56,13 +67,32 @@ export function useAuthState() {
       });
       
       if (signOutError) {
-        // For any sign out error, we'll clear the local state anyway
-        console.log("Sign out error, clearing local state:", signOutError);
+        console.log("Sign out error:", signOutError);
+        
+        // Check if it's a session not found error
+        const errorBody = signOutError.message.includes("session_not_found") || 
+                         (typeof signOutError === 'object' && 
+                          signOutError.message && 
+                          signOutError.message.includes("403"));
+        
+        if (errorBody) {
+          console.log("Session not found or expired, clearing local state");
+          setIsAuthenticated(false);
+          navigate("/auth");
+          toast({
+            title: "Session Expired",
+            description: "Your session has expired. Please sign in again.",
+          });
+          return;
+        }
+
+        // For any other error, we'll clear the local state anyway
+        console.log("Other sign out error, clearing local state");
         setIsAuthenticated(false);
         navigate("/auth");
         toast({
-          title: "Signed out",
-          description: "You have been signed out due to an expired session",
+          title: "Signed Out",
+          description: "You have been signed out due to a session error.",
         });
         return;
       }
@@ -71,8 +101,8 @@ export function useAuthState() {
       setIsAuthenticated(false);
       navigate("/auth");
       toast({
-        title: "Signed out successfully",
-        description: "You have been signed out of your account",
+        title: "Signed Out Successfully",
+        description: "You have been signed out of your account.",
       });
     } catch (error) {
       console.error("Error during sign out:", error);
