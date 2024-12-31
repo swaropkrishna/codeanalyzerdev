@@ -55,7 +55,10 @@ export default function CodeAnalyzer() {
   }, []);
 
   const handleAnalyze = async () => {
+    console.log('Starting code analysis...');
+    
     if (!isAuthenticated) {
+      console.log('User not authenticated, redirecting to sign in...');
       toast({
         title: "Authentication Required",
         description: "Please sign in to analyze code",
@@ -66,6 +69,7 @@ export default function CodeAnalyzer() {
     }
 
     if (!code.trim()) {
+      console.log('No code provided');
       toast({
         title: "Error",
         description: "Please enter some code to analyze",
@@ -75,6 +79,7 @@ export default function CodeAnalyzer() {
     }
 
     if (!isPro && analysisCount >= 5) {
+      console.log('Free limit reached');
       toast({
         title: "Free Limit Reached",
         description: "Please upgrade to Pro to continue analyzing code",
@@ -86,12 +91,17 @@ export default function CodeAnalyzer() {
 
     setIsAnalyzing(true);
     try {
+      console.log('Calling analyze-code function...');
       const { data, error } = await supabase.functions.invoke('analyze-code', {
         body: { code }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error from analyze-code function:', error);
+        throw error;
+      }
 
+      console.log('Analysis completed, updating count...');
       const success = await incrementAnalysisCount();
       if (!success) {
         throw new Error("Failed to update analysis count");
