@@ -1,4 +1,4 @@
-import { FileText, Mail, Shield, Users } from "lucide-react";
+import { FileText, Mail, Shield, Users, CreditCard } from "lucide-react";
 import { Link as RouterLink } from "react-router-dom";
 
 export default function Footer() {
@@ -22,6 +22,12 @@ export default function Footer() {
                 <RouterLink to="/about" className="hover:text-foreground transition-colors inline-flex items-center gap-2">
                   <Users className="h-4 w-4" />
                   About Us
+                </RouterLink>
+              </li>
+              <li>
+                <RouterLink to="/pricing" className="hover:text-foreground transition-colors inline-flex items-center gap-2">
+                  <CreditCard className="h-4 w-4" />
+                  Pricing
                 </RouterLink>
               </li>
               <li>

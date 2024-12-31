@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { UserPlus, LogIn, LogOut } from "lucide-react";
+import { UserPlus, LogIn, LogOut, CreditCard } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthState } from "@/hooks/use-auth-state";
 import {
@@ -18,8 +18,20 @@ export default function Header() {
 
   const NavItems = () => (
     <>
-      {!isAuthenticated ? (
+      {!isAuthenticated && (
         <>
+          <Button
+            variant="ghost"
+            className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
+            onClick={() => {
+              navigate("/pricing");
+              setIsMobileMenuOpen(false);
+            }}
+          >
+            <CreditCard className="h-5 w-5 text-primary" />
+            <span className="font-medium">Pricing</span>
+          </Button>
+
           <Button
             variant="ghost"
             className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
@@ -44,7 +56,9 @@ export default function Header() {
             <span className="font-medium">Sign In</span>
           </Button>
         </>
-      ) : (
+      )}
+      
+      {isAuthenticated && (
         <Button
           variant="ghost"
           className="flex w-full items-center justify-start gap-2 px-2 hover:bg-destructive/10"
