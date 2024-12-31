@@ -31,16 +31,27 @@ export default function Header() {
     // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed in Header:", event, session);
-      setIsAuthenticated(!!session?.user);
+      if (event === 'SIGNED_OUT') {
+        setIsAuthenticated(false);
+        navigate("/auth?view=sign_in");
+      } else {
+        setIsAuthenticated(!!session?.user);
+      }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate]);
 
   const handleSignOut = async () => {
     try {
-      await supabase.auth.signOut();
-      navigate("/auth");
+      console.log("Attempting to sign out...");
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      
+      console.log("Sign out successful");
+      setIsAuthenticated(false);
+      setIsMobileMenuOpen(false);
+      
       toast({
         title: "Signed out successfully",
         description: "You have been signed out of your account",
@@ -99,10 +110,7 @@ export default function Header() {
         <Button
           variant="ghost"
           className="flex w-full items-center justify-start gap-2 px-2 hover:bg-destructive/10"
-          onClick={() => {
-            handleSignOut();
-            setIsMobileMenuOpen(false);
-          }}
+          onClick={handleSignOut}
         >
           <LogOut className="h-5 w-5 text-destructive" />
           <span className="font-medium">Sign Out</span>
