@@ -48,30 +48,35 @@ export default function Header() {
       
       if (sessionError) {
         console.error("Session error:", sessionError);
-        throw sessionError;
+        throw new Error(`Failed to get session: ${sessionError.message}`);
       }
 
       if (!session) {
-        console.log("No active session found, redirecting to auth page");
+        console.log("No active session found");
+        // Clear local state and redirect
         setIsAuthenticated(false);
         navigate("/auth");
+        toast({
+          title: "Session Expired",
+          description: "Your session has expired. Please sign in again.",
+          variant: "destructive",
+        });
         return;
       }
 
-      // Clear local state before signing out
-      setIsAuthenticated(false);
+      console.log("Current session found, proceeding with sign out");
       
       // Attempt to sign out
-      const { error } = await supabase.auth.signOut();
+      const { error: signOutError } = await supabase.auth.signOut();
       
-      if (error) {
-        console.error("Sign out error:", error);
-        // If sign out fails, restore authenticated state
-        setIsAuthenticated(true);
-        throw error;
+      if (signOutError) {
+        console.error("Sign out error:", signOutError);
+        throw new Error(`Failed to sign out: ${signOutError.message}`);
       }
 
+      // Only clear authentication state after successful sign out
       console.log("Sign out successful");
+      setIsAuthenticated(false);
       navigate("/auth");
       
       toast({
@@ -80,9 +85,13 @@ export default function Header() {
       });
     } catch (error) {
       console.error("Error during sign out:", error);
+      // Ensure authentication state reflects actual session state
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsAuthenticated(!!session);
+      
       toast({
         title: "Error signing out",
-        description: "There was a problem signing out. Please try again.",
+        description: error instanceof Error ? error.message : "There was a problem signing out. Please try again.",
         variant: "destructive",
       });
     } finally {
