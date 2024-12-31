@@ -110,6 +110,36 @@ export type Database = {
         }
         Relationships: []
       }
+      stripe_prices: {
+        Row: {
+          id: string
+          tier: string
+          price_id: string
+          amount: number
+          mode: string
+          created_at: string | null
+          active: boolean | null
+        }
+        Insert: {
+          id?: string
+          tier: string
+          price_id: string
+          amount: number
+          mode?: string
+          created_at?: string | null
+          active?: boolean | null
+        }
+        Update: {
+          id?: string
+          tier?: string
+          price_id?: string
+          amount?: number
+          mode?: string
+          created_at?: string | null
+          active?: boolean | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

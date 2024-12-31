@@ -1,4 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { SubscriptionButton } from "@/components/SubscriptionButton";
+import { supabase } from "@/integrations/supabase/client";
 
 export default function Pricing() {
   const proFeatures = [
@@ -13,6 +15,37 @@ export default function Pricing() {
     "Advanced code insights",
     "Team collaboration"
   ];
+
+  const { data: prices, isLoading } = useQuery({
+    queryKey: ['stripe-prices'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('stripe_prices')
+        .select('*')
+        .eq('mode', 'test')
+        .eq('active', true);
+      
+      if (error) throw error;
+      return data;
+    }
+  });
+
+  const getPrice = (tier: string) => {
+    return prices?.find(price => price.tier === tier);
+  };
+
+  if (isLoading) {
+    return (
+      <main className="flex-1">
+        <div className="container mx-auto px-4 py-16 text-center">
+          Loading pricing information...
+        </div>
+      </main>
+    );
+  }
+
+  const proPrice = getPrice('pro');
+  const plusPrice = getPrice('plus');
 
   return (
     <main className="flex-1">
@@ -114,7 +147,7 @@ export default function Pricing() {
                     For power users
                   </p>
                   <div className="flex items-baseline text-3xl font-bold">
-                    $9.99
+                    ${proPrice?.amount}
                     <span className="ml-1 text-lg font-normal text-muted-foreground">/month</span>
                   </div>
                 </div>
@@ -142,8 +175,8 @@ export default function Pricing() {
               <div className="mt-6 pt-6 border-t">
                 <SubscriptionButton
                   tier="pro"
-                  priceId="price_1OvHkIF80ze3XcIjXVxhgGxR"
-                  price="9.99"
+                  priceId={proPrice?.price_id ?? ''}
+                  price={proPrice?.amount.toString() ?? '9.99'}
                   features={proFeatures}
                 />
               </div>
@@ -158,7 +191,7 @@ export default function Pricing() {
                     For teams and heavy users
                   </p>
                   <div className="flex items-baseline text-3xl font-bold">
-                    $29.99
+                    ${plusPrice?.amount}
                     <span className="ml-1 text-lg font-normal text-muted-foreground">/month</span>
                   </div>
                 </div>
@@ -186,8 +219,8 @@ export default function Pricing() {
               <div className="mt-6 pt-6 border-t">
                 <SubscriptionButton
                   tier="plus"
-                  priceId="price_1OvHksF80ze3XcIjgNUF8Y3q"
-                  price="29.99"
+                  priceId={plusPrice?.price_id ?? ''}
+                  price={plusPrice?.amount.toString() ?? '29.99'}
                   features={plusFeatures}
                 />
               </div>
