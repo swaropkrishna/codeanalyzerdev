@@ -1,57 +1,37 @@
-import { createBrowserRouter } from "react-router-dom";
-import CodeAnalyzer from "@/pages/CodeAnalyzer";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import RootLayout from "@/components/RootLayout";
+import About from "@/pages/About";
 import Auth from "@/pages/Auth";
+import CodeAnalyzer from "@/pages/CodeAnalyzer";
+import Contact from "@/pages/Contact";
+import Privacy from "@/pages/Privacy";
+import Terms from "@/pages/Terms";
 import ResetPassword from "@/pages/ResetPassword";
 import UpdatePassword from "@/pages/UpdatePassword";
-import About from "@/pages/About";
-import Terms from "@/pages/Terms";
-import Privacy from "@/pages/Privacy";
-import Contact from "@/pages/Contact";
 import Pricing from "@/pages/Pricing";
-import RootLayout from "@/components/RootLayout";
 
-const router = createBrowserRouter([
-  {
-    element: <RootLayout />,
-    children: [
-      {
-        path: "/",
-        element: <CodeAnalyzer />,
-      },
-      {
-        path: "/auth",
-        element: <Auth />,
-      },
-      {
-        path: "/auth/reset-password",
-        element: <ResetPassword />,
-      },
-      {
-        path: "/auth/update-password",
-        element: <UpdatePassword />,
-      },
-      {
-        path: "/about",
-        element: <About />,
-      },
-      {
-        path: "/terms",
-        element: <Terms />,
-      },
-      {
-        path: "/privacy",
-        element: <Privacy />,
-      },
-      {
-        path: "/contact",
-        element: <Contact />,
-      },
-      {
-        path: "/pricing",
-        element: <Pricing />,
-      },
-    ],
-  },
-]);
+import "./App.css";
 
-export default router;
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route element={<RootLayout />}>
+          <Route path="/" element={<CodeAnalyzer />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/auth" element={<Auth />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<Terms />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route path="/update-password" element={<UpdatePassword />} />
+          <Route path="/pricing" element={<Pricing />} />
+          {/* Add redirect for subscription cancel page */}
+          <Route path="/subscription/cancel" element={<Navigate to="/pricing" replace />} />
+        </Route>
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
