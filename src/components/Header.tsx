@@ -43,17 +43,12 @@ export default function Header() {
     setIsSigningOut(true);
 
     try {
-      // First, get the current session
+      // First, check if we have a valid session
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
       if (sessionError) {
         console.error("Session error:", sessionError);
-        throw new Error(`Failed to get session: ${sessionError.message}`);
-      }
-
-      if (!session) {
-        console.log("No active session found");
-        // Clear local state and redirect
+        // If we can't get the session, assume it's expired and clear local state
         setIsAuthenticated(false);
         navigate("/auth");
         toast({
@@ -64,17 +59,41 @@ export default function Header() {
         return;
       }
 
-      console.log("Current session found, proceeding with sign out");
+      if (!session) {
+        console.log("No active session found");
+        setIsAuthenticated(false);
+        navigate("/auth");
+        toast({
+          title: "Already Signed Out",
+          description: "You were already signed out. Please sign in again if needed.",
+        });
+        return;
+      }
+
+      console.log("Active session found, proceeding with sign out");
       
       // Attempt to sign out
-      const { error: signOutError } = await supabase.auth.signOut();
+      const { error: signOutError } = await supabase.auth.signOut({
+        scope: 'local' // Only clear local session to avoid 403 errors
+      });
       
       if (signOutError) {
+        // If sign out fails but it's just a session not found error, we can still proceed
+        if (signOutError.message.includes("session_not_found")) {
+          console.log("Session not found during sign out, proceeding anyway");
+          setIsAuthenticated(false);
+          navigate("/auth");
+          toast({
+            title: "Signed out successfully",
+            description: "You have been signed out of your account",
+          });
+          return;
+        }
+        
         console.error("Sign out error:", signOutError);
         throw new Error(`Failed to sign out: ${signOutError.message}`);
       }
 
-      // Only clear authentication state after successful sign out
       console.log("Sign out successful");
       setIsAuthenticated(false);
       navigate("/auth");
@@ -85,7 +104,8 @@ export default function Header() {
       });
     } catch (error) {
       console.error("Error during sign out:", error);
-      // Ensure authentication state reflects actual session state
+      
+      // Double check our session state
       const { data: { session } } = await supabase.auth.getSession();
       setIsAuthenticated(!!session);
       
