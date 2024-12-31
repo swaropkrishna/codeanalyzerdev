@@ -41,27 +41,75 @@ export type Database = {
           },
         ]
       }
+      Transactions: {
+        Row: {
+          amount: number | null
+          attrs: Json | null
+          created: string | null
+          currency: string | null
+          description: string | null
+          fee: number | null
+          id: string | null
+          net: number | null
+          status: string | null
+          type: string | null
+        }
+        Insert: {
+          amount?: number | null
+          attrs?: Json | null
+          created?: string | null
+          currency?: string | null
+          description?: string | null
+          fee?: number | null
+          id?: string | null
+          net?: number | null
+          status?: string | null
+          type?: string | null
+        }
+        Update: {
+          amount?: number | null
+          attrs?: Json | null
+          created?: string | null
+          currency?: string | null
+          description?: string | null
+          fee?: number | null
+          id?: string | null
+          net?: number | null
+          status?: string | null
+          type?: string | null
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           analysis_count: number | null
           created_at: string | null
+          daily_analysis_count: number | null
           email: string | null
           id: string
           is_pro: boolean | null
+          last_analysis_date: string | null
+          subscription_tier: string | null
         }
         Insert: {
           analysis_count?: number | null
           created_at?: string | null
+          daily_analysis_count?: number | null
           email?: string | null
           id?: string
           is_pro?: boolean | null
+          last_analysis_date?: string | null
+          subscription_tier?: string | null
         }
         Update: {
           analysis_count?: number | null
           created_at?: string | null
+          daily_analysis_count?: number | null
           email?: string | null
           id?: string
           is_pro?: boolean | null
+          last_analysis_date?: string | null
+          subscription_tier?: string | null
         }
         Relationships: []
       }
@@ -70,7 +118,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      reset_daily_analysis_count: {
+        Args: Record<PropertyKey, never>
+        Returns: undefined
+      }
     }
     Enums: {
       [_ in never]: never
