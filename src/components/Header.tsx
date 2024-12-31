@@ -43,9 +43,14 @@ export default function Header() {
     setIsSigningOut(true);
 
     try {
-      console.log("Checking current session...");
-      const { data: { session } } = await supabase.auth.getSession();
+      // First, get the current session
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
       
+      if (sessionError) {
+        console.error("Session error:", sessionError);
+        throw sessionError;
+      }
+
       if (!session) {
         console.log("No active session found, redirecting to auth page");
         setIsAuthenticated(false);
@@ -53,16 +58,20 @@ export default function Header() {
         return;
       }
 
-      console.log("Attempting to sign out...");
+      // Clear local state before signing out
+      setIsAuthenticated(false);
+      
+      // Attempt to sign out
       const { error } = await supabase.auth.signOut();
       
       if (error) {
         console.error("Sign out error:", error);
+        // If sign out fails, restore authenticated state
+        setIsAuthenticated(true);
         throw error;
       }
 
       console.log("Sign out successful");
-      setIsAuthenticated(false);
       navigate("/auth");
       
       toast({
@@ -70,7 +79,7 @@ export default function Header() {
         description: "You have been signed out of your account",
       });
     } catch (error) {
-      console.error("Error signing out:", error);
+      console.error("Error during sign out:", error);
       toast({
         title: "Error signing out",
         description: "There was a problem signing out. Please try again.",
