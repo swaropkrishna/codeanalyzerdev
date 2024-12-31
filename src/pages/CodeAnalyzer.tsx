@@ -18,13 +18,13 @@ export default function CodeAnalyzer() {
   const { analysisCount, incrementAnalysisCount, isLoading: isLoadingCount } = useAnalysisCount();
 
   useEffect(() => {
-    // Check initial session
+    // Check initial auth state immediately
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      console.log("Initial session check:", session);
-      setIsAuthenticated(!!session?.user);
+      console.log("Initial session check in CodeAnalyzer:", session);
       
       if (session?.user) {
+        setIsAuthenticated(true);
         const { data: userData } = await supabase
           .from('users')
           .select('is_pro')
@@ -32,6 +32,9 @@ export default function CodeAnalyzer() {
           .single();
         
         setIsPro(userData?.is_pro || false);
+      } else {
+        setIsAuthenticated(false);
+        navigate("/auth?view=sign_in");
       }
     };
     
@@ -40,9 +43,9 @@ export default function CodeAnalyzer() {
     // Set up auth state change listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
       console.log("Auth state changed in CodeAnalyzer:", event, session);
-      setIsAuthenticated(!!session?.user);
       
       if (session?.user) {
+        setIsAuthenticated(true);
         const { data: userData } = await supabase
           .from('users')
           .select('is_pro')
@@ -50,11 +53,14 @@ export default function CodeAnalyzer() {
           .single();
         
         setIsPro(userData?.is_pro || false);
+      } else {
+        setIsAuthenticated(false);
+        navigate("/auth?view=sign_in");
       }
     });
 
     return () => subscription.unsubscribe();
-  }, []);
+  }, [navigate]);
 
   const handleAnalyze = async () => {
     console.log('Starting code analysis...', { isAuthenticated });
