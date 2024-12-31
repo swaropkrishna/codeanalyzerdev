@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
+import { CopyButton } from "@/components/CopyButton";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -131,7 +132,8 @@ export default function CodeAnalyzer() {
             {analysis && (
               <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
                 <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
-                <div className="prose prose-sm max-w-none">
+                <div className="prose prose-sm max-w-none relative">
+                  <CopyButton text={analysis} />
                   <ReactMarkdown>{analysis}</ReactMarkdown>
                 </div>
               </div>
