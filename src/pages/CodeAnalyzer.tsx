@@ -1,61 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
 import ReactMarkdown from 'react-markdown';
 import { CopyButton } from "@/components/CopyButton";
-import { X } from "lucide-react";
+import { CodeEditor } from "@/components/CodeEditor";
+import { useUserStatus } from "@/hooks/use-user-status";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isPro, setIsPro] = useState(false);
+  const { isAuthenticated, isPro, isLoading } = useUserStatus();
   const [code, setCode] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [analysis, setAnalysis] = useState("");
   const [analysisCount, setAnalysisCount] = useState(0);
-
-  // Check initial auth state and pro status
-  useEffect(() => {
-    const checkUserStatus = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      setIsAuthenticated(!!session);
-      
-      if (session?.user) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('is_pro')
-          .eq('id', session.user.id)
-          .single();
-        
-        setIsPro(userData?.is_pro || false);
-      }
-    };
-
-    checkUserStatus();
-  }, []);
-
-  // Subscribe to auth state changes
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      setIsAuthenticated(!!session);
-      
-      if (session?.user) {
-        const { data: userData } = await supabase
-          .from('users')
-          .select('is_pro')
-          .eq('id', session.user.id)
-          .single();
-        
-        setIsPro(userData?.is_pro || false);
-      }
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const handleAnalyze = async () => {
     if (!isAuthenticated) {
@@ -123,6 +83,14 @@ export default function CodeAnalyzer() {
     });
   };
 
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -142,40 +110,12 @@ export default function CodeAnalyzer() {
           </div>
           
           <div className="space-y-6 animate-fade-in-up">
-            <div className="relative">
-              <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
-              <div className="relative h-[500px] w-full rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
-                {code && (
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="absolute top-2 right-2 z-10"
-                    onClick={handleClear}
-                    title="Clear input and analysis"
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
-                )}
-                <Editor
-                  height="100%"
-                  defaultLanguage="javascript"
-                  theme="vs-light"
-                  value={code}
-                  onChange={(value) => setCode(value || "")}
-                  options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    lineNumbers: "on",
-                    roundedSelection: false,
-                    scrollBeyondLastLine: false,
-                    readOnly: isAnalyzing,
-                    automaticLayout: true,
-                    padding: { top: 16, bottom: 16 },
-                  }}
-                  className="rounded-lg"
-                />
-              </div>
-            </div>
+            <CodeEditor
+              code={code}
+              onChange={(value) => setCode(value || "")}
+              onClear={handleClear}
+              isAnalyzing={isAnalyzing}
+            />
             
             <div className="flex justify-center">
               <Button
