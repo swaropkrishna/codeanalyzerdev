@@ -1,6 +1,19 @@
 import { SubscriptionButton } from "@/components/SubscriptionButton";
 
 export default function Pricing() {
+  const proFeatures = [
+    "100 analyses per day",
+    "Priority support",
+    "Detailed code insights"
+  ];
+
+  const plusFeatures = [
+    "Unlimited analyses",
+    "Premium support",
+    "Advanced code insights",
+    "Team collaboration"
+  ];
+
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -16,7 +29,7 @@ export default function Pricing() {
 
           <div className="grid md:grid-cols-3 gap-8 animate-fade-in-up">
             {/* Free Tier */}
-            <div className="rounded-lg border p-8 bg-card relative flex flex-col h-full">
+            <div className="rounded-lg border p-8 bg-card relative flex flex-col">
               <div className="flex-grow space-y-6">
                 <div className="space-y-2">
                   <h2 className="text-2xl font-bold">Free</h2>
@@ -90,7 +103,7 @@ export default function Pricing() {
             </div>
 
             {/* Pro Tier */}
-            <div className="rounded-lg border p-8 bg-card relative flex flex-col h-full">
+            <div className="rounded-lg border p-8 bg-card relative flex flex-col">
               <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-sm rounded-full">
                 Popular
               </div>
@@ -106,54 +119,24 @@ export default function Pricing() {
                   </div>
                 </div>
                 <ul className="space-y-3">
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    100 analyses per day
-                  </li>
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Priority support
-                  </li>
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Detailed code insights
-                  </li>
+                  {proFeatures.map((feature, index) => (
+                    <li key={index} className="flex items-center text-muted-foreground">
+                      <svg
+                        className="mr-2 h-4 w-4 text-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="mt-6 pt-6 border-t">
@@ -161,13 +144,13 @@ export default function Pricing() {
                   tier="pro"
                   priceId="price_1Qc96EF80ze3XcIjv1wATjPg"
                   price="9.99"
-                  features={[]}
+                  features={proFeatures}
                 />
               </div>
             </div>
 
             {/* Plus Tier */}
-            <div className="rounded-lg border p-8 bg-card relative flex flex-col h-full">
+            <div className="rounded-lg border p-8 bg-card relative flex flex-col">
               <div className="flex-grow space-y-6">
                 <div className="space-y-2">
                   <h2 className="text-2xl font-bold">Plus</h2>
@@ -180,70 +163,24 @@ export default function Pricing() {
                   </div>
                 </div>
                 <ul className="space-y-3">
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Unlimited analyses
-                  </li>
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Premium support
-                  </li>
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Advanced code insights
-                  </li>
-                  <li className="flex items-center text-muted-foreground">
-                    <svg
-                      className="mr-2 h-4 w-4 text-primary"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M5 13l4 4L19 7"
-                      />
-                    </svg>
-                    Team collaboration
-                  </li>
+                  {plusFeatures.map((feature, index) => (
+                    <li key={index} className="flex items-center text-muted-foreground">
+                      <svg
+                        className="mr-2 h-4 w-4 text-primary"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                      {feature}
+                    </li>
+                  ))}
                 </ul>
               </div>
               <div className="mt-6 pt-6 border-t">
@@ -251,7 +188,7 @@ export default function Pricing() {
                   tier="plus"
                   priceId="price_1Qc96dF80ze3XcIjGggGJdaD"
                   price="29.99"
-                  features={[]}
+                  features={plusFeatures}
                 />
               </div>
             </div>
