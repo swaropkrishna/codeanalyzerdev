@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { UserPlus, LogIn, LogOut, DollarSign, Menu } from "lucide-react";
+import { UserPlus, LogIn, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -76,18 +76,6 @@ export default function Header() {
             <LogIn className="h-5 w-5 text-primary" />
             <span className="font-medium">Sign In</span>
           </Button>
-
-          <Button
-            variant="default"
-            className="flex w-full items-center justify-start gap-2 bg-gradient-to-r from-primary to-accent hover:opacity-90"
-            onClick={() => {
-              navigate("/pricing");
-              setIsMobileMenuOpen(false);
-            }}
-          >
-            <DollarSign className="h-5 w-5" />
-            <span className="font-medium">Pricing</span>
-          </Button>
         </>
       ) : (
         <Button
@@ -130,7 +118,6 @@ export default function Header() {
               size="icon"
               className="hover:bg-accent/10"
             >
-              <Menu className="h-5 w-5" />
               <span className="sr-only">Toggle menu</span>
             </Button>
           </SheetTrigger>
