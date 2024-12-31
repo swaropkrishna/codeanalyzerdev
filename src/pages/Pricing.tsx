@@ -142,7 +142,7 @@ export default function Pricing() {
               <div className="mt-6 pt-6 border-t">
                 <SubscriptionButton
                   tier="pro"
-                  priceId="price_1Qc96EF80ze3XcIjv1wATjPg"
+                  priceId="price_1OvGLIF80ze3XcIjXVxhgGxR"
                   price="9.99"
                   features={proFeatures}
                 />
@@ -186,7 +186,7 @@ export default function Pricing() {
               <div className="mt-6 pt-6 border-t">
                 <SubscriptionButton
                   tier="plus"
-                  priceId="price_1Qc96dF80ze3XcIjGggGJdaD"
+                  priceId="price_1OvGLsF80ze3XcIjgNUF8Y3q"
                   price="29.99"
                   features={plusFeatures}
                 />
