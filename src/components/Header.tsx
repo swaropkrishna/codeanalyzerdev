@@ -18,20 +18,20 @@ export default function Header() {
 
   const NavItems = () => (
     <>
+      <Button
+        variant="ghost"
+        className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
+        onClick={() => {
+          navigate("/pricing");
+          setIsMobileMenuOpen(false);
+        }}
+      >
+        <CreditCard className="h-5 w-5 text-primary" />
+        <span className="font-medium">Pricing</span>
+      </Button>
+
       {!isAuthenticated && (
         <>
-          <Button
-            variant="ghost"
-            className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
-            onClick={() => {
-              navigate("/pricing");
-              setIsMobileMenuOpen(false);
-            }}
-          >
-            <CreditCard className="h-5 w-5 text-primary" />
-            <span className="font-medium">Pricing</span>
-          </Button>
-
           <Button
             variant="ghost"
             className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
