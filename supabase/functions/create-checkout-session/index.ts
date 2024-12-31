@@ -27,6 +27,7 @@ serve(async (req) => {
     const email = user?.email
 
     if (!email) {
+      console.error('No email found for user')
       throw new Error('No email found')
     }
 
@@ -36,10 +37,12 @@ serve(async (req) => {
       throw new Error('Stripe configuration error')
     }
 
+    console.log('Initializing Stripe with secret key')
     const stripe = new Stripe(stripeSecretKey, {
       apiVersion: '2023-10-16',
     })
 
+    console.log('Looking up customer with email:', email)
     const customers = await stripe.customers.list({
       email: email,
       limit: 1
@@ -48,12 +51,17 @@ serve(async (req) => {
     // Get the price_id from the request body
     const { price_id } = await req.json()
     if (!price_id) {
+      console.error('No price ID provided in request body')
       throw new Error('No price ID provided')
     }
+
+    console.log('Processing checkout for price ID:', price_id)
 
     let customer_id = undefined
     if (customers.data.length > 0) {
       customer_id = customers.data[0].id
+      console.log('Found existing customer:', customer_id)
+      
       // check if already subscribed to this price
       const subscriptions = await stripe.subscriptions.list({
         customer: customers.data[0].id,
@@ -63,8 +71,11 @@ serve(async (req) => {
       })
 
       if (subscriptions.data.length > 0) {
+        console.error('Customer already has an active subscription for this price')
         throw new Error("Already subscribed to this plan")
       }
+    } else {
+      console.log('No existing customer found, will create new customer during checkout')
     }
 
     // Get the origin from the request headers and ensure it's properly formatted
