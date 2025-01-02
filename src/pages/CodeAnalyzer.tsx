@@ -48,19 +48,50 @@ export default function CodeAnalyzer() {
 
     setIsAnalyzing(true);
     try {
-      const { data, error } = await supabase.functions.invoke('analyze-code', {
-        body: { code }
-      });
+      // First, try to update the analysis count
+      const { data: userData, error: userError } = await supabase
+        .from('users')
+        .update({ analysis_count: undefined }) // Trigger the check_analysis_limits function
+        .eq('id', (await supabase.auth.getUser()).data.user?.id)
+        .select('subscription_tier')
+        .single();
 
-      if (error?.message?.includes('Daily limit reached')) {
-        setShowUpgrade(true);
+      if (userError) {
+        console.error('Error updating analysis count:', userError);
+        
+        // Check if it's a limit reached error
+        if (userError.message.includes('Free tier limit reached')) {
+          setShowUpgrade(true);
+          toast({
+            title: "Free Tier Limit Reached",
+            description: "Please upgrade to Pro or Plus to continue analyzing code",
+            variant: "destructive",
+          });
+          navigate("/pricing");
+          return;
+        } else if (userError.message.includes('Pro tier limit reached')) {
+          setShowUpgrade(true);
+          toast({
+            title: "Pro Tier Limit Reached",
+            description: "Please upgrade to Plus for unlimited analyses",
+            variant: "destructive",
+          });
+          navigate("/pricing");
+          return;
+        }
+
         toast({
-          title: "Daily Limit Reached",
-          description: "Please upgrade your plan to continue analyzing code",
+          title: "Error",
+          description: "Failed to update analysis count. Please try again.",
           variant: "destructive",
         });
         return;
       }
+
+      // If count update successful, proceed with analysis
+      const { data, error } = await supabase.functions.invoke('analyze-code', {
+        body: { code }
+      });
 
       if (error) throw error;
 
