@@ -1,11 +1,13 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PricingHeader } from "@/components/pricing/PricingHeader";
 import { PricingTier } from "@/components/pricing/PricingTier";
 import { useAuthState } from "@/hooks/use-auth-state";
+import { useEffect } from "react";
 
 export default function Pricing() {
   const { isAuthenticated } = useAuthState();
+  const queryClient = useQueryClient();
   
   const proFeatures = [
     "100 analyses per day",
@@ -19,6 +21,14 @@ export default function Pricing() {
     "Advanced code insights",
     "Team collaboration"
   ];
+
+  // Reset query cache when auth state changes
+  useEffect(() => {
+    if (!isAuthenticated) {
+      console.log('User logged out, invalidating subscription query cache');
+      queryClient.invalidateQueries({ queryKey: ['user-subscription'] });
+    }
+  }, [isAuthenticated, queryClient]);
 
   // Fetch user's subscription tier only if authenticated
   const { data: userData } = useQuery({
