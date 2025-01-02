@@ -59,7 +59,6 @@ export default function Pricing() {
       const { data, error } = await supabase
         .from('stripe_prices')
         .select('*')
-        .ilike('mode', 'real')
         .eq('active', true);
       
       if (error) {
@@ -97,7 +96,7 @@ export default function Pricing() {
   console.log('Current user subscription tier:', userData?.subscription_tier);
   console.log('Is user authenticated:', isAuthenticated);
 
-  // Get the current tier - default to "free" if not authenticated
+  // Get the current tier - default to "free" if not authenticated or no tier set
   const currentTier = isAuthenticated ? (userData?.subscription_tier || "free") : "free";
   console.log('Current tier before normalization:', currentTier);
 
