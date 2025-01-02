@@ -84,7 +84,9 @@ export default function Pricing() {
   console.log('Plus price:', plusPrice);
   console.log('Current user subscription tier:', userData?.subscription_tier);
 
-  const currentTier = userData?.subscription_tier?.toLowerCase() || 'free';
+  // Normalize the subscription tier to lowercase for comparison
+  const currentTier = (userData?.subscription_tier || 'free').toLowerCase();
+  console.log('Normalized current tier:', currentTier);
 
   return (
     <main className="flex-1">
