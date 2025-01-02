@@ -73,10 +73,11 @@ export async function updateAnalysisCount(userId: string) {
     if (updateError) {
       console.error('Error updating analysis count:', updateError);
       
-      // Check for specific error messages from the database function
-      if (updateError.message.includes('Free tier limit reached')) {
+      // Check if this is a tier limit error from our database trigger
+      const errorBody = updateError.message;
+      if (errorBody.includes('Free tier limit reached')) {
         throw new Error('Free tier limit reached');
-      } else if (updateError.message.includes('Pro tier limit reached')) {
+      } else if (errorBody.includes('Pro tier limit reached')) {
         throw new Error('Pro tier limit reached');
       }
       
