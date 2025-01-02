@@ -84,6 +84,8 @@ export default function Pricing() {
   console.log('Plus price:', plusPrice);
   console.log('Current user subscription tier:', userData?.subscription_tier);
 
+  const currentTier = userData?.subscription_tier?.toLowerCase() || 'free';
+
   return (
     <main className="flex-1">
       <section className="container mx-auto px-4 py-16 md:py-24">
@@ -100,7 +102,7 @@ export default function Pricing() {
                 "Basic code insights",
                 "Community support"
               ]}
-              isFreeTier={userData?.subscription_tier === 'free'}
+              isFreeTier={currentTier === 'free'}
             />
 
             <PricingTier
@@ -111,7 +113,7 @@ export default function Pricing() {
               priceId={proPrice?.price_id}
               tier="pro"
               isPopular
-              isFreeTier={userData?.subscription_tier === 'pro'}
+              isFreeTier={currentTier === 'pro'}
             />
 
             <PricingTier
@@ -121,7 +123,7 @@ export default function Pricing() {
               features={plusFeatures}
               priceId={plusPrice?.price_id}
               tier="plus"
-              isFreeTier={userData?.subscription_tier === 'plus'}
+              isFreeTier={currentTier === 'plus'}
             />
           </div>
         </div>
