@@ -44,18 +44,55 @@ export function AnalysisForm() {
         throw new Error('User not found');
       }
 
-      console.log('Updating analysis count for user:', userId);
+      console.log('Checking user record for:', userId);
       const { data: userData, error: userError } = await supabase
         .from('users')
-        .update({ analysis_count: undefined }) // Trigger the check_analysis_limits function
+        .select('*')
         .eq('id', userId)
         .maybeSingle();
 
       if (userError) {
-        console.error('Error updating analysis count:', userError);
+        console.error('Error fetching user:', userError);
+        throw userError;
+      }
+
+      // If user record doesn't exist, create it
+      if (!userData) {
+        console.log('Creating user record for:', userId);
+        const { data: newUser, error: createError } = await supabase
+          .from('users')
+          .insert([{ 
+            id: userId,
+            subscription_tier: 'free',
+            analysis_count: 0,
+            max_analysis_count: 1
+          }])
+          .select()
+          .maybeSingle();
+
+        if (createError) {
+          console.error('Error creating user record:', createError);
+          throw createError;
+        }
+
+        if (!newUser) {
+          throw new Error('Failed to create user record');
+        }
+      }
+
+      console.log('Updating analysis count for user:', userId);
+      const { data: updatedUser, error: updateError } = await supabase
+        .from('users')
+        .update({ analysis_count: undefined }) // Trigger the check_analysis_limits function
+        .eq('id', userId)
+        .select()
+        .maybeSingle();
+
+      if (updateError) {
+        console.error('Error updating analysis count:', updateError);
         
         // Check if it's a limit reached error
-        if (userError.message.includes('Free tier limit reached')) {
+        if (updateError.message.includes('Free tier limit reached')) {
           toast({
             title: "Free Tier Limit Reached",
             description: "Please upgrade to Pro or Plus to continue analyzing code",
@@ -63,7 +100,7 @@ export function AnalysisForm() {
           });
           navigate("/pricing");
           return;
-        } else if (userError.message.includes('Pro tier limit reached')) {
+        } else if (updateError.message.includes('Pro tier limit reached')) {
           toast({
             title: "Pro Tier Limit Reached",
             description: "Please upgrade to Plus for unlimited analyses",
@@ -81,8 +118,8 @@ export function AnalysisForm() {
         return;
       }
 
-      if (!userData) {
-        console.error('User record not found');
+      if (!updatedUser) {
+        console.error('Updated user record not found');
         toast({
           title: "Error",
           description: "User record not found. Please try signing out and back in.",
