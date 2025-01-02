@@ -31,18 +31,20 @@ export default function Pricing() {
         console.error('Error fetching prices:', error);
         throw error;
       }
-      console.log('Fetched prices:', data);
+      console.log('Fetched prices data:', data);
       return data;
     }
   });
 
   const getPrice = (tier: string) => {
+    console.log('All available prices:', prices);
     const price = prices?.find(price => price.tier.toLowerCase() === tier.toLowerCase());
     console.log(`Getting price for tier ${tier}:`, price);
     return price;
   };
 
   if (isLoading) {
+    console.log('Loading prices...');
     return (
       <main className="flex-1">
         <div className="container mx-auto px-4 py-16 text-center">
@@ -54,6 +56,9 @@ export default function Pricing() {
 
   const proPrice = getPrice('pro');
   const plusPrice = getPrice('plus');
+  
+  console.log('Pro price:', proPrice);
+  console.log('Plus price:', plusPrice);
 
   return (
     <main className="flex-1">
