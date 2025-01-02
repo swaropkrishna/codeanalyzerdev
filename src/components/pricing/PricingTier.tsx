@@ -24,11 +24,21 @@ export function PricingTier({
   isFreeTier,
   currentTier
 }: PricingTierProps) {
-  // Check if user has Plus subscription and current tier should be disabled
-  const shouldDisable = currentTier === 'plus' && (title === 'Free' || title === 'Pro');
-
   // Check if this is the current tier card
   const isCurrentTier = currentTier?.toLowerCase() === title.toLowerCase();
+
+  // Function to determine if button should be hidden based on current tier
+  const shouldHideButton = () => {
+    const currentTierLower = currentTier?.toLowerCase();
+    const titleLower = title.toLowerCase();
+
+    if (currentTierLower === 'plus') {
+      return titleLower === 'free' || titleLower === 'pro';
+    } else if (currentTierLower === 'pro') {
+      return titleLower === 'free';
+    }
+    return false;
+  };
 
   return (
     <div className={`rounded-lg border p-8 bg-card relative flex flex-col h-full ${isCurrentTier ? 'border-primary border-2' : ''}`}>
@@ -70,18 +80,20 @@ export function PricingTier({
         </ul>
       </div>
       <div className="mt-6 pt-6 border-t">
-        {isFreeTier || shouldDisable ? (
-          <button
-            className="w-full px-4 py-2 text-sm font-medium text-muted-foreground bg-secondary rounded-md hover:bg-secondary/80"
-            disabled
-          >
-            {title === 'Free' ? 'Free' : 'Current Plan'}
-          </button>
-        ) : (
-          <SubscriptionButton
-            tier={tier || "pro"}
-            priceId={priceId || ""}
-          />
+        {shouldHideButton() ? null : (
+          isFreeTier ? (
+            <button
+              className="w-full px-4 py-2 text-sm font-medium text-muted-foreground bg-secondary rounded-md hover:bg-secondary/80"
+              disabled
+            >
+              Free
+            </button>
+          ) : (
+            <SubscriptionButton
+              tier={tier || "pro"}
+              priceId={priceId || ""}
+            />
+          )
         )}
       </div>
     </div>
