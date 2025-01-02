@@ -2,8 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { PricingHeader } from "@/components/pricing/PricingHeader";
 import { PricingTier } from "@/components/pricing/PricingTier";
+import { useAuthState } from "@/hooks/use-auth-state";
 
 export default function Pricing() {
+  const { isAuthenticated } = useAuthState();
+  
   const proFeatures = [
     "100 analyses per day",
     "Priority support",
@@ -17,10 +20,15 @@ export default function Pricing() {
     "Team collaboration"
   ];
 
-  // Fetch user's subscription tier
+  // Fetch user's subscription tier only if authenticated
   const { data: userData } = useQuery({
     queryKey: ['user-subscription'],
     queryFn: async () => {
+      if (!isAuthenticated) {
+        console.log('User is not authenticated, skipping subscription fetch');
+        return null;
+      }
+
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user?.id) {
         console.log('No active session found, user is not authenticated');
@@ -40,7 +48,8 @@ export default function Pricing() {
       }
       console.log('User subscription data:', data);
       return data;
-    }
+    },
+    enabled: isAuthenticated // Only run query if user is authenticated
   });
 
   const { data: prices, isLoading } = useQuery({
@@ -86,15 +95,16 @@ export default function Pricing() {
   console.log('Pro price:', proPrice);
   console.log('Plus price:', plusPrice);
   console.log('Current user subscription tier:', userData?.subscription_tier);
+  console.log('Is user authenticated:', isAuthenticated);
 
   // Get the current tier, defaulting to null if not authenticated
-  const currentTier = userData?.subscription_tier || null;
+  const currentTier = isAuthenticated ? (userData?.subscription_tier || null) : null;
   console.log('Current tier before normalization:', currentTier);
 
   const isTierActive = (tier: string) => {
-    // If user is not authenticated, no tier is active
-    if (!currentTier) {
-      console.log('No active tier - user is not authenticated');
+    // If user is not authenticated or no current tier, no tier is active
+    if (!isAuthenticated || !currentTier) {
+      console.log('No active tier - user is not authenticated or no tier set');
       return false;
     }
     
