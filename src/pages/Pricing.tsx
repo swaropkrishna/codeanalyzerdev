@@ -17,6 +17,29 @@ export default function Pricing() {
     "Team collaboration"
   ];
 
+  // Fetch user's subscription tier
+  const { data: userData } = useQuery({
+    queryKey: ['user-subscription'],
+    queryFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user?.id) return null;
+
+      console.log('Fetching user subscription data');
+      const { data, error } = await supabase
+        .from('users')
+        .select('subscription_tier')
+        .eq('id', session.user.id)
+        .single();
+
+      if (error) {
+        console.error('Error fetching user subscription:', error);
+        throw error;
+      }
+      console.log('User subscription data:', data);
+      return data;
+    }
+  });
+
   const { data: prices, isLoading } = useQuery({
     queryKey: ['stripe-prices'],
     queryFn: async () => {
@@ -59,6 +82,7 @@ export default function Pricing() {
   
   console.log('Pro price:', proPrice);
   console.log('Plus price:', plusPrice);
+  console.log('Current user subscription tier:', userData?.subscription_tier);
 
   return (
     <main className="flex-1">
@@ -76,7 +100,7 @@ export default function Pricing() {
                 "Basic code insights",
                 "Community support"
               ]}
-              isFreeTier
+              isFreeTier={userData?.subscription_tier === 'free'}
             />
 
             <PricingTier
@@ -87,6 +111,7 @@ export default function Pricing() {
               priceId={proPrice?.price_id}
               tier="pro"
               isPopular
+              isFreeTier={userData?.subscription_tier === 'pro'}
             />
 
             <PricingTier
@@ -96,6 +121,7 @@ export default function Pricing() {
               features={plusFeatures}
               priceId={plusPrice?.price_id}
               tier="plus"
+              isFreeTier={userData?.subscription_tier === 'plus'}
             />
           </div>
         </div>
