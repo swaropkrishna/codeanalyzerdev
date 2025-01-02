@@ -85,8 +85,12 @@ export default function Pricing() {
   console.log('Current user subscription tier:', userData?.subscription_tier);
 
   // Normalize the subscription tier to lowercase for comparison
-  const currentTier = (userData?.subscription_tier || 'free').toLowerCase();
+  const currentTier = userData?.subscription_tier?.toLowerCase() || 'free';
   console.log('Normalized current tier:', currentTier);
+
+  const isTierActive = (tier: string) => {
+    return currentTier === tier.toLowerCase();
+  };
 
   return (
     <main className="flex-1">
@@ -104,7 +108,7 @@ export default function Pricing() {
                 "Basic code insights",
                 "Community support"
               ]}
-              isFreeTier={currentTier === 'free'}
+              isFreeTier={isTierActive('free')}
             />
 
             <PricingTier
@@ -115,7 +119,7 @@ export default function Pricing() {
               priceId={proPrice?.price_id}
               tier="pro"
               isPopular
-              isFreeTier={currentTier === 'pro'}
+              isFreeTier={isTierActive('pro')}
             />
 
             <PricingTier
@@ -125,7 +129,7 @@ export default function Pricing() {
               features={plusFeatures}
               priceId={plusPrice?.price_id}
               tier="plus"
-              isFreeTier={currentTier === 'plus'}
+              isFreeTier={isTierActive('plus')}
             />
           </div>
         </div>
