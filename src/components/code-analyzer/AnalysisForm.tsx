@@ -5,6 +5,7 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { CodeEditorSection } from "./CodeEditorSection";
 import { AnalysisResults } from "./AnalysisResults";
+import { handleAnalysis } from "./AnalysisHandler";
 
 export function AnalysisForm() {
   const navigate = useNavigate();
@@ -23,132 +24,47 @@ export function AnalysisForm() {
       return;
     }
 
-    // Check if user is authenticated
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      toast({
-        title: "Authentication Required",
-        description: "Please sign in to analyze code",
-        variant: "destructive",
-      });
-      navigate("/auth");
-      return;
-    }
-
     setIsAnalyzing(true);
     try {
-      const user = await supabase.auth.getUser();
-      const userId = user.data.user?.id;
-
-      if (!userId) {
-        throw new Error('User not found');
-      }
-
-      console.log('Checking user record for:', userId);
-      const { data: userData, error: userError } = await supabase
-        .from('users')
-        .select('*')
-        .eq('id', userId)
-        .maybeSingle();
-
-      if (userError) {
-        console.error('Error fetching user:', userError);
-        throw userError;
-      }
-
-      // If user record doesn't exist, create it
-      if (!userData) {
-        console.log('Creating user record for:', userId);
-        const { data: newUser, error: createError } = await supabase
-          .from('users')
-          .insert([{ 
-            id: userId,
-            subscription_tier: 'free',
-            analysis_count: 0,
-            max_analysis_count: 1
-          }])
-          .select()
-          .maybeSingle();
-
-        if (createError) {
-          console.error('Error creating user record:', createError);
-          throw createError;
-        }
-
-        if (!newUser) {
-          throw new Error('Failed to create user record');
-        }
-      }
-
-      console.log('Updating analysis count for user:', userId);
-      const { data: updatedUser, error: updateError } = await supabase
-        .from('users')
-        .update({ analysis_count: undefined }) // Trigger the check_analysis_limits function
-        .eq('id', userId)
-        .select()
-        .maybeSingle();
-
-      if (updateError) {
-        console.error('Error updating analysis count:', updateError);
-        
-        // Check if it's a limit reached error
-        if (updateError.message.includes('Free tier limit reached')) {
-          toast({
-            title: "Free Tier Limit Reached",
-            description: "Please upgrade to Pro or Plus to continue analyzing code",
-            variant: "destructive",
-          });
-          navigate("/pricing");
-          return;
-        } else if (updateError.message.includes('Pro tier limit reached')) {
-          toast({
-            title: "Pro Tier Limit Reached",
-            description: "Please upgrade to Plus for unlimited analyses",
-            variant: "destructive",
-          });
-          navigate("/pricing");
-          return;
-        }
-
-        toast({
-          title: "Error",
-          description: "Failed to update analysis count. Please try again.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      if (!updatedUser) {
-        console.error('Updated user record not found');
-        toast({
-          title: "Error",
-          description: "User record not found. Please try signing out and back in.",
-          variant: "destructive",
-        });
-        return;
-      }
-
-      console.log('Invoking analyze-code function');
-      const { data, error } = await supabase.functions.invoke('analyze-code', {
-        body: { code }
-      });
-
-      if (error) {
-        console.error('Error analyzing code:', error);
-        throw error;
-      }
-
-      if (!data?.analysis) {
-        throw new Error('No analysis data received');
-      }
-
-      setAnalysis(data.analysis);
+      const analysisResult = await handleAnalysis(code);
+      setAnalysis(analysisResult);
       toast({
         title: "Analysis Complete",
         description: "Your code has been analyzed successfully",
       });
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error analyzing code:', error);
+      
+      if (error.message === 'Authentication required') {
+        toast({
+          title: "Authentication Required",
+          description: "Please sign in to analyze code",
+          variant: "destructive",
+        });
+        navigate("/auth");
+        return;
+      }
+
+      if (error.message === 'Free tier limit reached') {
+        toast({
+          title: "Free Tier Limit Reached",
+          description: "Please upgrade to Pro or Plus to continue analyzing code",
+          variant: "destructive",
+        });
+        navigate("/pricing");
+        return;
+      }
+
+      if (error.message === 'Pro tier limit reached') {
+        toast({
+          title: "Pro Tier Limit Reached",
+          description: "Please upgrade to Plus for unlimited analyses",
+          variant: "destructive",
+        });
+        navigate("/pricing");
+        return;
+      }
+
       toast({
         title: "Error",
         description: "Failed to analyze code. Please try again.",
