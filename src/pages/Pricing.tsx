@@ -23,7 +23,7 @@ export default function Pricing() {
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session?.user?.id) {
-        console.log('No active session found');
+        console.log('No active session found, user is not authenticated');
         return null;
       }
 
@@ -87,11 +87,17 @@ export default function Pricing() {
   console.log('Plus price:', plusPrice);
   console.log('Current user subscription tier:', userData?.subscription_tier);
 
-  // Get the current tier, defaulting to 'free' if not set
-  const currentTier = userData?.subscription_tier || 'free';
+  // Get the current tier, defaulting to null if not authenticated
+  const currentTier = userData?.subscription_tier || null;
   console.log('Current tier before normalization:', currentTier);
 
   const isTierActive = (tier: string) => {
+    // If user is not authenticated, no tier is active
+    if (!currentTier) {
+      console.log('No active tier - user is not authenticated');
+      return false;
+    }
+    
     const normalizedCurrentTier = currentTier.toLowerCase();
     const normalizedTier = tier.toLowerCase();
     console.log(`Comparing tiers - Current: ${normalizedCurrentTier}, Checking: ${normalizedTier}`);
