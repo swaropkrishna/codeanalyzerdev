@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
-import Editor from "@monaco-editor/react";
 import { supabase } from "@/integrations/supabase/client";
-import ReactMarkdown from 'react-markdown';
 import { SubscriptionButton } from "@/components/SubscriptionButton";
+import { CodeEditorSection } from "@/components/code-analyzer/CodeEditorSection";
+import { AnalysisResults } from "@/components/code-analyzer/AnalysisResults";
 
 export default function CodeAnalyzer() {
   const navigate = useNavigate();
@@ -147,41 +147,12 @@ export default function CodeAnalyzer() {
             </div>
           ) : (
             <div className="space-y-6 animate-fade-in-up">
-              <div className="relative">
-                <div className="absolute -inset-1 bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 rounded-lg blur"></div>
-                <div className="relative rounded-lg overflow-hidden border border-border/50 bg-card shadow-xl">
-                  <div className="flex justify-end p-2 border-b border-border/50">
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={handleClear}
-                      className="text-muted-foreground hover:text-foreground"
-                    >
-                      Clear
-                    </Button>
-                  </div>
-                  <div className="h-[500px] w-full">
-                    <Editor
-                      height="100%"
-                      defaultLanguage="javascript"
-                      theme="vs-light"
-                      value={code}
-                      onChange={(value) => setCode(value || "")}
-                      options={{
-                        minimap: { enabled: false },
-                        fontSize: 14,
-                        lineNumbers: "on",
-                        roundedSelection: false,
-                        scrollBeyondLastLine: false,
-                        readOnly: isAnalyzing,
-                        automaticLayout: true,
-                        padding: { top: 16, bottom: 16 },
-                      }}
-                      className="rounded-lg"
-                    />
-                  </div>
-                </div>
-              </div>
+              <CodeEditorSection
+                code={code}
+                isAnalyzing={isAnalyzing}
+                onCodeChange={(value) => setCode(value || "")}
+                onClear={handleClear}
+              />
               
               <div className="flex justify-center">
                 <Button
@@ -204,14 +175,7 @@ export default function CodeAnalyzer() {
                 </Button>
               </div>
 
-              {analysis && (
-                <div className="mt-8 p-6 bg-white rounded-lg shadow-lg border border-border/50">
-                  <h2 className="text-2xl font-semibold mb-4">Analysis Results</h2>
-                  <div className="prose prose-sm max-w-none">
-                    <ReactMarkdown>{analysis}</ReactMarkdown>
-                  </div>
-                </div>
-              )}
+              <AnalysisResults analysis={analysis} />
             </div>
           )}
         </div>

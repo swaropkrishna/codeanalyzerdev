@@ -118,6 +118,7 @@ export type Database = {
           email: string | null
           id: string
           last_analysis_date: string | null
+          max_analysis_count: number
           subscription_tier: string
         }
         Insert: {
@@ -127,6 +128,7 @@ export type Database = {
           email?: string | null
           id?: string
           last_analysis_date?: string | null
+          max_analysis_count?: number
           subscription_tier?: string
         }
         Update: {
@@ -136,6 +138,7 @@ export type Database = {
           email?: string | null
           id?: string
           last_analysis_date?: string | null
+          max_analysis_count?: number
           subscription_tier?: string
         }
         Relationships: []
