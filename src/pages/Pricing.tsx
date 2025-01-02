@@ -24,7 +24,7 @@ export default function Pricing() {
       const { data, error } = await supabase
         .from('stripe_prices')
         .select('*')
-        .ilike('mode', 'real')  // Changed from eq to ilike for case-insensitive comparison
+        .eq('mode', 'test')
         .eq('active', true);
       
       if (error) {
