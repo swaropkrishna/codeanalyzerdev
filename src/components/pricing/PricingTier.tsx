@@ -27,8 +27,11 @@ export function PricingTier({
   // Check if user has Plus subscription and current tier should be disabled
   const shouldDisable = currentTier === 'plus' && (title === 'Free' || title === 'Pro');
 
+  // Check if this is the current tier card
+  const isCurrentTier = currentTier?.toLowerCase() === title.toLowerCase();
+
   return (
-    <div className="rounded-lg border p-8 bg-card relative flex flex-col h-full">
+    <div className={`rounded-lg border p-8 bg-card relative flex flex-col h-full ${isCurrentTier ? 'border-primary border-2' : ''}`}>
       {isPopular && (
         <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-sm rounded-full">
           Popular
