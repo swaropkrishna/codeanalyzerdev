@@ -24,7 +24,7 @@ export default function Pricing() {
       const { data, error } = await supabase
         .from('stripe_prices')
         .select('*')
-        .eq('mode', 'test')
+        .eq('mode', 'live')  // Changed from 'test' to 'live' to get real price IDs
         .eq('active', true);
       
       if (error) {
