@@ -70,12 +70,10 @@ export function PricingTier({
             Current Plan
           </button>
         ) : (
-          tier && priceId && (
-            <SubscriptionButton
-              tier={tier}
-              priceId={priceId}
-            />
-          )
+          <SubscriptionButton
+            tier={tier || "pro"}
+            priceId={priceId || ""}
+          />
         )}
       </div>
     </div>
