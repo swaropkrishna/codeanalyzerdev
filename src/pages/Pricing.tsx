@@ -97,17 +97,11 @@ export default function Pricing() {
   console.log('Current user subscription tier:', userData?.subscription_tier);
   console.log('Is user authenticated:', isAuthenticated);
 
-  // Get the current tier, defaulting to null if not authenticated
-  const currentTier = isAuthenticated ? (userData?.subscription_tier || null) : null;
+  // Get the current tier - default to "free" if not authenticated
+  const currentTier = isAuthenticated ? (userData?.subscription_tier || "free") : "free";
   console.log('Current tier before normalization:', currentTier);
 
   const isTierActive = (tier: string) => {
-    // If user is not authenticated or no current tier, no tier is active
-    if (!isAuthenticated || !currentTier) {
-      console.log('No active tier - user is not authenticated or no tier set');
-      return false;
-    }
-    
     const normalizedCurrentTier = currentTier.toLowerCase();
     const normalizedTier = tier.toLowerCase();
     console.log(`Comparing tiers - Current: ${normalizedCurrentTier}, Checking: ${normalizedTier}`);
