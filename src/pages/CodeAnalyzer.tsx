@@ -61,7 +61,7 @@ export default function CodeAnalyzer() {
         .update({ analysis_count: undefined }) // Trigger the check_analysis_limits function
         .eq('id', userId)
         .select('subscription_tier')
-        .single();
+        .maybeSingle();
 
       if (userError) {
         console.error('Error updating analysis count:', userError);
@@ -90,6 +90,16 @@ export default function CodeAnalyzer() {
         toast({
           title: "Error",
           description: "Failed to update analysis count. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (!userData) {
+        console.error('User record not found');
+        toast({
+          title: "Error",
+          description: "User record not found. Please try signing out and back in.",
           variant: "destructive",
         });
         return;
