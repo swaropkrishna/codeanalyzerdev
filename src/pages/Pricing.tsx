@@ -134,6 +134,7 @@ export default function Pricing() {
                 "Community support"
               ]}
               isFreeTier={isTierActive('free')}
+              currentTier={currentTier}
             />
 
             <PricingTier
@@ -145,6 +146,7 @@ export default function Pricing() {
               tier="pro"
               isPopular
               isFreeTier={isTierActive('pro')}
+              currentTier={currentTier}
             />
 
             <PricingTier
@@ -155,6 +157,7 @@ export default function Pricing() {
               priceId={plusPrice?.price_id}
               tier="plus"
               isFreeTier={isTierActive('plus')}
+              currentTier={currentTier}
             />
           </div>
         </div>
