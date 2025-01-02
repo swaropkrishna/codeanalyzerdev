@@ -23,6 +23,18 @@ export function AnalysisForm() {
       return;
     }
 
+    // Check if user is authenticated
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      toast({
+        title: "Authentication Required",
+        description: "Please sign in to analyze code",
+        variant: "destructive",
+      });
+      navigate("/auth");
+      return;
+    }
+
     setIsAnalyzing(true);
     try {
       const user = await supabase.auth.getUser();

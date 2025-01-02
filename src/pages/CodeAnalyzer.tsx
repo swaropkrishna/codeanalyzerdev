@@ -31,6 +31,11 @@ export default function CodeAnalyzer() {
             </h1>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               Get instant insights and suggestions to improve your code quality using advanced AI analysis.
+              {!isAuthenticated && (
+                <span className="block mt-2 text-sm text-muted-foreground">
+                  Sign in to analyze your code
+                </span>
+              )}
             </p>
           </div>
           
@@ -46,7 +51,7 @@ export default function CodeAnalyzer() {
               />
             </div>
           ) : (
-            isAuthenticated && <AnalysisForm />
+            <AnalysisForm />
           )}
         </div>
       </section>
