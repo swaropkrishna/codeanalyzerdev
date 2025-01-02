@@ -86,7 +86,7 @@ export function PricingTier({
               className="w-full px-4 py-2 text-sm font-medium text-muted-foreground bg-secondary rounded-md hover:bg-secondary/80"
               disabled
             >
-              Free
+              Current Plan
             </button>
           ) : (
             <SubscriptionButton
