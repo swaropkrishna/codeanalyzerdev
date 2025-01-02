@@ -46,32 +46,17 @@ serve(async (req) => {
 
     console.log('User authenticated:', email)
 
-    // Check for Stripe Test API key
-    const stripeApiKey = Deno.env.get('STRIPE_API_KEY_Test')
+    // Check for Stripe API key
+    const stripeApiKey = Deno.env.get('STRIPE_API_KEY')
     if (!stripeApiKey) {
-      console.error('Stripe Test API key not found in environment variables')
-      throw new Error('Stripe configuration error: Missing Test API key')
+      console.error('Stripe API key not found in environment variables')
+      throw new Error('Stripe configuration error: Missing API key')
     }
 
-    // Validate Stripe API key format
-    if (!stripeApiKey.startsWith('sk_test_')) {
-      console.error('Invalid Stripe Test API key format')
-      throw new Error('Stripe configuration error: Invalid test key format')
-    }
-
-    console.log('Initializing Stripe client with test key...')
-    let stripe: Stripe;
-    try {
-      stripe = new Stripe(stripeApiKey, {
-        apiVersion: '2023-10-16',
-      });
-      // Test the Stripe connection
-      await stripe.paymentMethods.list({ limit: 1 });
-      console.log('Stripe client initialized successfully with test key');
-    } catch (stripeError) {
-      console.error('Error initializing Stripe client with test key:', stripeError);
-      throw new Error('Stripe configuration error: Invalid test credentials');
-    }
+    console.log('Initializing Stripe client...')
+    const stripe = new Stripe(stripeApiKey, {
+      apiVersion: '2023-10-16',
+    });
 
     // Get the price_id from the request body
     const { price_id } = await req.json()
