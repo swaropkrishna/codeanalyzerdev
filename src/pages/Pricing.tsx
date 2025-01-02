@@ -24,7 +24,7 @@ export default function Pricing() {
       const { data, error } = await supabase
         .from('stripe_prices')
         .select('*')
-        .eq('mode', 'test')
+        .ilike('mode', 'real')
         .eq('active', true);
       
       if (error) {
@@ -37,7 +37,7 @@ export default function Pricing() {
   });
 
   const getPrice = (tier: string) => {
-    const price = prices?.find(price => price.tier === tier);
+    const price = prices?.find(price => price.tier.toLowerCase() === tier.toLowerCase());
     console.log(`Getting price for tier ${tier}:`, price);
     return price;
   };
