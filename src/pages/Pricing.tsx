@@ -69,7 +69,8 @@ export default function Pricing() {
       const { data, error } = await supabase
         .from('stripe_prices')
         .select('*')
-        .eq('active', true);
+        .eq('active', true)
+        .eq('mode', 'Real'); // Only get prices that match our API key mode
       
       if (error) {
         console.error('Error fetching prices:', error);
