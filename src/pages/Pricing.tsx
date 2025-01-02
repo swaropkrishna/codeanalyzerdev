@@ -22,7 +22,10 @@ export default function Pricing() {
     queryKey: ['user-subscription'],
     queryFn: async () => {
       const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user?.id) return null;
+      if (!session?.user?.id) {
+        console.log('No active session found');
+        return null;
+      }
 
       console.log('Fetching user subscription data');
       const { data, error } = await supabase
@@ -84,12 +87,15 @@ export default function Pricing() {
   console.log('Plus price:', plusPrice);
   console.log('Current user subscription tier:', userData?.subscription_tier);
 
-  // Normalize the subscription tier to lowercase for comparison
-  const currentTier = userData?.subscription_tier?.toLowerCase() || 'free';
-  console.log('Normalized current tier:', currentTier);
+  // Get the current tier, defaulting to 'free' if not set
+  const currentTier = userData?.subscription_tier || 'free';
+  console.log('Current tier before normalization:', currentTier);
 
   const isTierActive = (tier: string) => {
-    return currentTier === tier.toLowerCase();
+    const normalizedCurrentTier = currentTier.toLowerCase();
+    const normalizedTier = tier.toLowerCase();
+    console.log(`Comparing tiers - Current: ${normalizedCurrentTier}, Checking: ${normalizedTier}`);
+    return normalizedCurrentTier === normalizedTier;
   };
 
   return (
