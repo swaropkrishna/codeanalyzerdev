@@ -48,11 +48,18 @@ export default function CodeAnalyzer() {
 
     setIsAnalyzing(true);
     try {
+      const user = await supabase.auth.getUser();
+      const userId = user.data.user?.id;
+
+      if (!userId) {
+        throw new Error('User not found');
+      }
+
       // First, try to update the analysis count
       const { data: userData, error: userError } = await supabase
         .from('users')
         .update({ analysis_count: undefined }) // Trigger the check_analysis_limits function
-        .eq('id', (await supabase.auth.getUser()).data.user?.id)
+        .eq('id', userId)
         .select('subscription_tier')
         .single();
 
@@ -93,7 +100,14 @@ export default function CodeAnalyzer() {
         body: { code }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error analyzing code:', error);
+        throw error;
+      }
+
+      if (!data?.analysis) {
+        throw new Error('No analysis data received');
+      }
 
       setAnalysis(data.analysis);
       toast({
