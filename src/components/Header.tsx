@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { UserPlus, LogIn, LogOut, CreditCard } from "lucide-react";
+import { UserPlus, LogIn, LogOut, CreditCard, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuthState } from "@/hooks/use-auth-state";
 import {
@@ -10,6 +10,13 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { useState } from "react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -59,20 +66,33 @@ export default function Header() {
       )}
       
       {isAuthenticated && (
-        <Button
-          variant="ghost"
-          className="flex w-full items-center justify-start gap-2 px-2 hover:bg-destructive/10"
-          onClick={() => {
-            handleSignOut();
-            setIsMobileMenuOpen(false);
-          }}
-          disabled={isSigningOut}
-        >
-          <LogOut className="h-5 w-5 text-destructive" />
-          <span className="font-medium">
-            {isSigningOut ? "Signing out..." : "Sign Out"}
-          </span>
-        </Button>
+        <>
+          <Button
+            variant="ghost"
+            className="flex w-full items-center justify-start gap-2 px-2 hover:bg-accent/50"
+            onClick={() => {
+              navigate("/profile");
+              setIsMobileMenuOpen(false);
+            }}
+          >
+            <User className="h-5 w-5 text-primary" />
+            <span className="font-medium">Profile</span>
+          </Button>
+          <Button
+            variant="ghost"
+            className="flex w-full items-center justify-start gap-2 px-2 hover:bg-destructive/10"
+            onClick={() => {
+              handleSignOut();
+              setIsMobileMenuOpen(false);
+            }}
+            disabled={isSigningOut}
+          >
+            <LogOut className="h-5 w-5 text-destructive" />
+            <span className="font-medium">
+              {isSigningOut ? "Signing out..." : "Sign Out"}
+            </span>
+          </Button>
+        </>
       )}
     </>
   );
@@ -90,9 +110,60 @@ export default function Header() {
         </div>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-2">
-          <NavItems />
-        </nav>
+        <div className="hidden md:flex items-center gap-4">
+          <nav className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              className="hover:bg-accent/50"
+              onClick={() => navigate("/pricing")}
+            >
+              Pricing
+            </Button>
+          </nav>
+
+          {!isAuthenticated ? (
+            <div className="flex items-center gap-2">
+              <Button
+                variant="ghost"
+                className="hover:bg-accent/50"
+                onClick={() => navigate("/auth?view=sign_up")}
+              >
+                Sign Up
+              </Button>
+              <Button
+                variant="ghost"
+                className="hover:bg-accent/50"
+                onClick={() => navigate("/auth?view=sign_in")}
+              >
+                Sign In
+              </Button>
+            </div>
+          ) : (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                  <Avatar className="h-8 w-8">
+                    <AvatarFallback>
+                      <User className="h-4 w-4" />
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
+                  Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem 
+                  className="text-destructive focus:text-destructive" 
+                  onClick={handleSignOut}
+                  disabled={isSigningOut}
+                >
+                  {isSigningOut ? "Signing out..." : "Sign Out"}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
+        </div>
 
         {/* Mobile Navigation */}
         <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
