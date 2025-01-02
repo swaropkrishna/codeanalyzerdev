@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <footer className="w-full border-t bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
       <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Company Info */}
           <div className="space-y-3">
             <h3 className="text-lg font-semibold">Code Analyzer</h3>
@@ -54,7 +54,7 @@ export default function Footer() {
             </ul>
           </div>
           
-          {/* Account Links */}
+          {/* Account Links - Only show if not authenticated */}
           {!isAuthenticated && (
             <div className="space-y-4">
               <h4 className="font-medium">Account</h4>
@@ -74,7 +74,7 @@ export default function Footer() {
           )}
         </div>
         
-        <div className="mt-12 pt-8 border-t text-center text-sm text-muted-foreground">
+        <div className="mt-8 pt-8 border-t text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Code Analyzer. All rights reserved.</p>
         </div>
       </div>
