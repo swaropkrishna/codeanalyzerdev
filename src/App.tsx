@@ -13,11 +13,13 @@ import Pricing from "@/pages/Pricing";
 import "./App.css";
 
 function App() {
+  console.log("Rendering App component");
+  
   return (
     <Router>
       <Routes>
         <Route element={<RootLayout />}>
-          <Route path="/" element={<CodeAnalyzer />} />
+          <Route index element={<CodeAnalyzer />} />
           <Route path="/about" element={<About />} />
           <Route path="/auth" element={<Auth />} />
           <Route path="/contact" element={<Contact />} />
