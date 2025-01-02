@@ -16,16 +16,6 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
   const { toast } = useToast();
 
   const handleSubscribe = async () => {
-    // If it's the Pro tier, show a message that it's not available
-    if (tier === 'pro') {
-      toast({
-        title: "Pro Tier Unavailable",
-        description: "The Pro tier is currently not available. Please try the Plus tier instead.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     console.log('Starting subscription process for tier:', tier, 'with price ID:', priceId);
     setIsLoading(true);
     try {
@@ -42,7 +32,7 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
         return;
       }
 
-      // If user is authenticated, proceed with checkout only for Plus tier
+      // If user is authenticated, proceed with checkout
       console.log('Creating checkout session for tier:', tier, 'with price ID:', priceId);
       const { data, error } = await supabase.functions.invoke('create-checkout-session', {
         body: { price_id: priceId }
