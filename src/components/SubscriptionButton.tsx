@@ -54,7 +54,7 @@ export function SubscriptionButton({ tier, priceId }: SubscriptionButtonProps) {
       console.error('Error in subscription process:', error);
       toast({
         title: "Error",
-        description: error.message || "Failed to start checkout process. Please try again.",
+        description: "Failed to start checkout process. Please try again.",
         variant: "destructive",
       });
     } finally {
