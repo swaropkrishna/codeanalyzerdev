@@ -112,20 +112,6 @@ export default function Contact() {
                   <p className="text-primary-foreground/80">Monday - Friday</p>
                   <p className="text-primary-foreground/80">9:00 AM - 6:00 PM EST</p>
                 </div>
-                <div>
-                  <h3 className="font-semibold mb-2">Follow Us</h3>
-                  <div className="flex space-x-4">
-                    <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                      Twitter
-                    </a>
-                    <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                      LinkedIn
-                    </a>
-                    <a href="#" className="text-primary-foreground/80 hover:text-primary-foreground transition-colors">
-                      GitHub
-                    </a>
-                  </div>
-                </div>
               </CardContent>
             </Card>
           </div>
